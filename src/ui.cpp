@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <math.h>
 #include "ui.h"
+#include "ui_elements.h"
+#define quote(x) #x
 
 namespace UI{
 
@@ -47,7 +49,12 @@ namespace UI{
         }
     }
     
-    void Canvas::Draw() const{  
+    void Canvas::Draw(){
+        for(int i = 0; i < _layer.size(); i++) {
+            cout << "---" <<endl;
+            _layer .at(i) -> Draw(_canvas, _w, _h);
+        }
+        
         string col = "";      
         for(int y = 0; y < _h; y++){
             for(int x = 0; x < _w; x++){
@@ -82,39 +89,16 @@ namespace UI{
         }
     }
 
-    void Canvas::AddElement(const Element & a){
-        a.Draw(_canvas, _w, _h);
-            /*
-            int x = element.at(i).GetX();
-            int y = element.at(i).GetY();
-            
-            if(element.at(i).GetType() == rect){
-
-                int w = element.at(i).GetW();
-                int h = element.at(i).GetH();
-
-                for(int width = w; width >= 0; width--){
-                    for(int height = h; height >= 0; height--){
-                        int tY = y+height;
-                        int tX = x+width;
-                        if(tY < 0 || tX < 0 || tX >= _w || tY >= _h)
-                            continue;
-                        _canvas[tY][tX] = element.at(i).GetChar();
-                        _col[tY][tX] = element.at(i).GetFG();
-                    }
-                }
-
-            }
-            else if(element.at(i).GetType() == circle){
-
-            }
-        }
-        */
+    void Canvas::AddElement(Element * a){
+        _layer.push_back(a);
     }
 
     Canvas::~Canvas(){
         for(int i = 0; i < _h; i++){
             delete[] _canvas[i];
+        }
+        for(int i = 0; i < _layer.size(); i++){
+            delete _layer.at(i);
         }
         delete[] _canvas;
     }
@@ -149,5 +133,6 @@ namespace UI{
     }
 
     void Element::Draw(Pixel ** canvas, int w, int h) const{
+        cout << "Def" << endl;
     }
 }

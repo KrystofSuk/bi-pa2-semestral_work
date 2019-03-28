@@ -57,12 +57,12 @@ namespace UI
             
             Pixel ** _canvas;
 
-            vector<Element> * _layers;
+            vector<Element *> _layer;
         public:
             Canvas(const int & w, const int & h);
-            void AddElement(const Element & a);
+            void AddElement(Element * a);
             void Clear();
-            void Draw() const;
+            void Draw();
             ~Canvas();
     };
 }

@@ -26,9 +26,12 @@ namespace UI
             void Draw(Pixel ** canvas, int w, int h) const;
     };
 
-    class Arc{
+    class Arc : public Element{
         private:
+            int _r;
         public:
+            Arc(const int & x, const int & y, const int & r, const Color & fg, const char & c);
+            void Draw(Pixel ** canvas, int w, int h) const;
     };
 }
 #endif
