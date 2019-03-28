@@ -8,73 +8,62 @@ using namespace std;
 
 namespace UI
 {
-    enum UI_Type {none, rect, circle, arc};
     enum Color {white, black, blue, red, green, yellow};
+
+    class Pixel{
+        private:
+            char _c;
+            Color _col; 
+        public:
+            Pixel();
+            Pixel(const char & c, const Color & col);
+
+            char GetChar() const;
+            Color GetCol() const;
+            
+            Pixel& operator=(const Pixel& other) 
+            {
+                if (this != &other) { 
+                    this -> _c = other._c;
+                    this -> _col = other._col;
+                }
+                return *this;
+            }
+    };
+
     class Element{
         protected:
-            UI_Type _type;
             int _x;
             int _y;
-            Color _fg;
-            Color _bg;
-            int _w;
-            int _h;
+            Pixel _px;
         public:
-            virtual void Draw() const;
             Element();
-            Element(int x, int y, Color fg, Color bg);
+            Element(const int & x, const int & y, const char & c, const Color & fg);
+
             int GetX() const;
             int GetY() const;
-            int GetW() const;
-            int GetH() const;
-            Color GetFG() const;
-            Color GetBG() const;
-            virtual void SetPos(int x, int y);
-            UI_Type GetType() const;
+            char GetChar() const;
+            Pixel GetPixel() const;
+
+            virtual void SetPos(const int & x, const int & y);
+            virtual void Draw(Pixel ** canvas, int w, int h) const;
     };
 
     class Canvas{
         private:
             int _w;
             int _h;
-            unsigned char ** _canvas;
-            Color ** _col;
             int _count;
+            
+            Pixel ** _canvas;
+
+            vector<Element> * _layers;
         public:
-            Canvas(int w, int h);
-            void Draw() const;
+            Canvas(const int & w, const int & h);
+            void AddElement(const Element & a);
             void Clear();
-            void SetElements(vector<Element> _element);
-            void AddElement(const Element a);
-            ~Canvas();
-    };
-
-    class Button{
-        private:
-        public:
-    };
-
-    class Rect : public Element{
-        private:
-        public:
             void Draw() const;
-            Rect(int x, int y, int w, int h, Color fg, Color bg);
-    };
-
-    class Circle : public Element{
-        private:
-        public:
-            Circle(int x, int y, int r, Color fg, Color bg);
-    };
-
-    class Arc{
-        private:
-        public:
-    };
-
-    class Text{
-        private:
-        public:
+            ~Canvas();
     };
 }
 #endif

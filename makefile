@@ -1,10 +1,28 @@
-all: build mem run
+BIN = ./bin/
+NAME = TowerDef.out
+SRC = src
+DOC = doc
 
-build:
-	g++ ./src/main.cpp ./src/ui.cpp -Wall -pedantic -o ./bin/o.out -O2 
-mem: build
-	valgrind ./bin/o.out
-run: build
-	./bin/o.out
+COMPILER = g++
+FLAGSDEF = -Wall -pedantic -O2
+
+all: builddef  run 
+
+builddef: 
+	$(COMPILER) $(SRC)/*.cpp $(FLAGSDEF) -o $(BIN)$(NAME)  
+
+mem: 
+	valgrind $(BIN)$(NAME)
+
+run: 
+	$(BIN)$(NAME)
+
+#Support
+countrows:
+	wc -l $(SRC)/*.cpp
+
+clearbin:
+	rm $(BIN)*
+
 hello:
-	echo "Makefile Right"
+	echo "Makefile Check"
