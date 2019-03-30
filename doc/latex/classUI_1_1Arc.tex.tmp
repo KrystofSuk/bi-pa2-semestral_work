@@ -1,0 +1,47 @@
+\hypertarget{classUI_1_1Arc}{}\section{UI\+:\+:Arc Class Reference}
+\label{classUI_1_1Arc}\index{U\+I\+::\+Arc@{U\+I\+::\+Arc}}
+
+
+Inheritance diagram for UI\+:\+:Arc\+:
+% FIG 0
+
+
+Collaboration diagram for UI\+:\+:Arc\+:
+% FIG 1
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classUI_1_1Arc_acc7964340511781a9fd6f98962891660}{Draw} (\hyperlink{classUI_1_1Pixel}{Pixel} $\ast$$\ast$canvas, int w, int h) const
+\begin{DoxyCompactList}\small\item\em Draw the element to the canvas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classUI_1_1Arc_acc7964340511781a9fd6f98962891660}\label{classUI_1_1Arc_acc7964340511781a9fd6f98962891660}} 
+\index{U\+I\+::\+Arc@{U\+I\+::\+Arc}!Draw@{Draw}}
+\index{Draw@{Draw}!U\+I\+::\+Arc@{U\+I\+::\+Arc}}
+\subsubsection{\texorpdfstring{Draw()}{Draw()}}
+{\footnotesize\ttfamily void U\+I\+::\+Arc\+::\+Draw (\begin{DoxyParamCaption}\item[{\hyperlink{classUI_1_1Pixel}{Pixel} $\ast$$\ast$}]{canvas,  }\item[{int}]{w,  }\item[{int}]{h }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Draw the element to the canvas. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em canvas} & canvas which will be modified \\
+\hline
+{\em w} & width of canvas \\
+\hline
+{\em h} & height of canvas \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classUI_1_1Circle_af7deb9b8a39ad8c33ffcc70e7b204deb}{U\+I\+::\+Circle}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/ui/ui\+\_\+elements.\+h\item 
+src/ui/ui\+\_\+elements.\+cpp\end{DoxyCompactItemize}
