@@ -10,7 +10,7 @@
 #include "../ui/ui.h"
 #include "../ui/ui_elements.h"
 
-#include "../extras/fileManip.h"
+#include "../extras/file.h"
 #include "../extras/const.h"
 
 using namespace std;
@@ -23,7 +23,7 @@ namespace GameLogic{
         _canvas = new Canvas(52,12);
     }
     
-    void GameManager::SwitchState(GameState nextState){
+    void GameManager::SwitchState(const GameState & nextState){
         _state = nextState;
     }
 
@@ -50,6 +50,8 @@ namespace GameLogic{
     }
 
     void GameManager::Start(){
+        int t = Extra::File::LoadFromFile("res/const.txt", "Height");
+        cout <<endl << t<< endl ;
         _run = true;
         Text * txt = new Text(1, 1, White, "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello");
         _canvas -> AddElement(txt);

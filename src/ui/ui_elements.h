@@ -29,7 +29,7 @@ namespace UI
              * @param c 
              */
             Rect(const int & x, const int & y, const int & w, const int & h, const Color & fg, const char & c);
-            void Draw(Pixel ** canvas, int w, int h) const;
+            void Draw(Pixel ** canvas, const int & w, const int & h) const;
     };
 
     /**
@@ -50,7 +50,7 @@ namespace UI
              * @param c 
              */
             Circle(const int & x, const int & y, const double & r, const Color & fg, const char & c);
-            void Draw(Pixel ** canvas, int w, int h) const;
+            void Draw(Pixel ** canvas, const int & w, const int & h) const;
     };
 
     /**
@@ -60,7 +60,7 @@ namespace UI
     class Arc : Circle{
         private:
         public:
-            void Draw(Pixel ** canvas, int w, int h) const;
+            void Draw(Pixel ** canvas, const int & w, const int & h) const;
     };
     
     /**
@@ -73,7 +73,7 @@ namespace UI
             vector<Pixel> _pixels;
         public:
             Text(const int & x, const int & y, const Color & fg, const string & text);
-            void Draw(Pixel ** canvas, int w, int h) const;
+            void Draw(Pixel ** canvas, const int & w, const int & h) const;
     };
 }
 #endif

@@ -32,7 +32,7 @@ namespace GameLogic{
              * 
              * @param nextState Next state of game
              */
-            void SwitchState(GameState nextState);
+            void SwitchState(const GameState & nextState);
             /**
              * @brief Process input method for checking keys which asks input component for informations.
              * 

@@ -166,6 +166,6 @@ namespace UI{
         return _px;
     }
 
-    void Element::Draw(Pixel ** canvas, int w, int h) const{
+    void Element::Draw(Pixel ** canvas, const int & w, const int & h) const{
     }
 }

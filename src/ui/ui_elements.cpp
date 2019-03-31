@@ -15,7 +15,7 @@ namespace UI{
         _px = Pixel(c, fg);
     }
 
-    void Rect::Draw(Pixel ** canvas, int w, int h) const{
+    void Rect::Draw(Pixel ** canvas, const int & w, const int & h) const{
         for(int width = _w; width >= 0; width--){
             for(int height = _h; height >= 0; height--){
                 int tY = _y+height;
@@ -34,7 +34,7 @@ namespace UI{
         _px = Pixel(c, fg);
     }
 
-    void Circle::Draw(Pixel ** canvas, int w, int h) const{
+    void Circle::Draw(Pixel ** canvas, const int & w, const int & h) const{
         for(int ang = 0; ang < 360; ang += 1){
             int tY = round(_y + _r * sin(ang));
             int tX = round(_x + _r * cos(ang));
@@ -44,7 +44,7 @@ namespace UI{
         }
     }
     
-    void Arc::Draw(Pixel ** canvas, int w, int h) const{
+    void Arc::Draw(Pixel ** canvas, const int & w, const int & h) const{
         for(double i = _r; i >= 0; i -= 0.5){
             for(int ang = 0; ang < 360; ang += 1){
                 int tY = round(_y + i * sin(ang));
@@ -64,7 +64,7 @@ namespace UI{
             _pixels.push_back(Pixel(_text[i], fg));
     }
 
-    void Text::Draw(Pixel ** canvas, int w, int h) const{
+    void Text::Draw(Pixel ** canvas, const int & w, const int & h) const{
         for(int i = 0; i < _text.size(); i++){
             int tX = round(_x + i);
             if(_y < 0 || tX < 0 || tX >= w || _y >= h)

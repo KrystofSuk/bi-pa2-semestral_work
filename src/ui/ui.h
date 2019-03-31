@@ -123,7 +123,7 @@ namespace UI
              * @param w width of canvas
              * @param h height of canvas
              */
-            virtual void Draw(Pixel ** canvas, int w, int h) const;
+            virtual void Draw(Pixel ** canvas, const int & w, const int & h) const;
     };
 
     /**
