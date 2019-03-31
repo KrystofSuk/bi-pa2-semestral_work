@@ -15,13 +15,23 @@ namespace GameLogic
      * 
      */
     class InputProcesser{
+        private:
+            int _upKey;
+            int _downKey;
+            int _leftKey;
+            int _rightKey;
+            int _cancelKey;
+            int _confirmKey;
         public:
+            InputProcesser();
+            InputProcesser(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey);
+            void Set(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey);
             /**
              * @brief Key processing method for getting currently pressed key.
              * 
              * @return const Key which was pressed
              */
-            static const Key Process();
+            const Key Process();
     };
 }
 #endif

@@ -1,2 +1,8 @@
 Width 52
 Height 12
+Up 65
+Down 66
+Left 68
+Right 67
+Cancel 27
+Confirm 13

@@ -10,25 +10,39 @@
 #include "../ui/ui.h"
 #include "../ui/ui_elements.h"
 
-#include "../extras/file.h"
 #include "../extras/const.h"
 
 using namespace std;
 using namespace UI;
 
 namespace GameLogic{
+    /**
+     * @brief Construct a new Game Manager:: Game Manager object
+     * 
+     */
     GameManager::GameManager(){ 
         _state = MainMenu; 
         _run = false;
-        _canvas = new Canvas(52,12);
+
+        //Loading from consts
+        _input.Set(_consts.GetUpKey(), _consts.GetDownKey(),_consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey());
+
+        _canvas = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
     }
-    
+    /**
+     * @brief 
+     * 
+     * @param nextState 
+     */
     void GameManager::SwitchState(const GameState & nextState){
         _state = nextState;
     }
-
+    /**
+     * @brief 
+     * 
+     */
     void GameManager::ProcessInput(){
-        Key key = InputProcesser::Process();
+        Key key = _input.Process();
         switch (key)
         {
             case GameLogic::End:
@@ -39,7 +53,10 @@ namespace GameLogic{
                 break;
         }
     }
-
+    /**
+     * @brief 
+     * 
+     */
     void GameManager::GameLoop(){
         system("stty sane");
         _canvas -> Draw();
@@ -48,24 +65,34 @@ namespace GameLogic{
         if(_run)
             GameLoop();
     }
-
+    /**
+     * @brief 
+     * 
+     */
     void GameManager::Start(){
-        int t = Extra::File::LoadFromFile("res/const.txt", "Height");
-        cout <<endl << t<< endl ;
         _run = true;
         Text * txt = new Text(1, 1, White, "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello");
         _canvas -> AddElement(txt);
         GameLoop();
     }
-
+    /**
+     * @brief 
+     * 
+     */
     void GameManager::Reset(){
         
     }
-
+    /**
+     * @brief 
+     * 
+     */
     void GameManager::End(){
         
     }
-
+    /**
+     * @brief Destroy the Game Manager:: Game Manager object
+     * 
+     */
     GameManager::~GameManager(){
         delete _canvas;
     }

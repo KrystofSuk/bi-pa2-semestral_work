@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include "../ui/ui.h"
+#include "input.h"
+#include "../extras/const.h"
 
 using namespace std;
 using namespace UI;
@@ -24,6 +26,8 @@ namespace GameLogic{
     class GameManager{
         private:
             GameState _state;
+            Extra::Consts _consts;
+            InputProcesser _input;
             Canvas * _canvas;
             bool _run;
 
