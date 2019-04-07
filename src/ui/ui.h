@@ -20,7 +20,7 @@ namespace UI
      */
     class Pixel{
         private:
-            char _c;
+            string _c;
             Color _col; 
         public:
             /**
@@ -34,13 +34,13 @@ namespace UI
              * @param c is character that will be displayed
              * @param col is color of character specified in color enum
              */
-            Pixel(const char & c, const Color & col);
+            Pixel(const string & c, const Color & col);
             /**
              * @brief Get the character of pixel.
              * 
              * @return The character which pixel stores.
              */
-            char GetChar() const;
+            string GetChar() const;
             /**
              * @brief Get the color of the pixel.
              * 
@@ -88,7 +88,7 @@ namespace UI
              * @param c character which will be drawn
              * @param fg color of an element
              */
-            Element(const int & x, const int & y, const char & c, const Color & fg);
+            Element(const int & x, const int & y, const string & c, const Color & fg);
 
             /**
              * @brief Getter for x position.

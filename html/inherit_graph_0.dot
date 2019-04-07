@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="GameLogic::GameManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classGameLogic_1_1GameManager.html",tooltip="Class for storing info about current game and global operations with other components. This class is like \"root\" component. It contains current state of game, drawing canvas, references to defined consts and methods for managing the game. "];
-}

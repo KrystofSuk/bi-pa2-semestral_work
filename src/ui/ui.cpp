@@ -12,12 +12,12 @@ namespace UI{
         _c = ' ';
         _col = Black;
     }
-    Pixel::Pixel(const char & c, const Color & col){
+    Pixel::Pixel(const string & c, const Color & col){
         _c = c;
         _col = col;
     }
 
-    char Pixel::GetChar() const{
+    string Pixel::GetChar() const{
         return _c;
     }
 
@@ -41,7 +41,7 @@ namespace UI{
         for(int i = 0; i < h; i++){
             _canvas[i] = new Pixel[w];
             for(int t = 0; t < w; t++){
-                _canvas[i][t] = Pixel(' ', Black);
+                _canvas[i][t] = Pixel(" ", Black);
             }
         }
     }
@@ -143,7 +143,7 @@ namespace UI{
         _px = Pixel();
     }
 
-    Element::Element(const int & x, const int & y, const char & c, const Color & fg){
+    Element::Element(const int & x, const int & y, const string & c, const Color & fg){
         _x = x;
         _y = y;
         _px = Pixel(c, fg);

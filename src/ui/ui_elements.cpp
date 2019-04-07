@@ -7,7 +7,7 @@
 
 using namespace std;
 namespace UI{
-    Rect::Rect(const int & x, const int & y, const int & w, const int & h, const Color & fg, const char & c){
+    Rect::Rect(const int & x, const int & y, const int & w, const int & h, const Color & fg, const string & c){
         _x = x;
         _y = y;
         _w = w;
@@ -27,7 +27,7 @@ namespace UI{
         }
     }
     
-    Circle::Circle(const int & x, const int & y, const double & r, const Color & fg, const char & c){
+    Circle::Circle(const int & x, const int & y, const double & r, const Color & fg, const string & c){
         _x = x;
         _y = y;
         _r = r;
@@ -42,6 +42,14 @@ namespace UI{
                 continue;
             canvas[tY][tX] = _px;
         }
+    }
+
+    
+    Arc::Arc(const int & x, const int & y, const double & r, const Color & fg, const string & c){
+        _x = x;
+        _y = y;
+        _r = r;
+        _px = Pixel(c, fg);
     }
     
     void Arc::Draw(Pixel ** canvas, const int & w, const int & h) const{
@@ -61,7 +69,7 @@ namespace UI{
         _y = y;
         _text = text;
         for(int i = 0; i< _text.size(); i++)
-            _pixels.push_back(Pixel(_text[i], fg));
+            _pixels.push_back(Pixel(string(1,_text[i]), fg));
     }
 
     void Text::Draw(Pixel ** canvas, const int & w, const int & h) const{

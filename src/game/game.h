@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "../ui/ui.h"
+#include "../ui/ui_elements.h"
 #include "input.h"
 #include "../extras/const.h"
 
@@ -30,6 +31,7 @@ namespace GameLogic{
             InputProcesser _input;
             Canvas * _canvas;
             bool _run;
+            Text * txt;
 
             /**
              * @brief Switches the state of current game.

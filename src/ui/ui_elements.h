@@ -28,10 +28,10 @@ namespace UI
              * @param fg 
              * @param c 
              */
-            Rect(const int & x, const int & y, const int & w, const int & h, const Color & fg, const char & c);
+            Rect(const int & x, const int & y, const int & w, const int & h, const Color & fg, const string & c);
             void Draw(Pixel ** canvas, const int & w, const int & h) const;
     };
-
+    
     /**
      * @brief 
      * 
@@ -49,7 +49,7 @@ namespace UI
              * @param fg 
              * @param c 
              */
-            Circle(const int & x, const int & y, const double & r, const Color & fg, const char & c);
+            Circle(const int & x, const int & y, const double & r, const Color & fg, const string & c);
             void Draw(Pixel ** canvas, const int & w, const int & h) const;
     };
 
@@ -57,9 +57,20 @@ namespace UI
      * @brief 
      * 
      */
-    class Arc : Circle{
+    class Arc : public Element{
         private:
+            double _r;  
         public:
+            /**
+             * @brief Construct a new Arc object
+             * 
+             * @param x 
+             * @param y 
+             * @param r 
+             * @param fg 
+             * @param c 
+             */
+            Arc(const int & x, const int & y, const double & r, const Color & fg, const string & c);
             void Draw(Pixel ** canvas, const int & w, const int & h) const;
     };
     
@@ -72,6 +83,14 @@ namespace UI
             string _text;
             vector<Pixel> _pixels;
         public:
+            /**
+             * @brief Construct a new Text object
+             * 
+             * @param x 
+             * @param y 
+             * @param fg 
+             * @param text 
+             */
             Text(const int & x, const int & y, const Color & fg, const string & text);
             void Draw(Pixel ** canvas, const int & w, const int & h) const;
     };

@@ -45,6 +45,12 @@ namespace GameLogic{
         Key key = _input.Process();
         switch (key)
         {
+            case GameLogic::Left:
+                txt -> SetPos(txt -> GetX() - 1,txt -> GetY());
+                break;
+            case GameLogic::Right:
+                txt -> SetPos(txt -> GetX() + 1,txt -> GetY());
+                break;
             case GameLogic::End:
                 _run = false;
                 break;
@@ -71,7 +77,7 @@ namespace GameLogic{
      */
     void GameManager::Start(){
         _run = true;
-        Text * txt = new Text(1, 1, White, "HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello");
+        txt = new Text(1, 1, White, "abcd");
         _canvas -> AddElement(txt);
         GameLoop();
     }

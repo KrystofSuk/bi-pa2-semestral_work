@@ -2,10 +2,11 @@ BIN = bin/
 NAME = TowerDef.out
 SRC = src
 UI = src/ui
+DOC = doc
 GAME = src/game
 EXTRAS = src/extras
 UI = src/ui
-DOC = doc
+DOC = doc/
 
 COMPILER = g++
 FLAGSDEF = -Wno-long-long -O0 -ggdb
@@ -22,12 +23,16 @@ mem:
 run: 
 	$(BIN)$(NAME)
 
+doc:
+	doxygen doxygen
+
 #Support
 count:
 	wc -l $(SRC)/*.cpp  $(UI)/*.cpp $(EXTRAS)/*.cpp $(GAME)/*.cpp
 
 clear:
-	rm -r $(BIN)*
+	rm -fr $(DOC)*
+	rm -fr $(BIN)*
 
 hello:
 	echo "Makefile Check"
