@@ -26,17 +26,25 @@ namespace UI{
     }
 
     Canvas::Canvas(){
+        cout << "\033c";
         _w = 0;
         _h = 0;
+        _viewH = 0;
+        _viewW = 0;
         _count = 0;
         _canvas = NULL;
+        _cursor = new Rect(0,0,1,1, Green, "x");
     }
 
     Canvas::Canvas(const int & w, const int & h){
+        cout << "\033c";
         _w = w;
         _h = h;
+        _viewH = h;
+        _viewW = w;
         _count = 0;
         _canvas = new Pixel*[h];
+        _cursor = new Rect(0,0,1,1, Green, "x");
 
         for(int i = 0; i < h; i++){
             _canvas[i] = new Pixel[w];
@@ -48,12 +56,6 @@ namespace UI{
 
     void Canvas::Clear(){
         cout << "\033c";
-        /*
-        string t = "\033[";
-        t.append(to_string(_h+2));
-        t.append("A");
-        cout << t;\
-        */
         for(int y = 0; y < _h; y++){
             for(int x = 0; x < _w; x++){
                 _canvas[y][x] = Pixel();
@@ -66,6 +68,8 @@ namespace UI{
         for(size_t i = 0; i < _layer.size(); i++) {
             _layer .at(i) -> Draw(_canvas, _w, _h);
         }
+
+        _cursor -> Draw(_canvas, _w, _h);
         
         string col = "";      
         for(int y = -1; y <= _h; y++){
@@ -122,18 +126,47 @@ namespace UI{
             cout << endl;
         }
     }
+    
+    void Canvas::SetView(const int & w, const int & h){
+        _viewH = h;
+        _viewW = w;
+    }
 
     void Canvas::AddElement(Element * e){
         _layer.push_back(e);
     }
+    
+    void Canvas::MoveCursor(const Direction & dir){
+        int x = 0;
+        int y = 0;
+        switch(dir){
+            case Left:
+                x = -1;
+                break;
+            case Up:
+                y = -1;
+                break;
+            case Down:
+                y = 1;
+                break;
+            case Right:
+                x = 1;
+                break;
+        }
+        if(_cursor -> GetX() + x >= 0 && _cursor -> GetX() + x < _viewW && _cursor -> GetY() + y >= 0 && _cursor -> GetY() + y < _viewH)
+        _cursor -> SetPos(_cursor -> GetX() + x, _cursor -> GetY() + y);
+    }
 
     Canvas::~Canvas(){
+        cout << "\033c";
         for(int i = 0; i < _h; i++){
             delete[] _canvas[i];
         }
         for(size_t i = 0; i < _layer.size(); i++){
             delete _layer.at(i);
         }
+        if(_cursor)
+            delete _cursor;
         delete[] _canvas;
     }
 

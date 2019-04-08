@@ -27,7 +27,13 @@ namespace GameLogic{
         //Loading from consts
         _input.Set(_consts.GetUpKey(), _consts.GetDownKey(),_consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey());
 
-        _canvas = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
+        LoadScreens();
+    }
+    
+    void GameManager::LoadScreens(){
+        _mainMenu = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
+        _help = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
+        _game = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
     }
     /**
      * @brief 
@@ -46,10 +52,16 @@ namespace GameLogic{
         switch (key)
         {
             case GameLogic::Left:
-                txt -> SetPos(txt -> GetX() - 1,txt -> GetY());
+                //_canvas -> MoveCursor(UI::Left);
                 break;
             case GameLogic::Right:
-                txt -> SetPos(txt -> GetX() + 1,txt -> GetY());
+                //_canvas -> MoveCursor(UI::Right);
+                break;
+            case GameLogic::Up:
+                //_canvas -> MoveCursor(UI::Up);
+                break;
+            case GameLogic::Down:
+                //_canvas -> MoveCursor(UI::Down);
                 break;
             case GameLogic::End:
                 _run = false;
@@ -65,9 +77,20 @@ namespace GameLogic{
      */
     void GameManager::GameLoop(){
         system("stty sane");
-        _canvas -> Draw();
+        //_canvas -> Draw();
+        switch (_state)
+        {
+            case MainMenu:
+                _mainMenu -> Draw();
+                break;
+        
+            default:
+                break;
+        }
         ProcessInput();
-        _canvas -> Clear(); 
+        _mainMenu -> Clear();
+        _game -> Clear();
+        _help -> Clear(); 
         if(_run)
             GameLoop();
     }
@@ -77,8 +100,6 @@ namespace GameLogic{
      */
     void GameManager::Start(){
         _run = true;
-        txt = new Text(1, 1, White, "abcd");
-        _canvas -> AddElement(txt);
         GameLoop();
     }
     /**
@@ -100,6 +121,8 @@ namespace GameLogic{
      * 
      */
     GameManager::~GameManager(){
-        delete _canvas;
+        delete _mainMenu;
+        delete _help;
+        delete _game;
     }
 }

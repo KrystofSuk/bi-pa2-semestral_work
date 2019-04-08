@@ -29,7 +29,10 @@ namespace GameLogic{
             GameState _state;
             Extra::Consts _consts;
             InputProcesser _input;
-            Canvas * _canvas;
+            Canvas * _mainMenu;
+            Canvas * _game;
+            Canvas * _help;
+            
             bool _run;
             Text * txt;
 
@@ -49,6 +52,7 @@ namespace GameLogic{
              * 
              */
             void GameLoop();
+            void LoadScreens();
         public:
             /**
              * @brief Construct a new Game Manager object.

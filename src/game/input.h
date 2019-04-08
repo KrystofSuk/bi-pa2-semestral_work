@@ -22,6 +22,8 @@ namespace GameLogic
             int _rightKey;
             int _cancelKey;
             int _confirmKey;
+            Key _last;
+            Key _pressed;
         public:
             InputProcesser();
             InputProcesser(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey);

@@ -12,8 +12,8 @@ using namespace std;
  */
 namespace UI
 {
-    enum Color {White, Black, Blue, Red, Green, Yellow};
-
+    enum Color { White, Black, Blue, Red, Green, Yellow };
+    enum Direction { Down, Left, Up, Right };
     /**
      * @brief Basic pixel object for storing information for later drawing.
      * It stores information about color and what character this pixel is.
@@ -135,10 +135,14 @@ namespace UI
             int _w;
             int _h;
             int _count;
-            
+            int _viewW;
+            int _viewH;
+
             Pixel ** _canvas;
 
             vector<Element *> _layer;
+
+            Element * _cursor;
         public:
             /**
              * @brief Construct a new Canvas 
@@ -169,7 +173,9 @@ namespace UI
              * 
              */
             void Draw();
+            void SetView(const int & w, const int & h);
 
+            void MoveCursor(const Direction & dir);
             /**
              * @brief Destroy the Canvas
              * 

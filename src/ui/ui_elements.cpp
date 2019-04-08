@@ -16,8 +16,8 @@ namespace UI{
     }
 
     void Rect::Draw(Pixel ** canvas, const int & w, const int & h) const{
-        for(int width = _w; width >= 0; width--){
-            for(int height = _h; height >= 0; height--){
+        for(int width = _w-1; width >= 0; width--){
+            for(int height = _h-1; height >= 0; height--){
                 int tY = _y+height;
                 int tX = _x+width;
                 if(tY < 0 || tX < 0 || tX >= w || tY >= h)
