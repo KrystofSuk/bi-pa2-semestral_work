@@ -158,15 +158,14 @@ namespace UI{
     }
 
     Canvas::~Canvas(){
-        cout << "\033c";
-        for(int i = 0; i < _h; i++){
-            delete[] _canvas[i];
-        }
         for(size_t i = 0; i < _layer.size(); i++){
+            cout << "O" << endl;
             delete _layer.at(i);
         }
         if(_cursor)
             delete _cursor;
+        for(int i = 0; i < _h; i++)
+            delete[] _canvas[i];
         delete[] _canvas;
     }
 
@@ -200,5 +199,8 @@ namespace UI{
     }
 
     void Element::Draw(Pixel ** canvas, const int & w, const int & h) const{
+    }
+
+    Element::~Element(){
     }
 }

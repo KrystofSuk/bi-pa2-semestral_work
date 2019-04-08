@@ -32,6 +32,8 @@ namespace GameLogic{
     
     void GameManager::LoadScreens(){
         _mainMenu = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
+        Button * bt = new Button(5,5,White,"Play", Green, "H");
+        _mainMenu -> AddElement(bt);
         _help = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
         _game = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
     }
@@ -52,16 +54,16 @@ namespace GameLogic{
         switch (key)
         {
             case GameLogic::Left:
-                //_canvas -> MoveCursor(UI::Left);
+                _mainMenu -> MoveCursor(UI::Left);
                 break;
             case GameLogic::Right:
-                //_canvas -> MoveCursor(UI::Right);
+                _mainMenu -> MoveCursor(UI::Right);
                 break;
             case GameLogic::Up:
-                //_canvas -> MoveCursor(UI::Up);
+                _mainMenu -> MoveCursor(UI::Up);
                 break;
             case GameLogic::Down:
-                //_canvas -> MoveCursor(UI::Down);
+                _mainMenu -> MoveCursor(UI::Down);
                 break;
             case GameLogic::End:
                 _run = false;
@@ -83,7 +85,12 @@ namespace GameLogic{
             case MainMenu:
                 _mainMenu -> Draw();
                 break;
-        
+            case Help:
+                _help -> Draw();
+                break;
+            case InGame:
+                _game -> Draw();
+                break;
             default:
                 break;
         }

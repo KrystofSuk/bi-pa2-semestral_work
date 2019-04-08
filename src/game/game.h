@@ -18,7 +18,7 @@ using namespace UI;
 namespace GameLogic{
 
     //Possible states of game
-    enum GameState { MainMenu, MapChooseMenu, Encyclopedia, Loading, InGame }; 
+    enum GameState { MainMenu, MapSelect, Help, Loading, InGame }; 
 
     /**
      * @brief Class for storing info about current game and global operations with other components.

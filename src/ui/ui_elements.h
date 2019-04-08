@@ -30,6 +30,7 @@ namespace UI
              */
             Rect(const int & x, const int & y, const int & w, const int & h, const Color & fg, const string & c);
             void Draw(Pixel ** canvas, const int & w, const int & h) const;
+            virtual ~Rect();
     };
     
     /**
@@ -51,6 +52,7 @@ namespace UI
              */
             Circle(const int & x, const int & y, const double & r, const Color & fg, const string & c);
             void Draw(Pixel ** canvas, const int & w, const int & h) const;
+            virtual ~Circle();
     };
 
     /**
@@ -72,6 +74,7 @@ namespace UI
              */
             Arc(const int & x, const int & y, const double & r, const Color & fg, const string & c);
             void Draw(Pixel ** canvas, const int & w, const int & h) const;
+            virtual ~Arc();
     };
     
     /**
@@ -93,6 +96,26 @@ namespace UI
              */
             Text(const int & x, const int & y, const Color & fg, const string & text);
             void Draw(Pixel ** canvas, const int & w, const int & h) const;
+            virtual ~Text();
+    };
+
+    class UIInteraction{
+        private:
+            UIInteraction * _l;
+            UIInteraction * _r;
+            UIInteraction * _t;
+            UIInteraction * _b;
+            Pixel _active;
+        public:
+            UIInteraction(const Color & fg, const string & c);
+            void SetNextElements(UIInteraction * l, UIInteraction * r, UIInteraction * t, UIInteraction * b);
+            ~UIInteraction();        
+    };
+
+    class Button : public Text, public UIInteraction{
+        public:
+            Button(const int & x, const int & y, const Color & fg, const string & text, const Color & activeFg, const string & activeC);
+            virtual ~Button();
     };
 }
 #endif

@@ -124,6 +124,7 @@ namespace UI
              * @param h height of canvas
              */
             virtual void Draw(Pixel ** canvas, const int & w, const int & h) const;
+            virtual ~Element();
     };
 
     /**

@@ -26,6 +26,10 @@ namespace UI{
             }
         }
     }
+
+    Rect::~Rect(){
+
+    }
     
     Circle::Circle(const int & x, const int & y, const double & r, const Color & fg, const string & c){
         _x = x;
@@ -44,6 +48,9 @@ namespace UI{
         }
     }
 
+    Circle::~Circle(){
+
+    }
     
     Arc::Arc(const int & x, const int & y, const double & r, const Color & fg, const string & c){
         _x = x;
@@ -64,12 +71,18 @@ namespace UI{
         }
     }
 
+    Arc::~Arc(){
+
+    }
+
     Text::Text(const int & x, const int & y, const Color & fg, const string & text){
         _x = x;
         _y = y;
         _text = text;
-        for(int i = 0; i< _text.size(); i++)
-            _pixels.push_back(Pixel(string(1,_text[i]), fg));
+        for(int i = 0; i< _text.size(); i++){
+            Pixel px (string(1,_text[i]), fg);
+            _pixels.push_back(px);
+        }
     }
 
     void Text::Draw(Pixel ** canvas, const int & w, const int & h) const{
@@ -79,5 +92,38 @@ namespace UI{
                 return;
             canvas[_y][tX] = _pixels[i];
         }
+    }
+
+    Text::~Text(){
+
+    }
+    
+    UIInteraction::UIInteraction(const Color & fg, const string & c){
+        _active = Pixel(c, fg);
+    }
+
+    void UIInteraction::SetNextElements(UIInteraction * l, UIInteraction * r, UIInteraction * t, UIInteraction * b){
+        _l = l;
+        _r = r;
+        _t = t;
+        _b = b;
+    }
+
+    UIInteraction::~UIInteraction(){
+        if(_l)
+            delete _l;
+        if(_r)
+            delete _r;
+        if(_t)
+            delete _t;
+        if(_b)
+            delete _b;
+    } 
+
+    Button::Button(const int & x, const int & y, const Color & fg, const string & text, const Color & activeFg, const string & activeC) : UIInteraction(activeFg, activeC), Text(x,y,fg,text){
+    }
+
+    Button::~Button(){
+        
     }
 }
