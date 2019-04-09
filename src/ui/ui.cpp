@@ -17,11 +17,15 @@ namespace UI{
         _col = col;
     }
 
-    string Pixel::GetChar() const{
+    void Pixel::SetColor(const Color & col){
+        _col = col;
+    }
+
+    const string & Pixel::GetChar() const{
         return _c;
     }
 
-    Color Pixel::GetCol() const{
+    const Color & Pixel::GetCol() const{
         return _col;
     }
 
@@ -36,7 +40,7 @@ namespace UI{
         _cursor = new Rect(0,0,1,1, Green, "x");
     }
 
-    Canvas::Canvas(const int & w, const int & h){
+    Canvas::Canvas(const int & w, const int & h, const bool & cursor){
         cout << "\033c";
         _w = w;
         _h = h;
@@ -44,8 +48,11 @@ namespace UI{
         _viewW = w;
         _count = 0;
         _canvas = new Pixel*[h];
-        _cursor = new Rect(0,0,1,1, Green, "x");
-
+        if(cursor)
+            _cursor = new Rect(0,0,1,1, Green, "x");
+        else
+            _cursor = NULL;
+        
         for(int i = 0; i < h; i++){
             _canvas[i] = new Pixel[w];
             for(int t = 0; t < w; t++){
@@ -69,7 +76,8 @@ namespace UI{
             _layer .at(i) -> Draw(_canvas, _w, _h);
         }
 
-        _cursor -> Draw(_canvas, _w, _h);
+        if(_cursor)
+            _cursor -> Draw(_canvas, _w, _h);
         
         string col = "";      
         for(int y = -1; y <= _h; y++){
@@ -153,15 +161,12 @@ namespace UI{
                 x = 1;
                 break;
         }
-        if(_cursor -> GetX() + x >= 0 && _cursor -> GetX() + x < _viewW && _cursor -> GetY() + y >= 0 && _cursor -> GetY() + y < _viewH)
-        _cursor -> SetPos(_cursor -> GetX() + x, _cursor -> GetY() + y);
+        if(_cursor)
+            if(_cursor -> GetX() + x >= 0 && _cursor -> GetX() + x < _viewW && _cursor -> GetY() + y >= 0 && _cursor -> GetY() + y < _viewH)
+                _cursor -> SetPos(_cursor -> GetX() + x, _cursor -> GetY() + y);
     }
 
     Canvas::~Canvas(){
-        for(size_t i = 0; i < _layer.size(); i++){
-            cout << "O" << endl;
-            delete _layer.at(i);
-        }
         if(_cursor)
             delete _cursor;
         for(int i = 0; i < _h; i++)
@@ -186,15 +191,15 @@ namespace UI{
         _y = y;
     }
     
-    int Element::GetX() const{
+    const int & Element::GetX() const{
         return _x;
     }
 
-    int Element::GetY() const{
+    const int & Element::GetY() const{
         return _y;
     }
 
-    Pixel Element::GetPixel() const{
+    const Pixel & Element::GetPixel() const{
         return _px;
     }
 

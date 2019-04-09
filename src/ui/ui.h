@@ -13,7 +13,7 @@ using namespace std;
 namespace UI
 {
     enum Color { White, Black, Blue, Red, Green, Yellow };
-    enum Direction { Down, Left, Up, Right };
+    enum Direction { Down, Left, Up, Right, Zero };
     /**
      * @brief Basic pixel object for storing information for later drawing.
      * It stores information about color and what character this pixel is.
@@ -35,18 +35,20 @@ namespace UI
              * @param col is color of character specified in color enum
              */
             Pixel(const string & c, const Color & col);
+
+            void SetColor(const Color & col);
             /**
              * @brief Get the character of pixel.
              * 
              * @return The character which pixel stores.
              */
-            string GetChar() const;
+            const string & GetChar() const;
             /**
              * @brief Get the color of the pixel.
              * 
              * @return Color of pixel
              */
-            Color GetCol() const;
+            const Color & GetCol() const;
 
             /**
              * @brief Operator for copying pixel information from other pixel.
@@ -70,7 +72,6 @@ namespace UI
      */
     class Element{
         protected:
-            unsigned short _layer; 
             int _x;
             int _y;
             Pixel _px;
@@ -95,19 +96,19 @@ namespace UI
              * 
              * @return int x position
              */
-            int GetX() const;
+            const int & GetX() const;
             /**
              * @brief Getter for y position.
              * 
              * @return int y position
              */
-            int GetY() const;
+            const int & GetY() const;
             /**
              * @brief Get the Pixel specification of an element.
              * 
              * @return Pixel
              */
-            Pixel GetPixel() const;
+            const Pixel & GetPixel() const;
 
             /**
              * @brief Set the position of element.
@@ -138,7 +139,7 @@ namespace UI
             int _count;
             int _viewW;
             int _viewH;
-
+            
             Pixel ** _canvas;
 
             vector<Element *> _layer;
@@ -156,7 +157,7 @@ namespace UI
              * @param w width
              * @param h height
              */
-            Canvas(const int & w, const int & h);
+            Canvas(const int & w, const int & h, const bool & cursor);
 
             /**
              * @brief Adds new element to canvas

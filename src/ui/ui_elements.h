@@ -59,9 +59,8 @@ namespace UI
      * @brief 
      * 
      */
-    class Arc : public Element{
+    class Arc : public Circle{
         private:
-            double _r;  
         public:
             /**
              * @brief Construct a new Arc object
@@ -82,7 +81,7 @@ namespace UI
      * 
      */
     class Text : public Element{
-        private:
+        protected:
             string _text;
             vector<Pixel> _pixels;
         public:
@@ -100,21 +99,28 @@ namespace UI
     };
 
     class UIInteraction{
-        private:
-            UIInteraction * _l;
-            UIInteraction * _r;
-            UIInteraction * _t;
-            UIInteraction * _b;
-            Pixel _active;
+        protected:
+            Color _active;
+            Color _deActive;
         public:
-            UIInteraction(const Color & fg, const string & c);
-            void SetNextElements(UIInteraction * l, UIInteraction * r, UIInteraction * t, UIInteraction * b);
+            UIInteraction(const Color & fg);
             ~UIInteraction();        
     };
 
     class Button : public Text, public UIInteraction{
+        private:
+            Button * _l;
+            Button * _r;
+            Button * _t;
+            Button * _b;
+            int _stateIndex;
         public:
-            Button(const int & x, const int & y, const Color & fg, const string & text, const Color & activeFg, const string & activeC);
+            Button(const int & x, const int & y, const Color & fg, const string & text, const Color & activeFg, const int & state);
+            Button * GetNext(Direction dir);
+            void SetNextElements(Button * l, Button * r, Button * t, Button * b);
+            const int & GetIndex() const;
+            void Active();
+            void Deactivate();
             virtual ~Button();
     };
 }

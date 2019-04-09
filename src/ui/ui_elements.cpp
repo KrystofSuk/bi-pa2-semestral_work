@@ -52,11 +52,7 @@ namespace UI{
 
     }
     
-    Arc::Arc(const int & x, const int & y, const double & r, const Color & fg, const string & c){
-        _x = x;
-        _y = y;
-        _r = r;
-        _px = Pixel(c, fg);
+    Arc::Arc(const int & x, const int & y, const double & r, const Color & fg, const string & c) : Circle(x, y, r, fg, c){
     }
     
     void Arc::Draw(Pixel ** canvas, const int & w, const int & h) const{
@@ -98,32 +94,77 @@ namespace UI{
 
     }
     
-    UIInteraction::UIInteraction(const Color & fg, const string & c){
-        _active = Pixel(c, fg);
+    UIInteraction::UIInteraction(const Color & fg){
+        _active = fg;
     }
 
-    void UIInteraction::SetNextElements(UIInteraction * l, UIInteraction * r, UIInteraction * t, UIInteraction * b){
+
+    UIInteraction::~UIInteraction(){
+    } 
+
+    Button::Button(const int & x, const int & y, const Color & fg, const string & text, const Color & activeFg, const int & index) : UIInteraction(activeFg), Text(x,y,fg,text){
+        _deActive = fg;
+        _stateIndex = index;
+    }
+
+    void Button::SetNextElements(Button * l, Button * r, Button * t, Button * b){
         _l = l;
         _r = r;
         _t = t;
         _b = b;
     }
 
-    UIInteraction::~UIInteraction(){
-        if(_l)
-            delete _l;
-        if(_r)
-            delete _r;
-        if(_t)
-            delete _t;
-        if(_b)
-            delete _b;
-    } 
+    void Button::Active(){
+        for(int i = 0; i < _pixels.size(); i++)
+            _pixels.at(i).SetColor(_active);
+    }
 
-    Button::Button(const int & x, const int & y, const Color & fg, const string & text, const Color & activeFg, const string & activeC) : UIInteraction(activeFg, activeC), Text(x,y,fg,text){
+    void Button::Deactivate(){
+        for(int i = 0; i < _pixels.size(); i++)
+            _pixels.at(i).SetColor(_deActive);
+    }
+
+    Button * Button::GetNext(Direction dir){
+        switch (dir)
+        {
+            case Left:
+                if(_l != NULL){
+                    Deactivate();
+                    _l -> Active();
+                    return _l;
+                }
+                return this;
+            case Up:
+                if(_t != NULL){
+                    Deactivate();
+                    _t -> Active();
+                    return _t;
+                }
+                return this;
+            case Down:
+                if(_b != NULL){
+                    Deactivate();
+                    _b -> Active();
+                    return _b;
+                }
+                return this;
+            case Right:
+                if(_r != NULL){
+                    Deactivate();
+                    _r -> Active();
+                    return _r;
+                }
+                return this;
+            case Zero:
+                Active();
+                return this;
+        }
+    }
+    
+    const int & Button::GetIndex() const{
+        return _stateIndex;
     }
 
     Button::~Button(){
-        
     }
 }

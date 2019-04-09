@@ -18,7 +18,7 @@ using namespace UI;
 namespace GameLogic{
 
     //Possible states of game
-    enum GameState { MainMenu, MapSelect, Help, Loading, InGame }; 
+    enum GameState { Exit, MainMenu, MapSelect, Help, Loading, InGame }; 
 
     /**
      * @brief Class for storing info about current game and global operations with other components.
@@ -34,7 +34,11 @@ namespace GameLogic{
             Canvas * _help;
             
             bool _run;
-            Text * txt;
+            
+            Button * bt1;
+            Button * bt2;
+            Button * bt3;
+            Button * current;
 
             /**
              * @brief Switches the state of current game.

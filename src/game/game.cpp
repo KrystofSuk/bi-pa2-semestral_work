@@ -16,10 +16,7 @@ using namespace std;
 using namespace UI;
 
 namespace GameLogic{
-    /**
-     * @brief Construct a new Game Manager:: Game Manager object
-     * 
-     */
+    
     GameManager::GameManager(){ 
         _state = MainMenu; 
         _run = false;
@@ -31,52 +28,65 @@ namespace GameLogic{
     }
     
     void GameManager::LoadScreens(){
-        _mainMenu = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
-        Button * bt = new Button(5,5,White,"Play", Green, "H");
-        _mainMenu -> AddElement(bt);
-        _help = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
-        _game = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight());
+        _mainMenu = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight(), false);
+
+        bt1 = new Button(8,2,White,"Play", Green,2);
+        bt2 = new Button(8,3,White,"Help", Green,3);
+        bt3 = new Button(8,4,White,"Exit", Green,0);
+        bt1 -> Active();
+        bt1 -> SetNextElements(NULL, NULL, NULL, bt2);
+        bt2 -> SetNextElements(NULL, NULL, bt1, bt3);
+        bt3 -> SetNextElements(NULL, NULL, bt2, NULL);
+        current = bt1;
+        _mainMenu -> AddElement(bt1);
+        _mainMenu -> AddElement(bt2);
+        _mainMenu -> AddElement(bt3);
+        _help = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight(), false);
+        _game = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight(), true);
     }
-    /**
-     * @brief 
-     * 
-     * @param nextState 
-     */
+    
     void GameManager::SwitchState(const GameState & nextState){
         _state = nextState;
     }
-    /**
-     * @brief 
-     * 
-     */
+    
     void GameManager::ProcessInput(){
         Key key = _input.Process();
-        switch (key)
+        if(key == Key::End){
+            _run = false;
+            return;
+        }
+        switch (_state)
         {
-            case GameLogic::Left:
-                _mainMenu -> MoveCursor(UI::Left);
-                break;
-            case GameLogic::Right:
-                _mainMenu -> MoveCursor(UI::Right);
-                break;
-            case GameLogic::Up:
-                _mainMenu -> MoveCursor(UI::Up);
-                break;
-            case GameLogic::Down:
-                _mainMenu -> MoveCursor(UI::Down);
-                break;
-            case GameLogic::End:
-                _run = false;
+            case MainMenu:
+                switch (key)
+                {
+                    case Key::Left:
+                        break;
+                    case Key::Right:
+                        break;
+                    case Key::Up:
+                        current = current -> GetNext(UI::Up);
+                        break;
+                    case Key::Down:
+                        current = current -> GetNext(UI::Down);
+                        break;
+                    case Key::Confirm:
+                        SwitchState(GameLogic::GameState(current -> GetIndex()));
+                        break;
+                    case Key::End:
+                        _run = false;
+                        break;
+                
+                    default:
+                        break;
+                }
                 break;
         
             default:
                 break;
         }
     }
-    /**
-     * @brief 
-     * 
-     */
+
     void GameManager::GameLoop(){
         system("stty sane");
         //_canvas -> Draw();
@@ -98,35 +108,25 @@ namespace GameLogic{
         _mainMenu -> Clear();
         _game -> Clear();
         _help -> Clear(); 
+        if(_state == GameState::Exit)
+            _run = false;
         if(_run)
             GameLoop();
     }
-    /**
-     * @brief 
-     * 
-     */
+
     void GameManager::Start(){
         _run = true;
         GameLoop();
     }
-    /**
-     * @brief 
-     * 
-     */
+    
     void GameManager::Reset(){
         
     }
-    /**
-     * @brief 
-     * 
-     */
+    
     void GameManager::End(){
         
     }
-    /**
-     * @brief Destroy the Game Manager:: Game Manager object
-     * 
-     */
+    
     GameManager::~GameManager(){
         delete _mainMenu;
         delete _help;
