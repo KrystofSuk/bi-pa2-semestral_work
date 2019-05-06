@@ -14,6 +14,26 @@ namespace Extra
     template <typename T>
     class File{
         public:
+            static const vector<T> LoadFromFileClean(const string & fileName){
+                vector<T> fields;
+                ifstream inp ( fileName, ios::binary);
+                if( !inp.is_open() || !inp.good() ){
+                    inp.close();
+                    return fields;
+                }
+                T val;
+                while (inp >>  val) 
+                {
+                    fields.push_back(val);
+                    if( !inp.is_open() || !inp.good() ){
+                        inp.close();
+                        return fields;
+                    }
+                }
+                inp.close();
+                return fields;
+            }
+
             static const vector<T> LoadFromFile(const string & fileName){
                 vector<T> fields;
                 ifstream inp ( fileName );

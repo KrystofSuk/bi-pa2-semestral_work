@@ -1,9 +1,14 @@
 #include "input.h"
 #include <iostream>
 #include <string>
+#include <stdio.h>
+#include <unistd.h>
+#include <termios.h>
 
-namespace GameLogic{
-    InputProcesser::InputProcesser(){
+namespace GameLogic
+{
+    InputProcesser::InputProcesser()
+    {
         _upKey = 65;
         _downKey = 66;
         _leftKey = 68;
@@ -13,7 +18,8 @@ namespace GameLogic{
         _last = Unknown;
     }
 
-    InputProcesser::InputProcesser(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey){
+    InputProcesser::InputProcesser(const int &upKey, const int &downKey, const int &leftKey, const int &rightKey, const int &cancelKey, const int &confirmKey)
+    {
         _upKey = upKey;
         _downKey = downKey;
         _leftKey = leftKey;
@@ -23,7 +29,8 @@ namespace GameLogic{
         _last = Unknown;
     }
 
-    void InputProcesser::Set(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey){
+    void InputProcesser::Set(const int &upKey, const int &downKey, const int &leftKey, const int &rightKey, const int &cancelKey, const int &confirmKey)
+    {
         _upKey = upKey;
         _downKey = downKey;
         _leftKey = leftKey;
@@ -32,40 +39,53 @@ namespace GameLogic{
         _confirmKey = confirmKey;
     }
 
-    const Key InputProcesser::Process(){ 
-        system("stty raw -echo"); 
+    const Key InputProcesser::Process(void)
+    {
+        /*----------------------------------------------------
+                        CODE COPYIED FROM FORUM
+                http://www.cplusplus.com/forum/unices/18395/
+        ------------------------------------------------------*/
         int key;
-        key = cin.get();
-        if(key == 27){
-            key = cin.get();
-            if(key == 91){
-                key = cin.get();
-            }
-        }
-        
-        _pressed = Unknown;
+        struct termios oldt;
+        struct termios newt;
+        tcgetattr(STDIN_FILENO, &oldt);          
+        newt = oldt;                             
+        newt.c_lflag &= ~(ICANON | ECHO);        
+        tcsetattr(STDIN_FILENO, TCSANOW, &newt); 
+        key = getchar();                         
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt); 
+        /*----------------------------------------------------
+                        END OF COPYIED CODE
+        ------------------------------------------------------*/
 
-        if(key == _leftKey){
+        if (key == _leftKey)
+        {
             _pressed = Left;
         }
-        if(key == _rightKey){
+        if (key == _rightKey)
+        {
             _pressed = Right;
         }
-        if(key == _downKey){
+        if (key == _downKey)
+        {
             _pressed = Down;
         }
-        if(key == _upKey){
+        if (key == _upKey)
+        {
             _pressed = Up;
         }
-        if(key == _cancelKey){
+        if (key == _cancelKey)
+        {
             _pressed = Cancel;
         }
-        if(key == _confirmKey){
+        if (key == _confirmKey)
+        {
             _pressed = Confirm;
         }
-        if(key == 3 || key == 4 || key == 25)
+        if (key == 3 || key == 4 || key == 25)
             return End;
-        
+
         return _pressed;
     }
-}
+
+} 

@@ -12,11 +12,6 @@ namespace GameLogic
         private:
         public:
     };
-    
-    class FireResistance : public UnitResistance{
-        private:
-        public:
-    };
 
     class UnitStats{
         private:
@@ -28,7 +23,7 @@ namespace GameLogic
         public:
     };
 
-    class Unit : public UnitStats, public UnitMovement{
+    struct Unit : public UnitStats, public UnitMovement{
         private:
         public:
     };

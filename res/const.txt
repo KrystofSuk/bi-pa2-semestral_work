@@ -1,4 +1,4 @@
-Width 28
+Width 20
 Height 8
 Up 65
 Down 66

@@ -3,13 +3,11 @@
 
 #include <string>
 #include <vector>
-#include "../ui/ui.h"
-#include "../ui/ui_elements.h"
 #include "input.h"
 #include "../extras/const.h"
+#include "map.h"
 
 using namespace std;
-using namespace UI;
 
 /**
  * @brief Namespace for key game logic components.
@@ -18,7 +16,8 @@ using namespace UI;
 namespace GameLogic{
 
     //Possible states of game
-    enum GameState { Exit, MainMenu, MapSelect, Help, Loading, InGame }; 
+    enum GameState { Exit, MainMenu, MapSelect, Help, Loading, InGame };
+    enum Color { White, Black, Blue, Red, Green, Yellow };
 
     /**
      * @brief Class for storing info about current game and global operations with other components.
@@ -29,17 +28,18 @@ namespace GameLogic{
             GameState _state;
             Extra::Consts _consts;
             InputProcesser _input;
-            Canvas * _mainMenu;
-            Canvas * _game;
-            Canvas * _help;
-            
-            bool _run;
-            
-            Button * bt1;
-            Button * bt2;
-            Button * bt3;
-            Button * current;
 
+            Map currentMap;
+
+            char ** _display = nullptr;
+            Color ** _colors = nullptr;
+
+            bool _run;
+            int _w = 0;
+            int _h = 0;
+            int _cX = 0;
+            int _cY = 0;
+            
             /**
              * @brief Switches the state of current game.
              * 
@@ -55,8 +55,11 @@ namespace GameLogic{
              * @brief Main game loop where main game logic takes the place, like drawing on canvas, clearing, processing inputs and so on.
              * 
              */
+            void Resize(int x, int y);
             void GameLoop();
             void LoadScreens();
+            void Clear();
+            void Draw() const;
         public:
             /**
              * @brief Construct a new Game Manager object.

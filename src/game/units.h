@@ -4,22 +4,21 @@
 #include <string>
 #include "unit.h"
 #include "units.h"
-#include "../ui/ui_elements.h"
 
 using namespace std;
 
 namespace GameLogic
 {
 
-    class Slime : public Unit, UI::Rect{
+    class Slime : public Unit{
 
     };
 
-    class Orc : public Unit, public UnitResistance, UI::Rect{
+    class Orc : public Unit, public UnitResistance{
 
     };
 
-    class Golem : public Unit, public FireResistance, UI::Rect{
+    class Golem : public Unit, public UnitResistance{
 
     };
 }

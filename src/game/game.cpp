@@ -6,130 +6,205 @@
 
 #include "game.h"
 #include "input.h"
-
-#include "../ui/ui.h"
-#include "../ui/ui_elements.h"
+#include "map.h"
 
 #include "../extras/const.h"
 
 using namespace std;
-using namespace UI;
 
-namespace GameLogic{
-    
-    GameManager::GameManager(){ 
-        _state = MainMenu; 
+namespace GameLogic
+{
+
+GameManager::GameManager()
+{
+    _state = InGame;
+    _run = false;
+
+    //Loading from consts
+    _input.Set(_consts.GetUpKey(), _consts.GetDownKey(), _consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey());
+
+    LoadScreens();
+}
+
+void GameManager::LoadScreens()
+{
+    currentMap = Map("lvl1");
+    Resize(currentMap.GetW(), currentMap.GetH());
+}
+
+void GameManager::SwitchState(const GameState &nextState)
+{
+    _state = nextState;
+}
+
+void GameManager::ProcessInput()
+{
+    Key key = _input.Process();
+    if (key == Key::End)
+    {
         _run = false;
-
-        //Loading from consts
-        _input.Set(_consts.GetUpKey(), _consts.GetDownKey(),_consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey());
-
-        LoadScreens();
+        return;
     }
-    
-    void GameManager::LoadScreens(){
-        _mainMenu = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight(), false);
-
-        bt1 = new Button(8,2,White,"Play", Green,2);
-        bt2 = new Button(8,3,White,"Help", Green,3);
-        bt3 = new Button(8,4,White,"Exit", Green,0);
-        bt1 -> Active();
-        bt1 -> SetNextElements(NULL, NULL, NULL, bt2);
-        bt2 -> SetNextElements(NULL, NULL, bt1, bt3);
-        bt3 -> SetNextElements(NULL, NULL, bt2, NULL);
-        current = bt1;
-        _mainMenu -> AddElement(bt1);
-        _mainMenu -> AddElement(bt2);
-        _mainMenu -> AddElement(bt3);
-        _help = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight(), false);
-        _game = new Canvas(_consts.GetCanvasWidth(), _consts.GetCanvasHeight(), true);
-    }
-    
-    void GameManager::SwitchState(const GameState & nextState){
-        _state = nextState;
-    }
-    
-    void GameManager::ProcessInput(){
-        Key key = _input.Process();
-        if(key == Key::End){
-            _run = false;
-            return;
-        }
-        switch (_state)
+    switch (_state)
+    {
+    case InGame:
+        switch (key)
         {
-            case MainMenu:
-                switch (key)
-                {
-                    case Key::Left:
-                        break;
-                    case Key::Right:
-                        break;
-                    case Key::Up:
-                        current = current -> GetNext(UI::Up);
-                        break;
-                    case Key::Down:
-                        current = current -> GetNext(UI::Down);
-                        break;
-                    case Key::Confirm:
-                        SwitchState(GameLogic::GameState(current -> GetIndex()));
-                        break;
-                    case Key::End:
-                        _run = false;
-                        break;
-                
-                    default:
-                        break;
-                }
-                break;
-        
-            default:
-                break;
-        }
-    }
-
-    void GameManager::GameLoop(){
-        system("stty sane");
-        //_canvas -> Draw();
-        switch (_state)
-        {
-            case MainMenu:
-                _mainMenu -> Draw();
-                break;
-            case Help:
-                _help -> Draw();
-                break;
-            case InGame:
-                _game -> Draw();
-                break;
-            default:
-                break;
-        }
-        ProcessInput();
-        _mainMenu -> Clear();
-        _game -> Clear();
-        _help -> Clear(); 
-        if(_state == GameState::Exit)
+        case Key::Left:
+            if (_cX > 0)
+                _cX -= 1;
+            break;
+        case Key::Right:
+            if (_cX < _w - 1)
+                _cX += 1;
+            break;
+        case Key::Up:
+            if (_cY > 0)
+                _cY -= 1;
+            break;
+        case Key::Down:
+            if (_cY < _h - 1)
+                _cY += 1;
+            break;
+        case Key::Confirm:
+            break;
+        case Key::End:
             _run = false;
-        if(_run)
-            GameLoop();
-    }
+            break;
 
-    void GameManager::Start(){
-        _run = true;
-        GameLoop();
-    }
-    
-    void GameManager::Reset(){
-        
-    }
-    
-    void GameManager::End(){
-        
-    }
-    
-    GameManager::~GameManager(){
-        delete _mainMenu;
-        delete _help;
-        delete _game;
+        default:
+            break;
+        }
+        break;
+
+    default:
+        break;
     }
 }
+
+void GameManager::GameLoop()
+{
+    system("stty sane");
+    //_canvas -> Draw();
+    Draw();
+    switch (_state)
+    {
+    case MainMenu:
+        break;
+    case Help:
+        break;
+    case InGame:
+        break;
+    default:
+        break;
+    }
+    ProcessInput();
+
+    Clear();
+
+    if (_state == GameState::Exit)
+        _run = false;
+    if (_run)
+        GameLoop();
+}
+
+void GameManager::Resize(int x, int y)
+{
+    for (int i = 0; i < _h; i++)
+    {
+        if (_display[i] != nullptr)
+            delete[] _display[i];
+        if (_colors[i] != nullptr)
+            delete[] _colors[i];
+    }
+    if (_display != nullptr)
+        delete[] _display;
+    if (_colors != nullptr)
+        delete[] _colors;
+
+    _colors = new Color *[y];
+    _display = new char *[y];
+    for (int i = 0; i < y; i++)
+    {
+        _colors[i] = new Color[x];
+        _display[i] = new char[x];
+        for (int t = 0; t < x; t++){
+            _display[i][t] = ' ';
+            _colors[i][t] = White;
+        }
+    }
+    _w = x;
+    _h = y;
+}
+
+void GameManager::Start()
+{
+    _run = true;
+    GameLoop();
+}
+
+void GameManager::Clear() 
+{
+    cout << "\033c";
+    for (int i = 0; i < _h; i++)
+        for (int t = 0; t < _w; t++)
+            _colors[i][t] = White;
+}
+
+void GameManager::Draw() const
+{
+    currentMap.GetChars(_display);
+    _display[_cY][_cX] = 'x';
+    _colors[_cY][_cX] = Blue;
+    string col;
+    for (int i = 0; i < _h; i++)
+    {
+        for (int t = 0; t < _w; t++)
+        {
+            switch (_colors[i][t])
+            {
+            case White:
+                col = "\033[0;37m";
+                break;
+            case Black:
+                col = "\033[0;30m";
+                break;
+            case Blue:
+                col = "\033[0;34m";
+                break;
+            case Red:
+                col = "\033[0;31m";
+                break;
+            case Green:
+                col = "\033[0;32m";
+                break;
+            case Yellow:
+                col = "\033[0;33m";
+                break;
+            default:
+                col = "\033[0;37m";
+                break;
+            }
+            cout << col << _display[i][t];
+        }
+        cout << endl;
+    }
+}
+
+void GameManager::Reset()
+{
+}
+
+void GameManager::End()
+{
+}
+
+GameManager::~GameManager()
+{
+    for (int i = 0; i < _h; i++)
+    {
+        delete[] _display[i];
+    }
+    delete[] _display;
+}
+} // namespace GameLogic

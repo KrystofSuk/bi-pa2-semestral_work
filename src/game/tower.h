@@ -3,19 +3,18 @@
 
 #include <string>
 #include "tower.h"
-#include "../ui/ui_elements.h"
 
 using namespace std;
 
 namespace GameLogic
 {
-    enum AttackTypes{ Fire };
+    enum AttackTypes{ Fire, Ice };
 
     class TowerStats{
 
     };
 
-    class TowerAttack : public UI::Circle{
+    struct TowerAttack{
 
     };
 
@@ -23,11 +22,11 @@ namespace GameLogic
 
     };
 
-    class BasicTower : public TowerStats, public TowerAttack, public UI::Rect{
+    class BasicTower : public TowerStats, public TowerAttack{
 
     };
 
-    class FireTower : public TowerStats, public FireAttack, public UI::Rect{
+    class FireTower : public TowerStats, public FireAttack{
 
     };
 }

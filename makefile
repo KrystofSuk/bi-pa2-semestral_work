@@ -14,7 +14,7 @@ all: clear compile doc
 
 compile: 
 	mkdir -p $(BIN)
-	$(COMPILER) $(SRC)/*.cpp $(UI)/*.cpp $(GAME)/*.cpp $(EXTRAS)/*.cpp $(CXXFLAGS) -o $(BIN)$(NAME)
+	$(COMPILER) $(SRC)/*.cpp $(GAME)/*.cpp $(EXTRAS)/*.cpp $(CXXFLAGS) -o $(BIN)$(NAME)
 
 mem: 
 	valgrind $(BIN)$(NAME)
@@ -27,7 +27,7 @@ doc:
 
 #Support
 count:
-	wc -l $(SRC)/*.cpp  $(UI)/*.cpp $(EXTRAS)/*.cpp $(GAME)/*.cpp
+	wc -l $(SRC)/*.cpp   $(EXTRAS)/*.cpp $(GAME)/*.cpp
 
 clear:
 	rm -fr $(DOC)
