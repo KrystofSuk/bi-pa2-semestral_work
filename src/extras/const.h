@@ -20,6 +20,7 @@ namespace Extra
             const int &  GetRightKey() const;
             const int &  GetCancelKey() const;
             const int &  GetConfirmKey() const;
+            const int &  GetNextKey() const;
         private:
             int _canvasWidth;
             int _canvasHeight;
@@ -29,6 +30,7 @@ namespace Extra
             int _rightKey;
             int _cancelKey;
             int _confirmKey;
+            int _nextKey;
     };
 }
 #endif

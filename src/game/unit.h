@@ -3,7 +3,7 @@
 
 #include <string>
 #include "unit.h"
-#include "map.h"
+#include "maps.h"
 #include "tower.h"
 
 using namespace std;
@@ -27,12 +27,13 @@ namespace GameLogic
             char _c = 'u';
             Color _col = White;
             string _name = "";
+            int _movType = 0;
         public:
             Unit();
             Unit(int hp, int atk, string name);
             bool IsAlive() const;
             int GetAtk() const;
-            virtual void Move() = 0;
+            virtual void Move(const Map & m) = 0;
             virtual void GetChar(char ** c) const = 0;
             virtual void GetColor(Color ** c) const = 0;
             virtual ~Unit();

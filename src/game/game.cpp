@@ -6,7 +6,7 @@
 
 #include "game.h"
 #include "input.h"
-#include "map.h"
+#include "maps.h"
 #include "unit.h"
 #include "units.h"
 
@@ -24,14 +24,14 @@ namespace GameLogic
         _run = false;
 
         //Loading from consts
-        _input.Set(_consts.GetUpKey(), _consts.GetDownKey(), _consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey());
+        _input.Set(_consts.GetUpKey(), _consts.GetDownKey(), _consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey(), _consts.GetNextKey());
 
         LoadScreens();
     }
 
     void GameManager::LoadScreens()
     {
-        currentMap = Map("lvl2");
+        currentMap = Map("lvl3");
         Resize(currentMap.GetW(), currentMap.GetH());
     }
 
@@ -76,6 +76,11 @@ namespace GameLogic
                     break;
                 case Key::End:
                     _run = false;
+                    break;
+                case Key::Next:
+                    for(auto i = _enemies.begin(); i < _enemies.end(); i++){
+                        (*i)->Move(currentMap);
+                    }
                     break;
 
                 default:

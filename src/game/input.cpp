@@ -13,23 +13,25 @@ namespace GameLogic{
         _last = Unknown;
     }
 
-    InputProcesser::InputProcesser(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey){
+    InputProcesser::InputProcesser(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey, const int & nextKey){
         _upKey = upKey;
         _downKey = downKey;
         _leftKey = leftKey;
         _rightKey = rightKey;
         _cancelKey = cancelKey;
         _confirmKey = confirmKey;
+        _nextKey = nextKey;
         _last = Unknown;
     }
 
-    void InputProcesser::Set(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey){
+    void InputProcesser::Set(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey, const int & nextKey){
         _upKey = upKey;
         _downKey = downKey;
         _leftKey = leftKey;
         _rightKey = rightKey;
         _cancelKey = cancelKey;
         _confirmKey = confirmKey;
+        _nextKey = nextKey;
     }
 
     const Key InputProcesser::Process(){ 
@@ -62,6 +64,9 @@ namespace GameLogic{
         }
         if(key == _confirmKey){
             _pressed = Confirm;
+        }
+        if(key == _nextKey){
+            _pressed = Next;
         }
         if(key == 3 || key == 4 || key == 25)
             return End;

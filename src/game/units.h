@@ -4,6 +4,7 @@
 #include <string>
 #include "unit.h"
 #include "units.h"
+#include "maps.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ namespace GameLogic
             Slime(pair<int, int> s);
             void GetChar(char ** c) const;
             void GetColor(Color ** c) const;
-            void Move();
+            void Move(const Map & m);
             ~Slime();
     };
 

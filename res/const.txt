@@ -6,3 +6,4 @@ Left 68
 Right 67
 Cancel 27
 Confirm 13
+Next 32

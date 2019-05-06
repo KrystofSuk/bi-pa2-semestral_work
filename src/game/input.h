@@ -9,7 +9,7 @@ using namespace std;
 namespace GameLogic
 {
     //Specific actions
-    enum Key{ Left, Right, Up, Down, Confirm, Cancel, Unknown, End };
+    enum Key{ Left, Right, Up, Down, Confirm, Cancel, Unknown, End, Next};
     /**
      * @brief It processes information from keyboard and manages it.
      * 
@@ -22,12 +22,13 @@ namespace GameLogic
             int _rightKey;
             int _cancelKey;
             int _confirmKey;
+            int _nextKey;
             Key _last;
             Key _pressed;
         public:
             InputProcesser();
-            InputProcesser(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey);
-            void Set(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey);
+            InputProcesser(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey, const int & nextKey);
+            void Set(const int & upKey, const int & downKey, const int & leftKey, const int & rightKey, const int & cancelKey, const int & confirmKey, const int & nextKey);
             /**
              * @brief Key processing method for getting currently pressed key.
              * 
