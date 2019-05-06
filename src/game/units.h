@@ -11,7 +11,13 @@ namespace GameLogic
 {
 
     class Slime : public Unit{
-
+        public:
+            Slime();
+            Slime(pair<int, int> s);
+            void GetChar(char ** c) const;
+            void GetColor(Color ** c) const;
+            void Move();
+            ~Slime();
     };
 
     class Orc : public Unit, public UnitResistance{

@@ -10,7 +10,7 @@ namespace GameLogic
 {
     enum AttackTypes{ Fire, Ice };
 
-    class TowerStats{
+    struct TowerStats{
 
     };
 
@@ -22,11 +22,19 @@ namespace GameLogic
 
     };
 
+    class IceAttack : public TowerAttack{
+
+    };
+
     class BasicTower : public TowerStats, public TowerAttack{
 
     };
 
     class FireTower : public TowerStats, public FireAttack{
+
+    };
+
+    class IceTower : public TowerStats, public IceAttack{
 
     };
 }

@@ -23,6 +23,7 @@ run:
 	$(BIN)$(NAME)
 
 doc:
+	rm -fr $(DOC)
 	doxygen doxygen
 
 #Support

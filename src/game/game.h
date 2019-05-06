@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include "input.h"
+#include "unit.h"
+#include "units.h"
 #include "../extras/const.h"
 #include "map.h"
 
@@ -17,7 +19,6 @@ namespace GameLogic{
 
     //Possible states of game
     enum GameState { Exit, MainMenu, MapSelect, Help, Loading, InGame };
-    enum Color { White, Black, Blue, Red, Green, Yellow };
 
     /**
      * @brief Class for storing info about current game and global operations with other components.
@@ -33,6 +34,8 @@ namespace GameLogic{
 
             char ** _display = nullptr;
             Color ** _colors = nullptr;
+
+            vector<Unit *> _enemies;
 
             bool _run;
             int _w = 0;
@@ -59,7 +62,7 @@ namespace GameLogic{
             void GameLoop();
             void LoadScreens();
             void Clear();
-            void Draw() const;
+            void DrawInGame() const;
         public:
             /**
              * @brief Construct a new Game Manager object.
