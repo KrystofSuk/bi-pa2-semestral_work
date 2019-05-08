@@ -7,3 +7,4 @@ Right 67
 Cancel 27
 Confirm 13
 Next 32
+Change 113

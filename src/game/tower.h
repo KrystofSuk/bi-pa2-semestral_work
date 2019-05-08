@@ -22,6 +22,7 @@ namespace GameLogic
             const int GetDistance() const;
             virtual void ProcessAttack(vector<Unit *> & units) = 0;
             pair<int, Tower::AttackType> GetAttack() const;
+            pair<int, int> GetPos() const;
             virtual void GetChar(char ** c) const = 0;
             virtual void GetColor(Color ** c) const = 0;
             virtual void Print(ostream& os) const  = 0;

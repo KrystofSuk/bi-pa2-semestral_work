@@ -57,6 +57,12 @@ namespace GameLogic
     void Slime::GetColor(Color ** c) const{
         c[_pos.first][_pos.second] = _col;
     }
+    void Slime::Print(ostream& os) const{
+        os << "| " << setw(22) << left << setfill(' ') << _name << " |" << endl;
+        os << " ------------------------ " << endl;
+        os << "|     ATK    |     HP    |" << endl;
+        os << "| " << setw(10) << left << setfill(' ') << _atk << " | " << setw(9) << left << setfill(' ') << _hp << " |";
+    }
     Slime::~Slime(){
 
     }

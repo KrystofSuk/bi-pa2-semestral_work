@@ -26,7 +26,7 @@ namespace GameLogic
         _run = false;
 
         //Loading from consts
-        _input.Set(_consts.GetUpKey(), _consts.GetDownKey(), _consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey(), _consts.GetNextKey());
+        _input.Set(_consts.GetUpKey(), _consts.GetDownKey(), _consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey(), _consts.GetNextKey(), _consts.GetChangeKey());
 
         LoadScreens();
 
@@ -85,6 +85,9 @@ namespace GameLogic
                         _towers.push_back(bas);
                     else
                         delete bas;
+                    break;
+                case Key::Change:
+                    NextCursor();
                     break;
                 case Key::End:
                     _run = false;
@@ -183,17 +186,18 @@ namespace GameLogic
             (*i)->GetChar(_display);
             (*i)->GetColor(_colors);
         }
+        char tmp = _display[_cY][_cX];
+        //Cursor
+        _display[_cY][_cX] = 'x';
+        _colors[_cY][_cX] = Green;
+
         //Displaying Towers
         for(auto i = _towers.begin(); i < _towers.end(); i++){
             (*i)->GetChar(_display);
             (*i)->GetColor(_colors);
         }
-        //Displays Cursor
-        if(_display[_cY][_cX] == ' ' || _display[_cY][_cX] == '#' || _display[_cY][_cX] == 's' || _display[_cY][_cX] == 'e'){
-            _display[_cY][_cX] = 'x';
-            _colors[_cY][_cX] = Green;
-        }
 
+        //Tower Distance
         if(_currentTower != -1){
             for(int r = _towerPref[_currentTower]->GetDistance(); r >= 1; r--){
                 for(int ang = 0; ang < 360; ang += 1){
@@ -250,10 +254,35 @@ namespace GameLogic
         cout << " ------------------------ " << endl;
         cout << "| Wave: " << setw(2) << setfill('0') << _currentWave << "/" << setw(2) << setfill('0') << _maxWave << " Money: " << setw(3) << setfill('0') << _currentMoney << " |" << endl;
         cout << " ------------------------ " << endl;
+        bool emp = true;
         if(_currentTower != -1){
             cout << *_towerPref[_currentTower] << endl;
         }else{
-            cout << "|         cursor         |" << endl;
+            if(tmp == ' '){
+                for(auto i = _towers.begin(); i < _towers.end(); i++){
+                    if((*i)->GetPos().first == _cY && (*i)->GetPos().second == _cX){
+                        cout << (**i) << endl;
+                        emp = false;
+                        break;
+                    }
+                }
+                if(emp)
+                    cout << "|         empty          |" << endl;
+            }
+            else if(tmp == '#'){
+                cout << "|          wall          |" << endl;
+            }
+            else{
+                for(auto i = _enemies.begin(); i < _enemies.end(); i++){
+                    if((*i)->GetPos().first == _cY && (*i)->GetPos().second == _cX){
+                        cout << (**i) << endl;
+                        emp = false;
+                        break;
+                    }
+                }
+                if(emp)
+                    cout << "|         xxxxx          |" << endl;
+            }
         }
         cout << " ------------------------ " << endl;
     }
@@ -292,6 +321,11 @@ namespace GameLogic
     void GameManager::End()
     {
     }
+    void GameManager::NextCursor(){
+        _currentTower++;
+        if(_currentTower >= _towerPref.size())
+            _currentTower = -1;
+    }
 
     GameManager::~GameManager()
     {
@@ -308,4 +342,4 @@ namespace GameLogic
         for(auto i = _towers.begin(); i < _towers.end(); i++)
             delete *i;
     }
-} // namespace GameLogic
+}

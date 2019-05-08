@@ -22,6 +22,9 @@ namespace GameLogic
         _atk = atk;
         _name = name;
     }
+    pair<int, int> Unit::GetPos() const{
+        return _pos;
+    }
     int Unit::GetDistance(pair<int, int> pos) const{
         int y = abs(_pos.first - pos.first);
         int x = abs(_pos.second - pos.second);

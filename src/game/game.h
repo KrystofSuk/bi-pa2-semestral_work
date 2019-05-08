@@ -77,6 +77,8 @@ namespace GameLogic{
             void Clear();
             void DrawInGame() const;
             void GameStep();
+            void NextCursor();
+            
         public:
             /**
              * @brief Construct a new Game Manager object.

@@ -34,10 +34,16 @@ namespace GameLogic
             bool IsAlive() const;
             int GetAtk() const;
             int GetDistance(pair<int, int> pos) const;
+            pair<int, int> GetPos() const;
             virtual void ProcessAttack(const int & a, const UnitResistance::ResistanceType & atk) = 0;
             virtual void Move(const Map & m) = 0;
             virtual void GetChar(char ** c) const = 0;
             virtual void GetColor(Color ** c) const = 0;
+            virtual void Print(ostream& os) const  = 0;
+            friend ostream& operator<<(ostream& os, const Unit& obj){
+                obj.Print(os);
+                return os;
+            }
             virtual ~Unit();
     };
 

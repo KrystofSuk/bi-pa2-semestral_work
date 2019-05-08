@@ -18,6 +18,7 @@ namespace GameLogic
             void ProcessAttack(const int & a, const UnitResistance::ResistanceType & atk);
             void GetChar(char ** c) const;
             void GetColor(Color ** c) const;
+            void Print(ostream& os) const;
             void Move(const Map & m);
             ~Slime();
     };

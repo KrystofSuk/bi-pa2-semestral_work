@@ -20,6 +20,7 @@ namespace Extra{
         _cancelKey = consts.at(6);
         _confirmKey = consts.at(7);
         _nextKey = consts.at(8);
+        _changeKey = consts.at(9);
     }
 
     const int & Consts::GetCanvasWidth() const{
@@ -48,5 +49,8 @@ namespace Extra{
     }
     const int & Consts::GetNextKey() const{
         return _nextKey;
+    }
+    const int & Consts::GetChangeKey() const{
+        return _changeKey;
     }
 }

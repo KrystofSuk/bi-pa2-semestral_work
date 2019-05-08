@@ -10,6 +10,9 @@ namespace GameLogic
     Tower::Tower(pair<int, int> p){
         _pos = p;
     }
+    pair<int, int> Tower::GetPos() const{
+        return _pos;
+    }
     const int Tower::GetDistance() const{
         return _distance;
     }
