@@ -11,7 +11,6 @@ int main ( void ) {
     usleep(2*(1000000));
     cout << "\033c";
     GameLogic::GameManager game;
-    game.Start();
     system("stty sane"); 
     cout << endl;
     return 0;
