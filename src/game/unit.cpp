@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-
+#include <limits>
+#include <math.h>
 #include "unit.h"
 
 namespace GameLogic
@@ -21,8 +22,14 @@ namespace GameLogic
         _atk = atk;
         _name = name;
     }
+    int Unit::GetDistance(pair<int, int> pos) const{
+        int y = abs(_pos.first - pos.first);
+        int x = abs(_pos.second - pos.second);
+        double d = sqrt(x*x + y*y);
+        return round(d);
+    }
     bool Unit::IsAlive() const{
-        return _hp > 0 ? true : false;
+        return _hp >= 1 ? true : false;
     }
     int Unit::GetAtk() const{
         return _atk;

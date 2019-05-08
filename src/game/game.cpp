@@ -9,8 +9,10 @@
 #include "maps.h"
 #include "unit.h"
 #include "units.h"
+#include "tower.h"
 
 #include "../extras/const.h"
+#include "../extras/file.h"
 
 using namespace std;
 
@@ -27,11 +29,16 @@ namespace GameLogic
         _input.Set(_consts.GetUpKey(), _consts.GetDownKey(), _consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey(), _consts.GetNextKey());
 
         LoadScreens();
+
+        //Loading Towers        
+        Tower * bas;
+        bas = new BasicTower(make_pair(_cY, _cX));
+        _towerPref.push_back(bas);
     }
 
     void GameManager::LoadScreens()
     {
-        currentMap = Map("lvl3");
+        currentMap = Map("lvl2");
         Resize(currentMap.GetW(), currentMap.GetH());
     }
 
@@ -70,17 +77,20 @@ namespace GameLogic
                         _cY += 1;
                     break;
                 case Key::Confirm:
-                    Unit * slime;
-                    slime = new Slime(currentMap.GetS());
-                    _enemies.push_back(slime);
+                    Tower * bas;
+                    bas = new BasicTower(make_pair(_cY, _cX));
+                    bool tmp;
+                    tmp =  currentMap.PlaceTower(make_pair(_cY, _cX));
+                    if(tmp)
+                        _towers.push_back(bas);
+                    else
+                        delete bas;
                     break;
                 case Key::End:
                     _run = false;
                     break;
                 case Key::Next:
-                    for(auto i = _enemies.begin(); i < _enemies.end(); i++){
-                        (*i)->Move(currentMap);
-                    }
+                    GameStep();
                     break;
 
                 default:
@@ -174,10 +184,31 @@ namespace GameLogic
             (*i)->GetColor(_colors);
         }
         //Displaying Towers
-
+        for(auto i = _towers.begin(); i < _towers.end(); i++){
+            (*i)->GetChar(_display);
+            (*i)->GetColor(_colors);
+        }
         //Displays Cursor
-        _display[_cY][_cX] = 'x';
-        _colors[_cY][_cX] = Green;
+        if(_display[_cY][_cX] == ' ' || _display[_cY][_cX] == '#' || _display[_cY][_cX] == 's' || _display[_cY][_cX] == 'e'){
+            _display[_cY][_cX] = 'x';
+            _colors[_cY][_cX] = Green;
+        }
+
+        if(_currentTower != -1){
+            for(int r = _towerPref[_currentTower]->GetDistance(); r >= 1; r--){
+                for(int ang = 0; ang < 360; ang += 1){
+                    int tY = round(_cY + r * sin(ang));
+                    int tX = round(_cX + r * cos(ang));
+                    if(tY < 0 || tX < 0 || tX >= _w || tY >= _h)
+                        continue;
+                    if(_display[tY][tX] == ' '){
+                        _display[tY][tX] = '+';
+                        _colors[tY][tX] = Red;
+                    }
+                }
+            }
+        }
+
         string col;
         for (int i = 0; i < _h; i++)
         {
@@ -212,6 +243,46 @@ namespace GameLogic
             }
             cout << endl;
         }
+
+        //Display Main
+        cout << " ------------------------ " << endl;
+        cout << "|        Lives: " << setw(2) << setfill(' ') << _lives << "       |" << endl;
+        cout << " ------------------------ " << endl;
+        cout << "| Wave: " << setw(2) << setfill('0') << _currentWave << "/" << setw(2) << setfill('0') << _maxWave << " Money: " << setw(3) << setfill('0') << _currentMoney << " |" << endl;
+        cout << " ------------------------ " << endl;
+        if(_currentTower != -1){
+            cout << *_towerPref[_currentTower] << endl;
+        }else{
+            cout << "|         cursor         |" << endl;
+        }
+        cout << " ------------------------ " << endl;
+    }
+
+    void GameManager::GameStep(){
+
+        if(_enemies.size() > 0){
+            if(_towers.size() > 0){
+                for(auto i = _towers.begin(); i < _towers.end(); i++){
+                    (*i)->ProcessAttack(_enemies);
+                }
+            }
+
+            for(auto i = _enemies.end()-1; i >= _enemies.begin(); i--){
+                if(!(*i)->IsAlive()){
+                    delete *i;
+                    _enemies.erase(i);
+                }
+            }
+            
+            for(auto i = _enemies.begin(); i < _enemies.end(); i++){
+                (*i)->Move(currentMap);
+            }
+        }
+
+        
+        Unit * slime;
+        slime = new Slime(currentMap.GetS());
+        _enemies.push_back(slime);
     }
 
     void GameManager::Reset()
@@ -233,6 +304,8 @@ namespace GameLogic
         delete[] _display;
 
         for(auto i = _enemies.begin(); i < _enemies.end(); i++)
+            delete *i;
+        for(auto i = _towers.begin(); i < _towers.end(); i++)
             delete *i;
     }
 } // namespace GameLogic

@@ -15,6 +15,7 @@ namespace GameLogic
         public:
             Slime();
             Slime(pair<int, int> s);
+            void ProcessAttack(const int & a, const UnitResistance::ResistanceType & atk);
             void GetChar(char ** c) const;
             void GetColor(Color ** c) const;
             void Move(const Map & m);

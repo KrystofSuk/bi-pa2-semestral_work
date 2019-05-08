@@ -4,7 +4,6 @@
 #include <string>
 #include "unit.h"
 #include "maps.h"
-#include "tower.h"
 
 using namespace std;
 
@@ -14,12 +13,13 @@ namespace GameLogic
         protected:
             int _resistance;
         public:
+            enum ResistanceType{ Fire, Ice, Default };
             UnitResistance(int res);
-            virtual void ProcessResistance(int & attack, const AttackTypes & type) const = 0;
+            virtual void ProcessResistance(int & attack, const ResistanceType & type) const = 0;
             virtual ~UnitResistance();
     };
 
-    class Unit{
+    struct Unit{
         protected:
             pair<int, int> _pos = make_pair<int,int>(0,0);
             int _hp = 0;
@@ -33,6 +33,8 @@ namespace GameLogic
             Unit(int hp, int atk, string name);
             bool IsAlive() const;
             int GetAtk() const;
+            int GetDistance(pair<int, int> pos) const;
+            virtual void ProcessAttack(const int & a, const UnitResistance::ResistanceType & atk) = 0;
             virtual void Move(const Map & m) = 0;
             virtual void GetChar(char ** c) const = 0;
             virtual void GetColor(Color ** c) const = 0;

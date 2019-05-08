@@ -16,6 +16,7 @@ namespace GameLogic
             Tile();
             Tile(char t, int x, int y, Color c, bool p);
             void SetChar(char n);
+            void SetPass(bool t);
             char GetChar() const;
             Color GetColor() const;
             bool GetPassable() const;
@@ -40,7 +41,9 @@ namespace GameLogic
             int GetH() const;
             int GetW() const;
 
-            bool IsReachable(const pair<int, int> & a, const pair<int, int> & b) const;
+            bool IsReachable() const;
+            bool PlaceTower(const pair<int, int> & pos);
+            bool IsValidPlace(const pair<int, int> & pos) const;
 
             pair<int, int> BFS(const pair<int, int> & pos) const;
             pair<int, int> PTH(const pair<int, int> & pos) const;            

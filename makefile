@@ -22,16 +22,19 @@ mem:
 run: 
 	$(BIN)$(NAME)
 
-doc:
-	rm -fr $(DOC)
+doc: cleardoc	
 	doxygen doxygen
 
 #Support
 count:
 	wc -l $(SRC)/*.cpp   $(EXTRAS)/*.cpp $(GAME)/*.cpp
 
-clear:
+clear: cleardoc clearbin
+
+cleardoc:
 	rm -fr $(DOC)
+
+clearbin:
 	rm -fr $(BIN)
 
 hello:

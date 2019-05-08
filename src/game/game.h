@@ -8,6 +8,7 @@
 #include "units.h"
 #include "../extras/const.h"
 #include "maps.h"
+#include "tower.h"
 
 using namespace std;
 
@@ -36,12 +37,24 @@ namespace GameLogic{
             Color ** _colors = nullptr;
 
             vector<Unit *> _enemies;
+            vector<Tower *> _towers;
 
             bool _run;
             int _w = 0;
             int _h = 0;
             int _cX = 0;
             int _cY = 0;
+
+            int _currentTower = 0;
+            vector<Tower *> _towerPref;
+
+            int _currentWave = 0;
+            int _maxWave = 4;
+            int _currentMoney = 0;
+
+            int _lives = 0;
+
+            //int _currentTower = 0;
             
             /**
              * @brief Switches the state of current game.
@@ -63,6 +76,7 @@ namespace GameLogic{
             void LoadScreens();
             void Clear();
             void DrawInGame() const;
+            void GameStep();
         public:
             /**
              * @brief Construct a new Game Manager object.

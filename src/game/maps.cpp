@@ -20,6 +20,9 @@ namespace GameLogic
         _color = c;
         _passable = p;
     }
+    void Tile::SetPass(bool t){
+        _passable = t;
+    }
     void Tile::SetChar(char n){
         _char = n;
     }
@@ -56,7 +59,6 @@ namespace GameLogic
                 if(tmp == 's'){
                     _tiles[i][t] = Tile(tmp, t, i, Yellow, true);
                     _s = make_pair(i, t);
-                    cout << "Start at " << _s.first << "," <<_s.second<< endl;
                 }
                 if(tmp == '#')
                     _tiles[i][t] = Tile(tmp, t, i, White, false);
@@ -96,7 +98,6 @@ namespace GameLogic
         return _w;
     }
     pair<int, int> Map::GetS() const{
-        cout << "Get " << _s.first << "," <<_s.second<< endl;
         return _s;
     }
     void Map::GetChars(char ** c) const{
@@ -113,8 +114,20 @@ namespace GameLogic
             }
         }
     }
-    bool Map::IsReachable(const pair<int, int> & a, const pair<int, int> & b) const{
-        return false;
+    bool Map::IsReachable() const{
+        auto t = BFS(_s);
+        return t == pair<int, int>(0,0) ? false : true;
+    }
+    bool Map::PlaceTower(const pair<int, int> & pos){
+        if(_tiles[pos.first][pos.second].GetPassable() && pos != _e){
+            _tiles[pos.first][pos.second].SetPass(false);
+            if(!IsReachable()){
+                _tiles[pos.first][pos.second].SetPass(true);
+                return false;
+            }
+            return true;
+        }
+        return false;        
     }
     pair<int, int> Map::BFS(const pair<int, int> & pos) const{
         system("stty sane");
