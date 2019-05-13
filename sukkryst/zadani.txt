@@ -18,6 +18,7 @@
  - [x] Tower attacks the nearest enemy
  - [ ] Score calculation by survived waves
  - [ ] Level wave system
+ - [ ] Money system
  - [x] Menu and help page
  - [x] UI for game    
 
@@ -32,5 +33,20 @@
  - [x] Fire Tower which is enchanced Basic Tower which deals fire damage
  - [x] Ice Tower which is enchanced Basic Tower which deals ice damage
  - [x] Mortar Tower which have small range, but attacks every enemy in range in one tick
+
+## Documentation:
+ - [ ] const.h
+ - [ ] file.h
+ - [ ] game.h
+ - [ ] input.h
+ - [ ] maps.h
+ - [ ] tower.h
+ - [ ] ui.h
+ - [ ] unit.h
+ - [ ] units.h
+ - [ ] gamenamespace
+ - [ ] extrasnamespace
+ - [ ] diagrams
+
 
 

@@ -4,6 +4,14 @@
 #include <string>
 #include "maps.h"
 #include "../extras/file.h"
+#include <vector>
+#include <queue>
+#include <deque>
+#include <set>
+#include <iostream>
+#include <map>
+#include <stack>
+#include <utility>
 
 using namespace std;
 
@@ -51,6 +59,11 @@ private:
 
     bool _valid = true;
 
+    void DFSL(int x, int y, stack<pair<int, int>> & q, set<pair<int, int>> & v, map<pair<int, int>, pair<int, int>> & par) const;
+    void DFSR(int x, int y, stack<pair<int, int>> & q, set<pair<int, int>> & v, map<pair<int, int>, pair<int, int>> & par) const;
+    void DFST(int x, int y, stack<pair<int, int>> & q, set<pair<int, int>> & v, map<pair<int, int>, pair<int, int>> & par) const;
+    void DFSB(int x, int y, stack<pair<int, int>> & q, set<pair<int, int>> & v, map<pair<int, int>, pair<int, int>> & par) const;
+
 public:
     Map();
     Map(string name);
@@ -63,7 +76,7 @@ public:
     bool IsValidPlace(const pair<int, int> &pos) const;
 
     pair<int, int> BFS(const pair<int, int> &pos) const;
-    pair<int, int> PTH(const pair<int, int> &pos) const;
+    pair<int, int> DFS(const pair<int, int> &pos) const;
 
     Map &operator=(const Map &other);
 

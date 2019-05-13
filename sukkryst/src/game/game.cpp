@@ -60,6 +60,9 @@ void GameManager::LoadLevel(string num)
     }else{
         SwitchState(InGame);
         Start();
+    Unit *slime;
+    slime = new SlimeKing(currentMap.GetS(), "slimeking");
+    _enemies.push_back(slime);
     }
 
 }
@@ -441,10 +444,11 @@ void GameManager::GameStep()
             (*i)->Move(currentMap);
         }
     }
-
+/*
     Unit *slime;
     slime = new SlimeKing(currentMap.GetS(), "slimeking");
     _enemies.push_back(slime);
+    */
 }
 
 void GameManager::End()

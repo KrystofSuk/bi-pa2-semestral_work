@@ -88,7 +88,7 @@ SlimeKing::SlimeKing(pair<int, int> s, string n) : Slime(s, n){
 
 }
 void SlimeKing::Move(const Map &m){
-    _pos = m.BFS(_pos);
+    _pos = m.DFS(_pos);
 }
 SlimeKing::~SlimeKing(){
 

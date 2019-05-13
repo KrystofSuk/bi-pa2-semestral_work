@@ -5,6 +5,7 @@
 #include <set>
 #include <iostream>
 #include <map>
+#include <stack>
 #include <utility>
 
 #include "maps.h"
@@ -53,7 +54,8 @@ Map::Map(string name)
     _w = p.at(0);
     _h = p.at(1);
 
-    if(c.size() != _h*_w){
+    if (c.size() != _h * _w)
+    {
         _w = 0;
         _h = 0;
         _valid = false;
@@ -89,7 +91,8 @@ Map &Map::operator=(const Map &other)
     if (this != &other)
     {
         _valid = other._valid;
-        if(_valid){
+        if (_valid)
+        {
             _s = other._s;
             _e = other._e;
             if (_w != other._w || _h != other._h)
@@ -236,11 +239,225 @@ pair<int, int> Map::BFS(const pair<int, int> &pos) const
     }
     return make_pair<int, int>(0, 0);
 }
-pair<int, int> Map::PTH(const pair<int, int> &pos) const
+pair<int, int> Map::DFS(const pair<int, int> &pos) const
 {
-    pair<int, int> p = make_pair<int, int>(0, 0);
-    return p;
+    cout << "------------" << endl;
+    system("stty sane");
+
+    stack<pair<int, int>> q;
+    set<pair<int, int>> v;
+    map<pair<int, int>, pair<int, int>> par;
+    pair<int, int> c = pos;
+
+    v.insert(c);
+    q.push(c);
+    par[c] = c;
+
+    int x = 0;
+    int y = 0;
+
+    while (!q.empty())
+    {
+        if (q.top() == _e)
+        {
+            c = q.top();
+            while (par.at(c) != pos)
+            {
+                c = par.at(c);
+            }
+            return c;
+        }
+        y = q.top().first;
+        x = q.top().second;
+        q.pop();
+        v.insert(make_pair(y, x));
+        if (_tiles[y][x].GetPassable())
+        {
+            int r = rand() % 24;
+            if(r == 0){
+                DFSL(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+            }
+            if(r == 1){
+                DFSR(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+            }
+            if(r == 2){
+                DFST(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+            }
+            if(r == 3){
+                DFSL(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+            }
+            if(r == 4){
+                DFSR(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+            }
+            if(r == 5){
+                DFST(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+            }
+            if(r == 6){
+                DFSB(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+            }
+            if(r == 7){
+                DFSR(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+            }
+            if(r == 8){
+                DFSL(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+            }
+            if(r == 9){
+                DFSB(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+            }
+            if(r == 10){
+                DFSR(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+            }
+            if(r == 11){
+                DFSL(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+            }
+            if(r == 12){
+                DFSL(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+            }
+            if(r == 13){
+                DFST(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+            }
+            if(r == 14){
+                DFSB(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+            }
+            if(r == 15){
+                DFSL(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+            }
+            if(r == 16){
+                DFST(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+            }
+            if(r == 17){
+                DFSB(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+            }
+            if(r == 18){
+                DFSB(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+            }
+            if(r == 19){
+                DFST(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+            }
+            if(r == 20){
+                DFSR(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+            }
+            if(r == 21){
+                DFSB(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+            }
+            if(r == 22){
+                DFST(x, y, q, v, par);
+                DFSR(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+            }
+            if(r == 23){
+                DFSR(x, y, q, v, par);
+                DFST(x, y, q, v, par);
+                DFSB(x, y, q, v, par);
+                DFSL(x, y, q, v, par);
+            }
+
+        }
+    }
+    return make_pair<int, int>(0, 0);
 }
+
+
+void Map::DFSL(int x, int y, stack<pair<int, int>> & q, set<pair<int, int>> & v, map<pair<int, int>, pair<int, int>> & par) const{
+
+            if (v.find(make_pair(y, x - 1)) == v.end() && x - 1 >= 0)
+            {
+                q.push(make_pair(y, x - 1));
+                par[make_pair(y, x - 1)] = make_pair(y, x);
+            }
+}
+void Map::DFSR(int x, int y, stack<pair<int, int>> & q, set<pair<int, int>> & v, map<pair<int, int>, pair<int, int>> & par) const{
+    
+            if (v.find(make_pair(y, x + 1)) == v.end() && x + 1 < _w)
+            {
+                q.push(make_pair(y, x + 1));
+                par[make_pair(y, x + 1)] = make_pair(y, x);
+            }
+}
+void Map::DFST(int x, int y, stack<pair<int, int>> & q, set<pair<int, int>> & v, map<pair<int, int>, pair<int, int>> & par) const{
+
+            if (v.find(make_pair(y - 1, x)) == v.end() && y - 1 >= 0)
+            {
+                q.push(make_pair(y - 1, x));
+                par[make_pair(y - 1, x)] = make_pair(y, x);
+            }
+}
+void Map::DFSB(int x, int y, stack<pair<int, int>> & q, set<pair<int, int>> & v, map<pair<int, int>, pair<int, int>> & par) const{
+
+            if (v.find(make_pair(y + 1, x)) == v.end() && y + 1 < _h)
+            {
+                q.push(make_pair(y + 1, x));
+                par[make_pair(y + 1, x)] = make_pair(y, x);
+            }
+}
+
 Map::~Map()
 {
     for (int i = 0; i < _h; i++)
