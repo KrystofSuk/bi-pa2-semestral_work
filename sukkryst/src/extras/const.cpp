@@ -10,7 +10,7 @@ namespace Extra
 
 Consts::Consts()
 {
-    vector<int> consts = File<int>::LoadFromFile("res/const.txt");
+    vector<int> consts = File<int>::LoadFromFile("./examples/const.txt");
 
     _canvasWidth = consts.at(0);
     _canvasHeight = consts.at(1);

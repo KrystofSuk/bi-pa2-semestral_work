@@ -47,8 +47,8 @@ Map::Map() {}
 Map::Map(string name)
 {
     //Loading map files
-    vector<char> c = Extra::File<char>::LoadFromFileClean("res/maps/" + name);
-    vector<int> p = Extra::File<int>::LoadFromFile("res/maps/" + name + "props");
+    vector<char> c = Extra::File<char>::LoadFromFileClean("./examples/maps/" + name);
+    vector<int> p = Extra::File<int>::LoadFromFile("./examples/maps/" + name + "props");
 
     _w = p.at(0);
     _h = p.at(1);

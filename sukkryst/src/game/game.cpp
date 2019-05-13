@@ -27,9 +27,15 @@ GameManager::GameManager()
     _ui.push_back(new GameLevelSelectUI());
 
     //Loading Towers
-    Tower *bas;
-    bas = new BasicTower(make_pair(_cY, _cX));
-    _towerPref.push_back(bas);
+    Tower *tow;
+    tow = new BasicTower(make_pair(_cY, _cX), "basic");
+    _towerPref.push_back(tow);
+    tow = new IceTower(make_pair(_cY, _cX), "ice");
+    _towerPref.push_back(tow);
+    tow = new FireTower(make_pair(_cY, _cX), "fire");
+    _towerPref.push_back(tow);
+    tow = new MortarTower(make_pair(_cY, _cX), "mortar");
+    _towerPref.push_back(tow);
 
     GameLoop();    
 }
@@ -173,14 +179,21 @@ GameState GameManager::GetGameState(int i) const{
 void GameManager::PlaceTower()
 {
     if(_currentTower != -1){
-        Tower *bas;
-        bas = new BasicTower(make_pair(_cY, _cX));
+        Tower * tow;
+        if(_currentTower == 0)
+            tow = new BasicTower(make_pair(_cY, _cX), "basic");
+        if(_currentTower == 1)
+            tow = new IceTower(make_pair(_cY, _cX), "ice");
+        if(_currentTower == 2)
+            tow = new FireTower(make_pair(_cY, _cX), "fire");
+        if(_currentTower == 3)
+            tow = new MortarTower(make_pair(_cY, _cX), "mortar");
         bool tmp;
         tmp = currentMap.PlaceTower(make_pair(_cY, _cX));
         if (tmp)
-            _towers.push_back(bas);
+            _towers.push_back(tow);
         else
-            delete bas;
+            delete tow;
     }
 }
 
@@ -423,7 +436,7 @@ void GameManager::GameStep()
     }
 
     Unit *slime;
-    slime = new Slime(currentMap.GetS());
+    slime = new SlimeKing(currentMap.GetS(), "slimeking");
     _enemies.push_back(slime);
 }
 

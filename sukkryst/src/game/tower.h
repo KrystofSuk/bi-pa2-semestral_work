@@ -49,40 +49,39 @@ protected:
     string _name;
 
     pair<int, int> _pos;
-    //queue<Unit *> _targets;
 };
 
 class BasicTower : public Tower
 {
 public:
-    BasicTower(pair<int, int> p);
+    BasicTower(pair<int, int> p, string n);
     virtual void ProcessAttack(vector<Unit *> &units);
     void GetChar(char **c) const;
     void GetColor(Color **c) const;
     void Print(ostream &os) const;
     virtual ~BasicTower();
-
-private:
 };
 
 class FireTower : public BasicTower
 {
 public:
-private:
+    FireTower(pair<int, int> p, string n);
+    virtual ~FireTower();
 };
 
 class IceTower : public BasicTower
 {
 public:
-private:
+    IceTower(pair<int, int> p, string n);
+    virtual ~IceTower();
 };
 
-class MortarTower : public Tower{
-
+class MortarTower : public BasicTower{
+public:
+    MortarTower(pair<int, int> p, string n);
+    virtual void ProcessAttack(vector<Unit *> &units);
+    virtual ~MortarTower();
 };
 
-class LegolasTower : public Tower{
-
-};
 }
 #endif

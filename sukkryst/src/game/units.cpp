@@ -13,14 +13,14 @@ namespace GameLogic
 Slime::Slime() : Unit()
 {
 }
-Slime::Slime(pair<int, int> s) : Unit()
+Slime::Slime(pair<int, int> s, string n) : Unit()
 {
-    _hp = stoi(Extra::File<string>::LoadFromFile("res/units/slime", "HP"));
-    _c = Extra::File<string>::LoadFromFile("res/units/slime", "Char")[0];
-    _name = Extra::File<string>::LoadFromFile("res/units/slime", "Name");
-    _atk = stoi(Extra::File<string>::LoadFromFile("res/units/slime", "ATK"));
-    string col = Extra::File<string>::LoadFromFile("res/units/slime", "Color");
-    string pth = Extra::File<string>::LoadFromFile("res/units/slime", "MOV");
+    _hp = stoi(Extra::File<string>::LoadFromFile("./examples/units/" + n, "HP"));
+    _c = Extra::File<string>::LoadFromFile("./examples/units/" + n, "Char")[0];
+    _name = Extra::File<string>::LoadFromFile("./examples/units/" + n, "Name");
+    _atk = stoi(Extra::File<string>::LoadFromFile("./examples/units/" + n, "ATK"));
+    string col = Extra::File<string>::LoadFromFile("./examples/units/" + n, "Color");
+    string pth = Extra::File<string>::LoadFromFile("./examples/units/" + n, "MOV");
     if (pth == "PTH")
     {
         _movType = 0;
@@ -39,8 +39,6 @@ Slime::Slime(pair<int, int> s) : Unit()
         _col = Red;
     if (col == "W")
         _col = White;
-
-    //cout << "Loaded: " << _name << " " << _hp << "," << _atk << endl;
 
     _pos.first = s.first;
     _pos.second = s.second;
@@ -75,4 +73,18 @@ void Slime::Print(ostream &os) const
 Slime::~Slime()
 {
 }
-} // namespace GameLogic
+
+
+SlimeKing::SlimeKing() : Slime(){
+
+}
+SlimeKing::SlimeKing(pair<int, int> s, string n) : Slime(s, n){
+
+}
+void SlimeKing::Move(const Map &m){
+    _pos = m.BFS(_pos);
+}
+SlimeKing::~SlimeKing(){
+
+}
+}

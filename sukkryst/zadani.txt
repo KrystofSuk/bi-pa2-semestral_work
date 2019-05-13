@@ -6,7 +6,7 @@
  - [ ] Check valid Maps like size and rect shape also end and start point validation 
  - [x] Tower cannot be placed as block for enemy paths = there must be valid way every time
  - [x] BFS movement of enemies
- - [ ] Other movement
+ - [ ] DFS movement
  - [ ] Saving current state of map, enemies and towers to file that could be loaded. Only one save slot
  - [x] Turn base implementation, when pressed space one tick for enemies and towers 
  - [x] Input config implementation
@@ -23,15 +23,14 @@
 
 ### Enemies:
  - [x] Slime, basic enemy with one attack and two/three hp, using DFS
- - [ ] SlimeKing, enhanced slime with two attack and 5 hp, using BFS
+ - [x] SlimeKing, enhanced slime with two attack and 5 hp, using BFS
  - [ ] Orc, enemy with one attack and 4 hp + resistance to fire damage, using BFS
  - [ ] Golem, the strongest default enemy with 4 attack and 8 hp + resistance to ice damage, using DFS
 
 ### Towers:
  - [x] Basic Tower with small range and small attack, which attacks nearest enemy
- - [ ] Fire Tower which is enchanced Basic Tower which deals fire damage
- - [ ] Ice Tower which is enchanced Basic Tower which deals ice damage
- - [ ] Mortar Tower which have small range, but attacks every enemy in range in one tick
- - [ ] Legolas Tower which have big range, attacks one enemy in range in one tick
+ - [x] Fire Tower which is enchanced Basic Tower which deals fire damage
+ - [x] Ice Tower which is enchanced Basic Tower which deals ice damage
+ - [x] Mortar Tower which have small range, but attacks every enemy in range in one tick
 
 

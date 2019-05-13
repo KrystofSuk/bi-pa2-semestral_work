@@ -107,7 +107,7 @@ GameHelpUI::~GameHelpUI(){
 GameLevelSelectUI::GameLevelSelectUI(){
     DIR *dir;
     struct dirent *ent;
-    if ((dir = opendir ("./res/maps")) != NULL) {
+    if ((dir = opendir ("./examples/maps")) != NULL) {
     while ((ent = readdir (dir)) != NULL) {
         if(string(ent->d_name).find("props") == string::npos && string(ent->d_name).find("lvl") != string::npos){
             _lvls.push_back(ent->d_name);
