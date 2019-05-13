@@ -56,25 +56,33 @@ class BasicTower : public Tower
 {
 public:
     BasicTower(pair<int, int> p);
-    void ProcessAttack(vector<Unit *> &units);
+    virtual void ProcessAttack(vector<Unit *> &units);
     void GetChar(char **c) const;
     void GetColor(Color **c) const;
     void Print(ostream &os) const;
-    ~BasicTower();
+    virtual ~BasicTower();
 
 private:
 };
 
-class FireTower : public Tower
+class FireTower : public BasicTower
 {
 public:
 private:
 };
 
-class IceTower : public Tower
+class IceTower : public BasicTower
 {
 public:
 private:
 };
-} // namespace GameLogic
+
+class MortarTower : public Tower{
+
+};
+
+class LegolasTower : public Tower{
+
+};
+}
 #endif

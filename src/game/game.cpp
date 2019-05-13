@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <string>
 #include <iomanip>
+#include <unistd.h>
 #include <math.h>
 
 #include "game.h"
@@ -171,14 +172,16 @@ GameState GameManager::GetGameState(int i) const{
 
 void GameManager::PlaceTower()
 {
-    Tower *bas;
-    bas = new BasicTower(make_pair(_cY, _cX));
-    bool tmp;
-    tmp = currentMap.PlaceTower(make_pair(_cY, _cX));
-    if (tmp)
-        _towers.push_back(bas);
-    else
-        delete bas;
+    if(_currentTower != -1){
+        Tower *bas;
+        bas = new BasicTower(make_pair(_cY, _cX));
+        bool tmp;
+        tmp = currentMap.PlaceTower(make_pair(_cY, _cX));
+        if (tmp)
+            _towers.push_back(bas);
+        else
+            delete bas;
+    }
 }
 
 void GameManager::GameLoop()
@@ -202,15 +205,16 @@ void GameManager::GameLoop()
         break;
     }
     ProcessInput();
-
     system("stty sane");
+
 
     Clear();
 
     if (_state == GameState::Exit)
         _run = false;
-    if (_run)
+    if (_run){
         GameLoop();
+    }
 }
 
 void GameManager::Resize(int x, int y)

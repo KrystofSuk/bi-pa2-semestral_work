@@ -1,7 +1,7 @@
 # Tower-Defence
 ## Engine:
  - [x] Load Towers definition from files
- - [x] Load Maps from files
+ - [x] Load Levels from res/maps/... and description of them like dimensions and scenario also from file named ....props
  - [x] Load Enemies from files
  - [ ] Check valid Maps like size and rect shape also end and start point validation 
  - [x] Tower cannot be placed as block for enemy paths = there must be valid way every time
@@ -12,6 +12,7 @@
  - [x] Input config implementation
  - [ ] Ice Attack = Double damage to non resistant units
  - [ ] Fire Attack = Damage for two turns to non resistant units
+ - [x] Every resource should be in res folder like maps, towers and so on
 
 ## Game:
  - [x] Tower attacks the nearest enemy
@@ -19,3 +20,18 @@
  - [ ] Level wave system
  - [x] Menu and help page
  - [x] UI for game    
+
+### Enemies:
+ - [x] Slime, basic enemy with one attack and two/three hp, using DFS
+ - [ ] SlimeKing, enhanced slime with two attack and 5 hp, using BFS
+ - [ ] Orc, enemy with one attack and 4 hp + resistance to fire damage, using BFS
+ - [ ] Golem, the strongest default enemy with 4 attack and 8 hp + resistance to ice damage, using DFS
+
+### Towers:
+ - [x] Basic Tower with small range and small attack, which attacks nearest enemy
+ - [ ] Fire Tower which is enchanced Basic Tower which deals fire damage
+ - [ ] Ice Tower which is enchanced Basic Tower which deals ice damage
+ - [ ] Mortar Tower which have small range, but attacks every enemy in range in one tick
+ - [ ] Legolas Tower which have big range, attacks one enemy in range in one tick
+
+

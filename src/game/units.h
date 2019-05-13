@@ -16,12 +16,16 @@ class Slime : public Unit
 public:
     Slime();
     Slime(pair<int, int> s);
-    void ProcessAttack(const int &a, const UnitResistance::ResistanceType &atk);
+    virtual void ProcessAttack(const int &a, const UnitResistance::ResistanceType &atk);
     void GetChar(char **c) const;
     void GetColor(Color **c) const;
-    void Print(ostream &os) const;
+    virtual void Print(ostream &os) const;
     void Move(const Map &m);
-    ~Slime();
+    virtual ~Slime();
+};
+
+class SlimeKing : public Slime
+{
 };
 
 class Orc : public Unit, public UnitResistance
