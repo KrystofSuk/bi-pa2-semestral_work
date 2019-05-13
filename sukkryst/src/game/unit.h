@@ -36,7 +36,6 @@ protected:
     Color _col = White;
     string _name = "";
     int _movType = 0;
-
 public:
     Unit();
     Unit(int hp, int atk, string name);

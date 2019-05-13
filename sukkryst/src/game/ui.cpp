@@ -31,15 +31,15 @@ void GameMainMenuUI::Draw() const{
     cout << "    -Game By sukkryst-    " << endl;
     cout << " ------------------------ " << endl;
     if(current == 0)
-        cout << "       \033[0;33m> \033[0;37mPlay Game        " << endl;
+        cout << "       \033[0;36m> \033[0;37mPlay Game        " << endl;
     else
         cout << "         Play Game        " << endl;
     if(current == 1)
-        cout << "         \033[0;33m> \033[0;37mHelp           " << endl;
+        cout << "         \033[0;36m> \033[0;37mHelp           " << endl;
     else
         cout << "           Help           " << endl;
     if(current == 2)
-        cout << "         \033[0;33m> \033[0;37mExit           " << endl;
+        cout << "         \033[0;36m> \033[0;37mExit           " << endl;
     else
         cout << "           Exit           " << endl;
 }
@@ -115,6 +115,8 @@ GameLevelSelectUI::GameLevelSelectUI(){
         }
         closedir (dir);
     }
+    for(auto i = _lvls.begin(); i < _lvls.end(); i++)
+        _valid.push_back(Map(*i).IsValid());
 }
 
 void GameLevelSelectUI::Draw() const{
@@ -125,17 +127,23 @@ void GameLevelSelectUI::Draw() const{
 
     int i = 0;
     for(auto t = _lvls.begin(); t < _lvls.end(); t++){
-        cout << "         " ;
+        if(_valid[i])
+            cout << "         " ;
+        else
+            cout << "   " ;
         if(i == current)
-            cout << "\033[0;33m> ";
+            cout << "\033[0;36m> ";
         else
             cout << "  ";
-        cout << "\033[0;37m" << *t << endl;
+        if(_valid[i])
+            cout << "\033[0;37m" << *t << endl;
+        else
+            cout << "\033[0;33m" << "Not Valid: " << *t << "!\033[0;37m" << endl;
         i++;
     }
 
     if(current == _lvls.size())
-        cout << "         \033[0;33m> \033[0;37mExit           " << endl;
+        cout << "         \033[0;36m> \033[0;37mExit           " << endl;
     else
         cout << "           Exit           " << endl;
 }

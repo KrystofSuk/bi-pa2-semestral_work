@@ -59,6 +59,7 @@ class GameLevelSelectUI : public GameUI
 {
 private:
     vector<string> _lvls;
+    vector<bool> _valid;
     int current = 0;
 public:
     GameLevelSelectUI();

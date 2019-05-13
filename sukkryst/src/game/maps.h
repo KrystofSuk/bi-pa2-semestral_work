@@ -16,7 +16,9 @@ enum Color
     Blue,
     Red,
     Green,
-    Yellow
+    Yellow,
+    Magenta,
+    Cyan
 };
 
 class Tile
@@ -47,6 +49,8 @@ private:
     int _h = 0;
     int _w = 0;
 
+    bool _valid = true;
+
 public:
     Map();
     Map(string name);
@@ -54,6 +58,7 @@ public:
     int GetW() const;
 
     bool IsReachable() const;
+    bool IsValid() const;
     bool PlaceTower(const pair<int, int> &pos);
     bool IsValidPlace(const pair<int, int> &pos) const;
 

@@ -37,21 +37,10 @@ GameManager::GameManager()
     tow = new MortarTower(make_pair(_cY, _cX), "mortar");
     _towerPref.push_back(tow);
 
-    GameLoop();    
-}
-
-void GameManager::LoadLevel(string num)
-{
-    _state = InGame;
-    _run = false;
-
     //Loading from consts
     _input.Set(_consts.GetUpKey(), _consts.GetDownKey(), _consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey(), _consts.GetNextKey(), _consts.GetChangeKey());
 
-    //loading level
-    currentMap = Map(num);
-    Resize(currentMap.GetW(), currentMap.GetH());
-
+    GameLoop();    
 }
 
 void GameManager::SwitchState(const GameState &nextState)
@@ -59,6 +48,20 @@ void GameManager::SwitchState(const GameState &nextState)
     _state = nextState;
     if(_state == Exit)
         _run = false;
+}
+
+void GameManager::LoadLevel(string num)
+{
+    //loading level
+    currentMap = Map(num);
+    Resize(currentMap.GetW(), currentMap.GetH());
+    if(!currentMap.IsValid()){
+        SwitchState(MapSelect);
+    }else{
+        SwitchState(InGame);
+        Start();
+    }
+
 }
 
 void GameManager::ProcessInput()
@@ -150,9 +153,7 @@ void GameManager::ProcessInput()
             if(_ui[2]->GetState() == -1)
                 SwitchState(MainMenu);
             else{
-                SwitchState(InGame);
                 LoadLevel(_ui[2]->GetMsg());
-                Start();
             }
             break;
         case Key::End:
@@ -347,6 +348,12 @@ void GameManager::DrawInGame() const
                 break;
             case Yellow:
                 col = "\033[0;33m";
+                break;
+            case Magenta:
+                col = "\033[0;35m";
+                break;
+            case Cyan:
+                col = "\033[0;36m";
                 break;
             default:
                 col = "\033[0;37m";

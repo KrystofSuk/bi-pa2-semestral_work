@@ -46,6 +46,12 @@ Slime::Slime(pair<int, int> s, string n) : Unit()
 void Slime::ProcessAttack(const int &a, const UnitResistance::ResistanceType &atk)
 {
     _hp -= a;
+    if(atk == UnitResistance::ResistanceType::Ice){
+        _hp -= a;
+    }
+    if(atk == UnitResistance::ResistanceType::Fire){
+        _hp -= a;
+    }
     if (_hp < 0)
     {
         _hp = 0;

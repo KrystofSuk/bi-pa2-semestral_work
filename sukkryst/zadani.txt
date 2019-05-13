@@ -3,15 +3,15 @@
  - [x] Load Towers definition from files
  - [x] Load Levels from res/maps/... and description of them like dimensions and scenario also from file named ....props
  - [x] Load Enemies from files
- - [ ] Check valid Maps like size and rect shape also end and start point validation 
+ - [x] Check valid Maps like size and rect shape also end and start point validation 
  - [x] Tower cannot be placed as block for enemy paths = there must be valid way every time
  - [x] BFS movement of enemies
  - [ ] DFS movement
  - [ ] Saving current state of map, enemies and towers to file that could be loaded. Only one save slot
  - [x] Turn base implementation, when pressed space one tick for enemies and towers 
  - [x] Input config implementation
- - [ ] Ice Attack = Double damage to non resistant units
- - [ ] Fire Attack = Damage for two turns to non resistant units
+ - [x] Ice Attack = Double damage to non resistant units
+ - [x] Fire Attack = Double damage to non resistant units
  - [x] Every resource should be in res folder like maps, towers and so on
 
 ## Game:

@@ -53,6 +53,13 @@ Map::Map(string name)
     _w = p.at(0);
     _h = p.at(1);
 
+    if(c.size() != _h*_w){
+        _w = 0;
+        _h = 0;
+        _valid = false;
+        return;
+    }
+
     _tiles = new Tile *[_h];
     for (int i = 0; i < _h; i++)
     {
@@ -81,27 +88,30 @@ Map &Map::operator=(const Map &other)
 {
     if (this != &other)
     {
-        _s = other._s;
-        _e = other._e;
-        if (_w != other._w || _h != other._h)
-        {
-            for (int i = 0; i < _h; i++)
+        _valid = other._valid;
+        if(_valid){
+            _s = other._s;
+            _e = other._e;
+            if (_w != other._w || _h != other._h)
             {
-                if (_tiles[i] != nullptr)
-                    delete[] _tiles[i];
-            }
-            if (_tiles != nullptr)
-                delete[] _tiles;
-            _w = other._w;
-            _h = other._h;
-
-            _tiles = new Tile *[_h];
-            for (int i = 0; i < _h; i++)
-            {
-                _tiles[i] = new Tile[_w];
-                for (int t = 0; t < _w; t++)
+                for (int i = 0; i < _h; i++)
                 {
-                    _tiles[i][t] = other._tiles[i][t];
+                    if (_tiles[i] != nullptr)
+                        delete[] _tiles[i];
+                }
+                if (_tiles != nullptr)
+                    delete[] _tiles;
+                _w = other._w;
+                _h = other._h;
+
+                _tiles = new Tile *[_h];
+                for (int i = 0; i < _h; i++)
+                {
+                    _tiles[i] = new Tile[_w];
+                    for (int t = 0; t < _w; t++)
+                    {
+                        _tiles[i][t] = other._tiles[i][t];
+                    }
                 }
             }
         }
@@ -144,6 +154,10 @@ bool Map::IsReachable() const
 {
     auto t = BFS(_s);
     return t == pair<int, int>(0, 0) ? false : true;
+}
+bool Map::IsValid() const
+{
+    return _valid;
 }
 bool Map::PlaceTower(const pair<int, int> &pos)
 {
