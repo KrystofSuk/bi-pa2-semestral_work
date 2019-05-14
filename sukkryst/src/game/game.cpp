@@ -77,6 +77,7 @@ void GameManager::LoadLevel(string num)
     int index = 0;
     int nu = 0;
     int ty = 0;
+    _waveQueue = queue<int>();
     for (auto i = info.begin() + 5; i < info.end(); i++)
     {
         if (index == 0)
@@ -135,15 +136,15 @@ void GameManager::Load()
         return;
     }
     inp >> _name;
-    inp >> _currentMoney;
-    inp >> _currentWave;
-    inp >> _lives;
-    inp >> _turn;
     int f = 0;
     int s = 0;
     int h = 0;
     int t = 0;
     LoadLevel(_name);
+    inp >> _currentMoney;
+    inp >> _currentWave;
+    inp >> _lives;
+    inp >> _turn;
     while (inp >> f >> s >> t >> h)
     {
         if (!inp.is_open() || !inp.good())
@@ -210,6 +211,11 @@ void GameManager::Load()
             currentMap.PlaceTower(p);
         }
     }
+    for(int w = 0; w < _turn; w++){
+        if (!_waveQueue.empty())
+            _waveQueue.pop();
+    }
+    
     inp.close();
     SwitchState(InGame);
 }
