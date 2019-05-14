@@ -7,7 +7,7 @@
  - [x] Tower cannot be placed as block for enemy paths = there must be valid way every time
  - [x] BFS movement of enemies
  - [x] DFS movement
- - [ ] Saving current state of map, enemies and towers to file that could be loaded. Only one save slot
+ - [x] Saving current state of map, enemies and towers to file that could be loaded. Only one save slot
  - [x] Turn base implementation, when pressed space one tick for enemies and towers 
  - [x] Input config implementation
  - [x] Ice Attack = Double damage to non resistant units
