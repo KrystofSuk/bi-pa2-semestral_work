@@ -109,7 +109,7 @@ GameLevelSelectUI::GameLevelSelectUI(){
     struct dirent *ent;
     if ((dir = opendir ("./examples/maps")) != NULL) {
     while ((ent = readdir (dir)) != NULL) {
-        if(string(ent->d_name).find("props") == string::npos && string(ent->d_name).find("lvl") != string::npos){
+        if(string(ent->d_name).find("info") == string::npos && string(ent->d_name).find("lvl") != string::npos){
             _lvls.push_back(ent->d_name);
             }
         }

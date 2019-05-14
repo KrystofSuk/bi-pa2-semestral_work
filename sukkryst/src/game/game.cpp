@@ -40,42 +40,64 @@ GameManager::GameManager()
     //Loading from consts
     _input.Set(_consts.GetUpKey(), _consts.GetDownKey(), _consts.GetLeftKey(), _consts.GetRightKey(), _consts.GetCancelKey(), _consts.GetConfirmKey(), _consts.GetNextKey(), _consts.GetChangeKey());
 
-    GameLoop();    
+    GameLoop();
 }
 
 void GameManager::SwitchState(const GameState &nextState)
 {
     _state = nextState;
-    if(_state == Exit)
+    if (_state == Exit)
         _run = false;
 }
 
 void GameManager::LoadLevel(string num)
 {
+    currentMap = Map();
     //loading level
     currentMap = Map(num);
+
     Resize(currentMap.GetW(), currentMap.GetH());
-    if(!currentMap.IsValid()){
+    if (!currentMap.IsValid())
+    {
         SwitchState(MapSelect);
-    }else{
+    }
+    else
+    {
         SwitchState(InGame);
         Start();
-    Unit *slime;
-    slime = new SlimeKing(currentMap.GetS(), "slimeking");
-    _enemies.push_back(slime);
     }
 
+
+    vector<int> info = Extra::File<int>::LoadFromFile("./examples/maps/" + num + "info");
+    _currentMoney = info.at(2);
+    _income = info.at(3);
+    _maxWave = info.at(4);
+    int index = 0;
+    int nu = 0;
+    int ty = 0;
+    for (auto i = info.begin() + 5; i < info.end(); i++)
+    {
+        if (index == 0)
+        {
+            nu = *i;
+        }
+        if (index == 1)
+        {
+            ty = *i;
+            for (int n = 0; n < nu; n++)
+            {
+                _waveQueue.push(ty);
+            }
+            index = -1;
+        }
+        index++;
+    }
 }
 
 void GameManager::ProcessInput()
 {
     Key key = _input.Process();
     system("stty sane");
-    if (key == Key::End)
-    {
-        _run = false;
-        return;
-    }
     switch (_state)
     {
     case InGame:
@@ -104,7 +126,7 @@ void GameManager::ProcessInput()
             NextCursor();
             break;
         case Key::End:
-            _run = false;
+            SwitchState(MainMenu);
             break;
         case Key::Next:
             GameStep();
@@ -115,10 +137,10 @@ void GameManager::ProcessInput()
         switch (key)
         {
         case Key::Up:
-            _ui[0]->Move(0,-1);
+            _ui[0]->Move(0, -1);
             break;
         case Key::Down:
-            _ui[0]->Move(0,1);
+            _ui[0]->Move(0, 1);
             break;
         case Key::Confirm:
             SwitchState(GetGameState(_ui[0]->GetState()));
@@ -147,15 +169,16 @@ void GameManager::ProcessInput()
         switch (key)
         {
         case Key::Up:
-            _ui[2]->Move(0,-1);
+            _ui[2]->Move(0, -1);
             break;
         case Key::Down:
-            _ui[2]->Move(0,1);
+            _ui[2]->Move(0, 1);
             break;
         case Key::Confirm:
-            if(_ui[2]->GetState() == -1)
+            if (_ui[2]->GetState() == -1)
                 SwitchState(MainMenu);
-            else{
+            else
+            {
                 LoadLevel(_ui[2]->GetMsg());
             }
             break;
@@ -167,35 +190,44 @@ void GameManager::ProcessInput()
     }
 }
 
-GameState GameManager::GetGameState(int i) const{
-    if(i == 0)
+GameState GameManager::GetGameState(int i) const
+{
+    if (i == 0)
         return Exit;
-    if(i == 1)
+    if (i == 1)
         return MainMenu;
-    if(i == 2)
+    if (i == 2)
         return MapSelect;
-    if(i == 3)
+    if (i == 3)
         return Help;
-    if(i == 4)
+    if (i == 4)
         return InGame;
 }
 
 void GameManager::PlaceTower()
 {
-    if(_currentTower != -1){
-        Tower * tow;
-        if(_currentTower == 0)
+    if (_currentTower != -1)
+    {
+        Tower *tow;
+        if (_currentTower == 0)
             tow = new BasicTower(make_pair(_cY, _cX), "basic");
-        if(_currentTower == 1)
+        if (_currentTower == 1)
             tow = new IceTower(make_pair(_cY, _cX), "ice");
-        if(_currentTower == 2)
+        if (_currentTower == 2)
             tow = new FireTower(make_pair(_cY, _cX), "fire");
-        if(_currentTower == 3)
+        if (_currentTower == 3)
             tow = new MortarTower(make_pair(_cY, _cX), "mortar");
         bool tmp;
         tmp = currentMap.PlaceTower(make_pair(_cY, _cX));
-        if (tmp)
+        if (tmp && _currentMoney - tow->GetPrice() >= 0)
+        {
+            _currentMoney -= tow->GetPrice();
+            for (auto i = _enemies.begin(); i < _enemies.end(); i++)
+            {
+                (*i)->ClearPath();
+            }
             _towers.push_back(tow);
+        }
         else
             delete tow;
     }
@@ -224,12 +256,12 @@ void GameManager::GameLoop()
     ProcessInput();
     system("stty sane");
 
-
     Clear();
 
     if (_state == GameState::Exit)
         _run = false;
-    if (_run){
+    if (_run)
+    {
         GameLoop();
     }
 }
@@ -267,13 +299,18 @@ void GameManager::Resize(int x, int y)
 void GameManager::Start()
 {
     _run = true;
+    _currentTower = -1;
+    _currentWave = 1;
+    _lives = 10;
+    _turn = 0;
+    
+    for (auto i = _enemies.begin(); i < _enemies.end(); i++)
+        delete *i;
+    for (auto i = _towers.begin(); i < _towers.end(); i++)
+        delete *i;
 
-    _currentTower = 0;
-    vector<Tower *> _towerPref;
-
-    _currentWave = 0;
-    _maxWave = 4;
-    _currentMoney = 0;
+    _towers.clear();
+    _enemies.clear();
 }
 
 void GameManager::Clear()
@@ -369,7 +406,7 @@ void GameManager::DrawInGame() const
     }
 
     //Display Main
-    cout << " ------------------------ " << endl;
+    cout << "\033[0;37m ------------------------ " << endl;
     cout << "|        Lives: " << setw(2) << setfill(' ') << _lives << "       |" << endl;
     cout << " ------------------------ " << endl;
     cout << "| Wave: " << setw(2) << setfill('0') << _currentWave << "/" << setw(2) << setfill('0') << _maxWave << " Money: " << setw(3) << setfill('0') << _currentMoney << " |" << endl;
@@ -439,16 +476,59 @@ void GameManager::GameStep()
             }
         }
 
-        for (auto i = _enemies.begin(); i < _enemies.end(); i++)
+        for (auto i = _enemies.end() -1; i >= _enemies.begin(); i--)
         {
             (*i)->Move(currentMap);
+            if(currentMap.ReachedEnd((*i)->GetPos())){
+                _lives -= (*i)->GetAtk();
+                if(_lives <= 0)
+                    SwitchState(MainMenu);
+
+                delete *i;
+                _enemies.erase(i);
+            }
         }
     }
-/*
-    Unit *slime;
-    slime = new SlimeKing(currentMap.GetS(), "slimeking");
-    _enemies.push_back(slime);
-    */
+
+    _turn++;
+    if (!_waveQueue.empty())
+    {
+        int sp = _waveQueue.front();
+        if (sp == -2)
+            _currentWave++;
+        if (sp == 0)
+        {
+            Unit *slime;
+            slime = new Slime(currentMap.GetS());
+            _enemies.push_back(slime);
+        }
+        if (sp == 1)
+        {
+            Unit *king;
+            king = new SlimeKing(currentMap.GetS());
+            _enemies.push_back(king);
+        }
+        if (sp == 2)
+        {
+            Unit *orc;
+            orc = new Orc(currentMap.GetS());
+            _enemies.push_back(orc);
+        }
+        if (sp == 3)
+        {
+            Unit *gol;
+            gol = new Golem(currentMap.GetS());
+            _enemies.push_back(gol);
+        }
+        _waveQueue.pop();
+    }else{
+        if(_enemies.size() == 0)
+            SwitchState(Help);
+    }
+
+    _currentMoney += _income;
+    if (_currentMoney > 999)
+        _currentMoney = 999;
 }
 
 void GameManager::End()
@@ -457,7 +537,7 @@ void GameManager::End()
         delete *i;
     for (auto i = _towers.begin(); i < _towers.end(); i++)
         delete *i;
-        
+
     _enemies.clear();
     _towers.clear();
 }
@@ -490,6 +570,5 @@ GameManager::~GameManager()
     for (auto i = _ui.begin(); i < _ui.end(); i++)
         delete *i;
 }
-
 
 }

@@ -24,7 +24,10 @@ doc: cleardoc
 
 #Support
 count:
-	wc -l $(SRC)/*.cpp   $(EXTRAS)/*.cpp $(GAME)/*.cpp
+	wc -l $(SRC)/*.cpp $(EXTRAS)/*.cpp $(GAME)/*.cpp
+
+countall:
+	wc -l $(SRC)/*.cpp $(EXTRAS)/*.cpp $(GAME)/*.cpp $(EXTRAS)/*.h $(GAME)/*.h
 
 clean: cleardoc clearbin
 

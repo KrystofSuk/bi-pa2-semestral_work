@@ -1,6 +1,6 @@
 Name Orc
-HP 8
-ATK 4
+HP 6
+ATK 1
 Char o
-Color B
+Color M
 MOV BFS

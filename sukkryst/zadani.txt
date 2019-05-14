@@ -6,7 +6,7 @@
  - [x] Check valid Maps like size and rect shape also end and start point validation 
  - [x] Tower cannot be placed as block for enemy paths = there must be valid way every time
  - [x] BFS movement of enemies
- - [ ] DFS movement
+ - [x] DFS movement
  - [ ] Saving current state of map, enemies and towers to file that could be loaded. Only one save slot
  - [x] Turn base implementation, when pressed space one tick for enemies and towers 
  - [x] Input config implementation
@@ -16,17 +16,17 @@
 
 ## Game:
  - [x] Tower attacks the nearest enemy
- - [ ] Score calculation by survived waves
- - [ ] Level wave system
- - [ ] Money system
+ - [x] Survived waves
+ - [x] Level wave system
+ - [x] Money system
  - [x] Menu and help page
  - [x] UI for game    
 
 ### Enemies:
- - [x] Slime, basic enemy with one attack and two/three hp, using DFS
+ - [x] Slime, basic enemy with one attack and two hp, using DFS
  - [x] SlimeKing, enhanced slime with two attack and 5 hp, using BFS
- - [ ] Orc, enemy with one attack and 4 hp + resistance to fire damage, using BFS
- - [ ] Golem, the strongest default enemy with 4 attack and 8 hp + resistance to ice damage, using DFS
+ - [x] Orc, enemy with one attack and 6 hp + resistance to fire damage, using BFS
+ - [x] Golem, the strongest default enemy with 4 attack and 8 hp + resistance to ice damage, using DFS
 
 ### Towers:
  - [x] Basic Tower with small range and small attack, which attacks nearest enemy

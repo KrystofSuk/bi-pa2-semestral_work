@@ -2,6 +2,7 @@
 #define UNIT_H
 
 #include <string>
+#include <vector>
 #include "unit.h"
 #include "maps.h"
 
@@ -22,7 +23,7 @@ public:
         Default
     };
     UnitResistance(int res);
-    virtual void ProcessResistance(int &attack, const ResistanceType &type) const = 0;
+    virtual bool ProcessResistance(const ResistanceType &type) const = 0;
     virtual ~UnitResistance();
 };
 
@@ -36,17 +37,19 @@ protected:
     Color _col = White;
     string _name = "";
     int _movType = 0;
+    vector<pair<int, int>> _path;
 public:
     Unit();
-    Unit(int hp, int atk, string name);
+    Unit(const string & n);
     bool IsAlive() const;
     int GetAtk() const;
     int GetDistance(pair<int, int> pos) const;
     pair<int, int> GetPos() const;
+    void ClearPath();
+    virtual void GetChar(char **c) const;
+    virtual void GetColor(Color **c) const;
     virtual void ProcessAttack(const int &a, const UnitResistance::ResistanceType &atk) = 0;
     virtual void Move(const Map &m) = 0;
-    virtual void GetChar(char **c) const = 0;
-    virtual void GetColor(Color **c) const = 0;
     virtual void Print(ostream &os) const = 0;
     friend ostream &operator<<(ostream &os, const Unit &obj)
     {

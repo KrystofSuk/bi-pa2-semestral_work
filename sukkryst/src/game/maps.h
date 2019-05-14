@@ -71,12 +71,13 @@ public:
     int GetW() const;
 
     bool IsReachable() const;
+    bool ReachedEnd(const pair<int, int> &pos) const;
     bool IsValid() const;
     bool PlaceTower(const pair<int, int> &pos);
     bool IsValidPlace(const pair<int, int> &pos) const;
 
-    pair<int, int> BFS(const pair<int, int> &pos) const;
-    pair<int, int> DFS(const pair<int, int> &pos) const;
+    vector<pair<int, int>> BFS(const pair<int, int> &pos) const;
+    vector<pair<int, int>> DFS(const pair<int, int> &pos) const;
 
     Map &operator=(const Map &other);
 

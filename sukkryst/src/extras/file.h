@@ -12,6 +12,9 @@ using namespace std;
 
 namespace Extra
 {
+
+class FileNotExistException{};
+
 template <typename T>
 class File
 {
@@ -23,6 +26,7 @@ public:
         if (!inp.is_open() || !inp.good())
         {
             inp.close();
+            throw(FileNotExistException());
             return fields;
         }
         T val;
@@ -46,6 +50,7 @@ public:
         if (!inp.is_open() || !inp.good())
         {
             inp.close();
+            throw(FileNotExistException());
             return fields;
         }
         string field;
@@ -70,6 +75,7 @@ public:
         if (!inp.is_open() || !inp.good())
         {
             inp.close();
+            throw(FileNotExistException());
             return val;
         }
         string field;

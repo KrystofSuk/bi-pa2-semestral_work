@@ -3,4 +3,4 @@ HP 3
 ATK 1
 Char .
 Color B
-MOV BFS
+MOV DFS

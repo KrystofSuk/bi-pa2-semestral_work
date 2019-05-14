@@ -6,7 +6,7 @@
 
 namespace GameLogic
 {
-UnitResistance::UnitResistance(int res = 0)
+UnitResistance::UnitResistance(int res = 2)
 {
     if (res < 0)
     {
@@ -19,15 +19,51 @@ UnitResistance::~UnitResistance() {}
 Unit::Unit()
 {
 }
-Unit::Unit(int hp = 0, int atk = 0, string name = "")
+Unit::Unit(const string & n = "")
 {
-    _hp = hp;
-    _atk = atk;
-    _name = name;
+    _hp = stoi(Extra::File<string>::LoadFromFile("./examples/units/" + n, "HP"));
+    _c = Extra::File<string>::LoadFromFile("./examples/units/" + n, "Char")[0];
+    _name = Extra::File<string>::LoadFromFile("./examples/units/" + n, "Name");
+    _atk = stoi(Extra::File<string>::LoadFromFile("./examples/units/" + n, "ATK"));
+    string col = Extra::File<string>::LoadFromFile("./examples/units/" + n, "Color");
+    string pth = Extra::File<string>::LoadFromFile("./examples/units/" + n, "MOV");
+    if (pth == "DFS")
+    {
+        _movType = 0;
+    }
+    if (pth == "BFS")
+    {
+        _movType = 1;
+    }
+    if (col == "B")
+        _col = Blue;
+    if (col == "G")
+        _col = Green;
+    if (col == "Y")
+        _col = Yellow;
+    if (col == "R")
+        _col = Red;
+    if (col == "W")
+        _col = White;
+    if (col == "C")
+        _col = Cyan;
+    if (col == "M")
+        _col = Magenta;
 }
 pair<int, int> Unit::GetPos() const
 {
     return _pos;
+}
+void Unit::ClearPath(){
+    _path.clear();
+}
+void Unit::GetChar(char **c) const
+{
+    c[_pos.first][_pos.second] = _c;
+}
+void Unit::GetColor(Color **c) const
+{
+    c[_pos.first][_pos.second] = _col;
 }
 int Unit::GetDistance(pair<int, int> pos) const
 {

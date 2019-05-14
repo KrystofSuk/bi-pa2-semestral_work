@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <queue>
+#include <deque>
 #include "ui.h"
 #include "input.h"
 #include "unit.h"
@@ -61,6 +63,10 @@ private:
     int _currentWave = 0;
     int _maxWave = 4;
     int _currentMoney = 0;
+    int _income = 0;
+
+    int _turn = 0;
+    queue<int> _waveQueue;
 
     int _lives = 0;
 

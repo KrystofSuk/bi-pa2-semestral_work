@@ -49,7 +49,7 @@ Map::Map(string name)
 {
     //Loading map files
     vector<char> c = Extra::File<char>::LoadFromFileClean("./examples/maps/" + name);
-    vector<int> p = Extra::File<int>::LoadFromFile("./examples/maps/" + name + "props");
+    vector<int> p = Extra::File<int>::LoadFromFile("./examples/maps/" + name + "info");
 
     _w = p.at(0);
     _h = p.at(1);
@@ -156,11 +156,14 @@ void Map::GetColors(Color **c) const
 bool Map::IsReachable() const
 {
     auto t = BFS(_s);
-    return t == pair<int, int>(0, 0) ? false : true;
+    return t.size() == 1 ? false : true;
 }
 bool Map::IsValid() const
 {
     return _valid;
+}
+bool  Map::ReachedEnd(const pair<int, int> &pos) const{
+    return pos == _e ? true : false;
 }
 bool Map::PlaceTower(const pair<int, int> &pos)
 {
@@ -176,7 +179,7 @@ bool Map::PlaceTower(const pair<int, int> &pos)
     }
     return false;
 }
-pair<int, int> Map::BFS(const pair<int, int> &pos) const
+vector<pair<int, int>> Map::BFS(const pair<int, int> &pos) const
 {
     system("stty sane");
 
@@ -184,6 +187,7 @@ pair<int, int> Map::BFS(const pair<int, int> &pos) const
     set<pair<int, int>> v;
     map<pair<int, int>, pair<int, int>> par;
     pair<int, int> c = pos;
+    vector<pair<int, int>> path;
 
     v.insert(c);
     q.push(c);
@@ -198,12 +202,13 @@ pair<int, int> Map::BFS(const pair<int, int> &pos) const
         {
             //cout << "Found" << endl;
             c = q.front();
+            path.push_back(c);
             while (par.at(c) != pos)
             {
                 c = par.at(c);
-                //cout << "PTH: " << c.first << "/" << c.second << " - " << _s.first << "/" << _s.second << endl;
+                path.push_back(c);
             }
-            return c;
+            return path;
         }
         y = q.front().first;
         x = q.front().second;
@@ -237,17 +242,18 @@ pair<int, int> Map::BFS(const pair<int, int> &pos) const
         }
         q.pop();
     }
-    return make_pair<int, int>(0, 0);
+    path.push_back(pos);
+    return path;
 }
-pair<int, int> Map::DFS(const pair<int, int> &pos) const
+vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
 {
-    cout << "------------" << endl;
     system("stty sane");
 
     stack<pair<int, int>> q;
     set<pair<int, int>> v;
     map<pair<int, int>, pair<int, int>> par;
     pair<int, int> c = pos;
+    vector<pair<int, int>> path;
 
     v.insert(c);
     q.push(c);
@@ -261,11 +267,13 @@ pair<int, int> Map::DFS(const pair<int, int> &pos) const
         if (q.top() == _e)
         {
             c = q.top();
+            path.push_back(c);
             while (par.at(c) != pos)
             {
                 c = par.at(c);
+                path.push_back(c);
             }
-            return c;
+            return path;
         }
         y = q.top().first;
         x = q.top().second;
@@ -421,7 +429,8 @@ pair<int, int> Map::DFS(const pair<int, int> &pos) const
 
         }
     }
-    return make_pair<int, int>(0, 0);
+    path.push_back(pos);
+    return path;
 }
 
 
