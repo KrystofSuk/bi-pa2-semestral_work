@@ -12,27 +12,16 @@ Consts::Consts()
 {
     vector<int> consts = File<int>::LoadFromFile("./examples/const.txt");
 
-    _canvasWidth = consts.at(0);
-    _canvasHeight = consts.at(1);
-
-    _upKey = consts.at(2);
-    _downKey = consts.at(3);
-    _leftKey = consts.at(4);
-    _rightKey = consts.at(5);
-    _cancelKey = consts.at(6);
-    _confirmKey = consts.at(7);
-    _nextKey = consts.at(8);
-    _changeKey = consts.at(9);
+    _upKey = consts.at(0);
+    _downKey = consts.at(1);
+    _leftKey = consts.at(2);
+    _rightKey = consts.at(3);
+    _cancelKey = consts.at(4);
+    _confirmKey = consts.at(5);
+    _nextKey = consts.at(6);
+    _changeKey = consts.at(7);
 }
 
-const int &Consts::GetCanvasWidth() const
-{
-    return _canvasWidth;
-}
-const int &Consts::GetCanvasHeight() const
-{
-    return _canvasHeight;
-}
 const int &Consts::GetUpKey() const
 {
     return _upKey;

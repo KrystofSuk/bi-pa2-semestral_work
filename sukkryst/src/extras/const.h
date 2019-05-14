@@ -8,13 +8,15 @@ using namespace std;
 
 namespace Extra
 {
+    /**
+     * @brief Const class responsible for loading and keeping consts like keybingings
+     * 
+     */
 class Consts
 {
 public:
     Consts();
 
-    const int &GetCanvasWidth() const;
-    const int &GetCanvasHeight() const;
     const int &GetUpKey() const;
     const int &GetDownKey() const;
     const int &GetLeftKey() const;
@@ -25,8 +27,6 @@ public:
     const int &GetChangeKey() const;
 
 private:
-    int _canvasWidth;
-    int _canvasHeight;
     int _upKey;
     int _downKey;
     int _leftKey;

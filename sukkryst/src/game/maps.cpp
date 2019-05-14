@@ -43,6 +43,11 @@ bool Tile::GetPassable() const
 {
     return _passable;
 }
+Tile &Tile::operator=(const Tile &other){
+    _char= other._char;
+    _color= other._color;
+    _passable= other._passable;
+}
 
 Map::Map() {}
 Map::Map(string name)

@@ -344,16 +344,20 @@ void GameManager::PlaceTower()
             tow = new FireTower(make_pair(_cY, _cX), "fire");
         if (_currentTower == 3)
             tow = new MortarTower(make_pair(_cY, _cX), "mortar");
-        bool tmp;
-        tmp = currentMap.PlaceTower(make_pair(_cY, _cX));
-        if (tmp && _currentMoney - tow->GetPrice() >= 0)
-        {
-            _currentMoney -= tow->GetPrice();
-            for (auto i = _enemies.begin(); i < _enemies.end(); i++)
+        if( _currentMoney - tow->GetPrice() >= 0){
+            bool tmp;
+            tmp = currentMap.PlaceTower(make_pair(_cY, _cX));
+            if (tmp)
             {
-                (*i)->ClearPath();
+                _currentMoney -= tow->GetPrice();
+                for (auto i = _enemies.begin(); i < _enemies.end(); i++)
+                {
+                    (*i)->ClearPath();
+                }
+                _towers.push_back(tow);
             }
-            _towers.push_back(tow);
+            else
+                delete tow;
         }
         else
             delete tow;

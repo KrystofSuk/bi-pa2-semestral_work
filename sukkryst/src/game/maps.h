@@ -34,6 +34,8 @@ class Tile
 public:
     Tile();
     Tile(char t, int x, int y, Color c, bool p);
+    
+    Tile &operator=(const Tile &other);
     void SetChar(char n);
     void SetPass(bool t);
     char GetChar() const;
