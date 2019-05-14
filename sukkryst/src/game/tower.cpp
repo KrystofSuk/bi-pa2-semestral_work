@@ -122,6 +122,9 @@ void BasicTower::GetColor(Color **c) const
     c[_pos.first][_pos.second] = _col;
 }
 
+int BasicTower::GetType() const{
+    return -2;
+}
 BasicTower::~BasicTower()
 {
 }
@@ -129,6 +132,9 @@ BasicTower::~BasicTower()
 FireTower::FireTower(pair<int, int> p, string n) : BasicTower(p, n)
 {
     _type = Fire;
+}
+int FireTower::GetType() const{
+    return -3;
 }
 
 FireTower::~FireTower()
@@ -140,6 +146,9 @@ IceTower::IceTower(pair<int, int> p, string n) : BasicTower(p, n)
     _type = Ice;
 }
 
+int IceTower::GetType() const{
+    return -4;
+}
 IceTower::~IceTower()
 {
 }
@@ -172,6 +181,9 @@ void MortarTower::ProcessAttack(vector<Unit *> &units)
             break;
         }
     }
+}
+int MortarTower::GetType() const{
+    return -5;
 }
 
 MortarTower::~MortarTower()

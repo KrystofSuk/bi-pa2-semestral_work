@@ -43,9 +43,12 @@ public:
     Unit(const string & n);
     bool IsAlive() const;
     int GetAtk() const;
+    int GetHP() const;
+    void SetHP(int hp);
     int GetDistance(pair<int, int> pos) const;
     pair<int, int> GetPos() const;
     void ClearPath();
+    virtual int GetType() const = 0;
     virtual void GetChar(char **c) const;
     virtual void GetColor(Color **c) const;
     virtual void ProcessAttack(const int &a, const UnitResistance::ResistanceType &atk) = 0;

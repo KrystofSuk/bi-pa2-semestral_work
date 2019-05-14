@@ -44,6 +44,7 @@ private:
     InputProcesser _input;
 
     Map currentMap;
+    string _name;
 
     char **_display = nullptr;
     Color **_colors = nullptr;
@@ -95,6 +96,10 @@ private:
     void PlaceTower();
     void GameStep();
     void NextCursor();
+
+    void Save() const;
+    void Load();
+
     GameState GetGameState(int i) const;
 public:
     /**

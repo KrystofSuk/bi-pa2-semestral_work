@@ -142,7 +142,13 @@ void GameLevelSelectUI::Draw() const{
         i++;
     }
 
+    
     if(current == _lvls.size())
+        cout << "         \033[0;36m> \033[0;37mLoad           " << endl;
+    else
+        cout << "           Load           " << endl;
+
+    if(current == _lvls.size() + 1)
         cout << "         \033[0;36m> \033[0;37mExit           " << endl;
     else
         cout << "           Exit           " << endl;
@@ -151,9 +157,9 @@ void GameLevelSelectUI::Draw() const{
 void GameLevelSelectUI::Move(int x, int y){
     current += y;
     if(current < 0){
-        current = _lvls.size();
+        current = _lvls.size()+1;
     }
-    if(current > _lvls.size()){
+    if(current > _lvls.size()+1){
         current = 0;
     }
 }
@@ -163,7 +169,7 @@ void GameLevelSelectUI::Continue(){
 }
 
 int GameLevelSelectUI::GetState() const{
-    return current != _lvls.size() ? current : -1;
+    return current < _lvls.size() ? current : current == _lvls.size() + 1 ? -1 : -2;
 }
 
 string GameLevelSelectUI::GetMsg() const{

@@ -23,6 +23,9 @@ Slime::Slime(pair<int, int> s, const string & n) : Unit(n)
     _pos.first = s.first;
     _pos.second = s.second;
 }
+int Slime::GetType() const{
+    return 0;
+}
 void Slime::ProcessAttack(const int &a, const UnitResistance::ResistanceType &atk)
 {
     _hp -= a;
@@ -79,6 +82,9 @@ SlimeKing::SlimeKing() : Slime()
 SlimeKing::SlimeKing(pair<int, int> s) : Slime(s, "slimeking")
 {
 }
+int SlimeKing::GetType() const{
+    return 1;
+}
 SlimeKing::~SlimeKing()
 {
 }
@@ -89,6 +95,9 @@ Orc::Orc() : UnitResistance(0), Unit() {
 Orc::Orc(pair<int, int> s) : UnitResistance(0), Unit("orc"){
     _pos.first = s.first;
     _pos.second = s.second;
+}
+int Orc::GetType() const{
+    return 2;
 }
 void Orc::ProcessAttack(const int &a, const UnitResistance::ResistanceType &atk){
     _hp -= a;
@@ -157,6 +166,9 @@ Golem::Golem() : UnitResistance(1), Unit() {
 Golem::Golem(pair<int, int> s) : UnitResistance(1), Unit("golem"){
     _pos.first = s.first;
     _pos.second = s.second;
+}
+int Golem::GetType() const{
+    return 3;
 }
 void Golem::ProcessAttack(const int &a, const UnitResistance::ResistanceType &atk){
     _hp -= a;

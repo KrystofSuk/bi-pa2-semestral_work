@@ -29,6 +29,7 @@ public:
     virtual void ProcessAttack(vector<Unit *> &units) = 0;
     pair<int, Tower::AttackType> GetAttack() const;
     pair<int, int> GetPos() const;
+    virtual int GetType() const = 0;
     virtual void GetChar(char **c) const = 0;
     virtual void GetColor(Color **c) const = 0;
     virtual void Print(ostream &os) const = 0;
@@ -59,6 +60,7 @@ public:
     void GetChar(char **c) const;
     void GetColor(Color **c) const;
     void Print(ostream &os) const;
+    virtual int GetType() const;
     virtual ~BasicTower();
 };
 
@@ -66,6 +68,7 @@ class FireTower : public BasicTower
 {
 public:
     FireTower(pair<int, int> p, string n);
+    virtual int GetType() const;
     virtual ~FireTower();
 };
 
@@ -73,12 +76,14 @@ class IceTower : public BasicTower
 {
 public:
     IceTower(pair<int, int> p, string n);
+    virtual int GetType() const;
     virtual ~IceTower();
 };
 
 class MortarTower : public BasicTower{
 public:
     MortarTower(pair<int, int> p, string n);
+    virtual int GetType() const;
     virtual void ProcessAttack(vector<Unit *> &units);
     virtual ~MortarTower();
 };

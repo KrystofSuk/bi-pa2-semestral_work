@@ -61,6 +61,12 @@ void Unit::GetChar(char **c) const
 {
     c[_pos.first][_pos.second] = _c;
 }
+int Unit::GetHP() const{
+    return _hp;
+}
+void Unit::SetHP(int hp){
+    _hp = hp;
+}
 void Unit::GetColor(Color **c) const
 {
     c[_pos.first][_pos.second] = _col;

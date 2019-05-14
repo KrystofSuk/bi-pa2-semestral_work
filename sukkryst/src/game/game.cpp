@@ -2,9 +2,10 @@
 #include <cstdlib>
 #include <string>
 #include <iomanip>
+#include <fstream>
 #include <unistd.h>
 #include <math.h>
-
+#include <typeinfo>
 #include "game.h"
 #include "input.h"
 #include "maps.h"
@@ -59,14 +60,15 @@ void GameManager::LoadLevel(string num)
     Resize(currentMap.GetW(), currentMap.GetH());
     if (!currentMap.IsValid())
     {
+        _name = "";
         SwitchState(MapSelect);
     }
     else
     {
+        _name = num;
         SwitchState(InGame);
         Start();
     }
-
 
     vector<int> info = Extra::File<int>::LoadFromFile("./examples/maps/" + num + "info");
     _currentMoney = info.at(2);
@@ -92,6 +94,124 @@ void GameManager::LoadLevel(string num)
         }
         index++;
     }
+}
+
+void GameManager::Save() const
+{
+    ofstream save;
+    save.open("./examples/save");
+    if (!save.is_open() || !save.good())
+    {
+        save.close();
+        return;
+    }
+    save << _name << "\n";
+    save << _currentMoney << "\n";
+    save << _currentWave << "\n";
+    save << _lives << "\n";
+    save << _turn << "\n";
+
+
+    for (auto i = _towers.begin(); i < _towers.end(); i++)
+    {
+        save << (*i)->GetPos().first << " " << (*i)->GetPos().second << " " << (*i)->GetType() << "-1" << "\n";
+    }
+
+    for (auto i = _enemies.begin(); i < _enemies.end(); i++)
+    {
+        save << (*i)->GetPos().first << " " << (*i)->GetPos().second << " " << (*i)->GetType() << " " << (*i)->GetHP() << "\n";
+    }
+    save.close();
+}
+
+void GameManager::Load()
+{
+    Start();
+
+    ifstream inp("./examples/save");
+    if (!inp.is_open() || !inp.good())
+    {
+        inp.close();
+        return;
+    }
+    inp >> _name;
+    inp >> _currentMoney;
+    inp >> _currentWave;
+    inp >> _lives;
+    inp >> _turn;
+    int f = 0;
+    int s = 0;
+    int h = 0;
+    int t = 0;
+    LoadLevel(_name);
+    while (inp >> f >> s >> t >> h)
+    {
+        if (!inp.is_open() || !inp.good())
+        {
+            inp.close();
+            break;
+        }
+        pair<int, int> p = make_pair(f, s);
+        if (t == 0)
+        {
+            Unit *slime;
+            slime = new Slime(p);
+            slime->SetHP(h);
+            _enemies.push_back(slime);
+        }
+        if (t == 1)
+        {
+            Unit *king;
+            king = new SlimeKing(p);
+            king->SetHP(h);
+            _enemies.push_back(king);
+        }
+        if (t == 2)
+        {
+            Unit *orc;
+            orc = new Orc(p);
+            orc->SetHP(h);
+            _enemies.push_back(orc);
+        }
+        if (t == 3)
+        {
+            Unit *gol;
+            gol = new Golem(p);
+            gol->SetHP(h);
+            _enemies.push_back(gol);
+        }
+
+        if (t == -2)
+        {
+            Tower *tow;
+            tow = new BasicTower(p, "basic");
+            _towers.push_back(tow);
+            currentMap.PlaceTower(p);
+        }
+        if (t == -3)
+        {
+            Tower *tow;
+            tow = new FireTower(p, "fire");
+            _towers.push_back(tow);
+            currentMap.PlaceTower(p);
+        }
+        if (t == -4)
+        {
+            Tower *tow;
+            tow = new IceTower(p, "ice");
+            _towers.push_back(tow);
+            currentMap.PlaceTower(p);
+        }
+        if (t == -5)
+        {
+            Tower *tow;
+            tow = new MortarTower(p, "mortar");
+            _towers.push_back(tow);
+            currentMap.PlaceTower(p);
+        }
+    }
+    inp.close();
+    SwitchState(InGame);
 }
 
 void GameManager::ProcessInput()
@@ -126,6 +246,7 @@ void GameManager::ProcessInput()
             NextCursor();
             break;
         case Key::End:
+            Save();
             SwitchState(MainMenu);
             break;
         case Key::Next:
@@ -177,10 +298,10 @@ void GameManager::ProcessInput()
         case Key::Confirm:
             if (_ui[2]->GetState() == -1)
                 SwitchState(MainMenu);
+            else if (_ui[2]->GetState() == -2)
+                Load();
             else
-            {
                 LoadLevel(_ui[2]->GetMsg());
-            }
             break;
         case Key::End:
             _run = false;
@@ -303,7 +424,7 @@ void GameManager::Start()
     _currentWave = 1;
     _lives = 10;
     _turn = 0;
-    
+
     for (auto i = _enemies.begin(); i < _enemies.end(); i++)
         delete *i;
     for (auto i = _towers.begin(); i < _towers.end(); i++)
@@ -476,12 +597,13 @@ void GameManager::GameStep()
             }
         }
 
-        for (auto i = _enemies.end() -1; i >= _enemies.begin(); i--)
+        for (auto i = _enemies.end() - 1; i >= _enemies.begin(); i--)
         {
             (*i)->Move(currentMap);
-            if(currentMap.ReachedEnd((*i)->GetPos())){
+            if (currentMap.ReachedEnd((*i)->GetPos()))
+            {
                 _lives -= (*i)->GetAtk();
-                if(_lives <= 0)
+                if (_lives <= 0)
                     SwitchState(MainMenu);
 
                 delete *i;
@@ -521,8 +643,10 @@ void GameManager::GameStep()
             _enemies.push_back(gol);
         }
         _waveQueue.pop();
-    }else{
-        if(_enemies.size() == 0)
+    }
+    else
+    {
+        if (_enemies.size() == 0)
             SwitchState(Help);
     }
 
@@ -571,4 +695,4 @@ GameManager::~GameManager()
         delete *i;
 }
 
-}
+} // namespace GameLogic
