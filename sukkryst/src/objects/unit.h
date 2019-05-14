@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include "unit.h"
-#include "maps.h"
+#include "../game/maps.h"
 
 using namespace std;
 

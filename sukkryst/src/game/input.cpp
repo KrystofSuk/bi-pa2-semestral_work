@@ -1,9 +1,10 @@
-#include "input.h"
 #include <iostream>
-#include <string>
+
+#include "input.h"
 
 namespace GameLogic
 {
+
 InputProcesser::InputProcesser()
 {
     _upKey = 65;
@@ -46,53 +47,48 @@ const Key InputProcesser::Process()
 {
     system("stty raw -echo");
     int key;
-    key = cin.get();
+    key = std::cin.get();
+
     if (key == 27)
     {
-        key = cin.get();
+        key = std::cin.get();
+
         if (key == 91)
         {
-            key = cin.get();
+            key = std::cin.get();
         }
     }
 
     _pressed = Unknown;
 
     if (key == _leftKey)
-    {
         _pressed = Left;
-    }
+
     if (key == _rightKey)
-    {
         _pressed = Right;
-    }
+
     if (key == _downKey)
-    {
         _pressed = Down;
-    }
+
     if (key == _upKey)
-    {
         _pressed = Up;
-    }
+
     if (key == _cancelKey)
-    {
         _pressed = Cancel;
-    }
+
     if (key == _confirmKey)
-    {
         _pressed = Confirm;
-    }
+
     if (key == _nextKey)
-    {
         _pressed = Next;
-    }
+
     if (key == _changeKey)
-    {
         _pressed = Change;
-    }
+
     if (key == 3 || key == 4 || key == 25)
         return End;
 
     return _pressed;
 }
+
 } // namespace GameLogic

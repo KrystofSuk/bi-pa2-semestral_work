@@ -5,7 +5,7 @@
 #include <queue>
 #include <deque>
 #include "tower.h"
-#include "maps.h"
+#include "../game/maps.h"
 #include "unit.h"
 
 using namespace std;

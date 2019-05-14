@@ -1,7 +1,7 @@
 
 #include "units.h"
 #include "unit.h"
-#include "maps.h"
+#include "../game/maps.h"
 #include <iostream>
 #include <limits>
 #include <math.h>

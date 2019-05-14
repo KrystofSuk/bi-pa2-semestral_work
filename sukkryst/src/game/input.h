@@ -1,14 +1,14 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include <string>
 #include "input.h"
-
-using namespace std;
 
 namespace GameLogic
 {
-//Specific actions
+/**
+ * @brief Specific key
+ * 
+ */
 enum Key
 {
     Left,
@@ -23,9 +23,9 @@ enum Key
     Change
 };
 /**
-     * @brief It processes information from keyboard and manages it.
-     * 
-     */
+ * @brief It processes information from keyboard and manages it.
+ * 
+ */
 class InputProcesser
 {
 private:
@@ -41,15 +41,44 @@ private:
     Key _pressed;
 
 public:
+    /**
+     * @brief Construct a new Input Processer
+     * 
+     */
     InputProcesser();
+    /**
+     * @brief Construct a new Input Processer object with const loaded keycodes
+     * 
+     * @param upKey 
+     * @param downKey 
+     * @param leftKey 
+     * @param rightKey 
+     * @param cancelKey 
+     * @param confirmKey 
+     * @param nextKey 
+     * @param changeKey 
+     */
     InputProcesser(const int &upKey, const int &downKey, const int &leftKey, const int &rightKey, const int &cancelKey, const int &confirmKey, const int &nextKey, const int &changeKey);
+    /**
+     * @brief Sets keycodes with const loaded keycodes
+     * 
+     * @param upKey 
+     * @param downKey 
+     * @param leftKey 
+     * @param rightKey 
+     * @param cancelKey 
+     * @param confirmKey 
+     * @param nextKey 
+     * @param changeKey 
+     */
     void Set(const int &upKey, const int &downKey, const int &leftKey, const int &rightKey, const int &cancelKey, const int &confirmKey, const int &nextKey, const int &changeKey);
     /**
-             * @brief Key processing method for getting currently pressed key.
-             * 
-             * @return const Key which was pressed
-             */
+     * @brief Key processing method for getting currently pressed key.
+     * 
+     * @return const Key which was pressed
+     */
     const Key Process();
 };
+
 } // namespace GameLogic
 #endif

@@ -1,7 +1,3 @@
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <iomanip>
 #include "const.h"
 #include "file.h"
 
@@ -10,7 +6,7 @@ namespace Extra
 
 Consts::Consts()
 {
-    vector<int> consts = File<int>::LoadFromFile("./examples/const.txt");
+    std::vector<int> consts = File<int>::LoadFromFile("./examples/const.txt");
 
     _upKey = consts.at(0);
     _downKey = consts.at(1);
@@ -26,32 +22,40 @@ const int &Consts::GetUpKey() const
 {
     return _upKey;
 }
+
 const int &Consts::GetDownKey() const
 {
     return _downKey;
 }
+
 const int &Consts::GetLeftKey() const
 {
     return _leftKey;
 }
+
 const int &Consts::GetRightKey() const
 {
     return _rightKey;
 }
+
 const int &Consts::GetCancelKey() const
 {
     return _cancelKey;
 }
+
 const int &Consts::GetConfirmKey() const
 {
     return _confirmKey;
 }
+
 const int &Consts::GetNextKey() const
 {
     return _nextKey;
 }
+
 const int &Consts::GetChangeKey() const
 {
     return _changeKey;
 }
-} // namespace Extra
+
+}

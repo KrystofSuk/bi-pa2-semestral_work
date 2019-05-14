@@ -3,7 +3,6 @@
 #include <iomanip>
 #include "game/game.h"
 
-using namespace std;
 
 int main ( void ) {
     system("stty sane"); 

@@ -35,13 +35,13 @@
  - [x] Mortar Tower which have small range, but attacks every enemy in range in one tick
 
 ## Documentation:
- - [ ] const.h
- - [ ] file.h
- - [ ] game.h
- - [ ] input.h
+ - [x] const.h
+ - [x] file.h
+ - [x] game.h
+ - [x] input.h
  - [ ] maps.h
- - [ ] tower.h
  - [ ] ui.h
+ - [ ] tower.h
  - [ ] unit.h
  - [ ] units.h
  - [ ] gamenamespace
