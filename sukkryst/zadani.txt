@@ -43,8 +43,8 @@
  - [x] tile.h
  - [x] ui.h
  - [x] tower.h
- - [ ] unit.h
- - [ ] units.h
+ - [x] unit.h
+ - [x] units.h
  - [ ] gamenamespace
  - [ ] extrasnamespace
  - [ ] diagrams

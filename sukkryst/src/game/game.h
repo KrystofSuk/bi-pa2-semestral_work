@@ -11,7 +11,6 @@
 #include "../objects/unit.h"
 #include "../objects/units.h"
 #include "../objects/tower.h"
-
 #include "../extras/const.h"
 #include "../extras/file.h"
 

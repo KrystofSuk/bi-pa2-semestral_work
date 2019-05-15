@@ -12,13 +12,13 @@ GameManager::GameManager()
 
     //Loading Towers
     Tower *tow;
-    tow = new BasicTower(make_pair(_cY, _cX), "basic");
+    tow = new BasicTower(std::make_pair(_cY, _cX), "basic");
     _towerPref.push_back(tow);
-    tow = new IceTower(make_pair(_cY, _cX), "ice");
+    tow = new IceTower(std::make_pair(_cY, _cX), "ice");
     _towerPref.push_back(tow);
-    tow = new FireTower(make_pair(_cY, _cX), "fire");
+    tow = new FireTower(std::make_pair(_cY, _cX), "fire");
     _towerPref.push_back(tow);
-    tow = new MortarTower(make_pair(_cY, _cX), "mortar");
+    tow = new MortarTower(std::make_pair(_cY, _cX), "mortar");
     _towerPref.push_back(tow);
 
     //Loading from consts
@@ -62,7 +62,7 @@ void GameManager::LoadLevel(const std::string &name)
     int nu = 0;
     int ty = 0;
 
-    _waveQueue = queue<int>();
+    _waveQueue = std::queue<int>();
 
     for (auto i = info.begin() + 5; i < info.end(); i++)
     {
@@ -148,7 +148,7 @@ void GameManager::Load()
             break;
         }
 
-        pair<int, int> p = make_pair(f, s);
+        std::pair<int, int> p = std::make_pair(f, s);
 
         if (t == 0)
         {
@@ -368,21 +368,21 @@ void GameManager::PlaceTower()
         Tower *tow;
 
         if (_currentTower == 0)
-            tow = new BasicTower(make_pair(_cY, _cX), "basic");
+            tow = new BasicTower(std::make_pair(_cY, _cX), "basic");
 
         if (_currentTower == 1)
-            tow = new IceTower(make_pair(_cY, _cX), "ice");
+            tow = new IceTower(std::make_pair(_cY, _cX), "ice");
 
         if (_currentTower == 2)
-            tow = new FireTower(make_pair(_cY, _cX), "fire");
+            tow = new FireTower(std::make_pair(_cY, _cX), "fire");
 
         if (_currentTower == 3)
-            tow = new MortarTower(make_pair(_cY, _cX), "mortar");
+            tow = new MortarTower(std::make_pair(_cY, _cX), "mortar");
 
         if (_currentMoney - tow->GetPrice() >= 0)
         {
             bool tmp;
-            tmp = currentMap.PlaceTower(make_pair(_cY, _cX));
+            tmp = currentMap.PlaceTower(std::make_pair(_cY, _cX));
 
             if (tmp)
             {
@@ -496,7 +496,7 @@ void GameManager::Start()
 
 void GameManager::Clear()
 {
-    cout << "\033c";
+    std::cout << "\033c";
     for (int i = 0; i < _h; i++)
         for (int t = 0; t < _w; t++)
             _colors[i][t] = White;
@@ -549,7 +549,7 @@ void GameManager::DrawInGame() const
         }
     }
 
-    string col;
+    std::string col;
 
     for (int i = 0; i < _h; i++)
     {
@@ -594,23 +594,23 @@ void GameManager::DrawInGame() const
                 break;
             }
 
-            cout << col << _display[i][t];
+            std::cout << col << _display[i][t];
         }
 
-        cout << endl;
+        std::cout << std::endl;
     }
 
     //Display Main
-    cout << "\033[0;37m ------------------------ " << endl;
-    cout << "|        Lives: " << setw(2) << setfill(' ') << _lives << "       |" << endl;
-    cout << " ------------------------ " << endl;
-    cout << "| Wave: " << setw(2) << setfill('0') << _currentWave << "/" << setw(2) << setfill('0') << _maxWave << " Money: " << setw(3) << setfill('0') << _currentMoney << " |" << endl;
-    cout << " ------------------------ " << endl;
+    std::cout << "\033[0;37m ------------------------ " << std::endl;
+    std::cout << "|        Lives: " << std::setw(2) << std::setfill(' ') << _lives << "       |" << std::endl;
+    std::cout << " ------------------------ " << std::endl;
+    std::cout << "| Wave: " << std::setw(2) << std::setfill('0') << _currentWave << "/" << std::setw(2) << std::setfill('0') << _maxWave << " Money: " << std::setw(3) << std::setfill('0') << _currentMoney << " |" << std::endl;
+    std::cout << " ------------------------ " << std::endl;
 
     bool emp = true;
     if (_currentTower != -1)
     {
-        cout << *_towerPref[_currentTower] << endl;
+        std::cout << *_towerPref[_currentTower] << std::endl;
     }
     else
     {
@@ -620,18 +620,18 @@ void GameManager::DrawInGame() const
             {
                 if ((*i)->GetPos().first == _cY && (*i)->GetPos().second == _cX)
                 {
-                    cout << (**i) << endl;
+                    std::cout << (**i) << std::endl;
                     emp = false;
                     break;
                 }
             }
 
             if (emp)
-                cout << "|         empty          |" << endl;
+                std::cout << "|         empty          |" << std::endl;
         }
         else if (tmp == '#')
         {
-            cout << "|          wall          |" << endl;
+            std::cout << "|          wall          |" << std::endl;
         }
         else
         {
@@ -639,18 +639,18 @@ void GameManager::DrawInGame() const
             {
                 if ((*i)->GetPos().first == _cY && (*i)->GetPos().second == _cX)
                 {
-                    cout << (**i) << endl;
+                    std::cout << (**i) << std::endl;
                     emp = false;
                     break;
                 }
             }
 
             if (emp)
-                cout << "|         xxxxx          |" << endl;
+                std::cout << "|         xxxxx          |" << std::endl;
         }
     }
 
-    cout << " ------------------------ " << endl;
+    std::cout << " ------------------------ " << std::endl;
 }
 
 void GameManager::GameStep()

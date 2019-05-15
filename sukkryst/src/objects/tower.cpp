@@ -74,45 +74,32 @@ void BasicTower::ProcessAttack(std::vector<Unit *> &units)
 
     if (u != nullptr)
     {
-        switch (_type)
-        {
-        case Fire:
-            u->ProcessAttack(_atk, UnitResistance::Fire);
-            break;
-
-        case Ice:
-            u->ProcessAttack(_atk, UnitResistance::Ice);
-            break;
-
-        default:
-            u->ProcessAttack(_atk, UnitResistance::Default);
-            break;
-        }
+        u->ProcessAttack(_atk, _type);
     }
 }
 
 void BasicTower::Print(std::ostream &os) const
 {
-    os << "| " << setw(22) << left << setfill(' ') << _name << " |" << endl;
-    os << " ------------------------ " << endl;
-    os << "| ATK | DIST | TYP |PRICE|" << endl;
-    os << "| " << setw(3) << left << setfill(' ') << _atk << " | " << setw(4) << left << setfill(' ') << _distance << " | ";
+    os << "| " << std::setw(22) << std::left << std::setfill(' ') << _name << " |" << std::endl;
+    os << " ------------------------ " << std::endl;
+    os << "| ATK | DIST | TYP |PRICE|" << std::endl;
+    os << "| " << std::setw(3) << std::left << std::setfill(' ') << _atk << " | " << std::setw(4) << std::left << std::setfill(' ') << _distance << " | ";
 
     switch (_type)
     {
     case Fire:
         os << "Fir"
-           << " | " << setw(3) << right << setfill('0') << _price << " |";
+           << " | " << std::setw(3) << std::right << std::setfill('0') << _price << " |";
         break;
 
     case Ice:
         os << "Ice"
-           << " | " << setw(3) << right << setfill('0') << _price << " |";
+           << " | " << std::setw(3) << std::right << std::setfill('0') << _price << " |";
         break;
 
     default:
         os << " - "
-           << " | " << setw(3) << right << setfill('0') << _price << " |";
+           << " | " << std::setw(3) << std::right << std::setfill('0') << _price << " |";
         break;
     }
 }
@@ -159,9 +146,9 @@ IceTower::~IceTower() {}
 
 MortarTower::MortarTower(const std::pair<int, int> & p, const std::string & n) : BasicTower(p, n) {}
 
-void MortarTower::ProcessAttack(vector<Unit *> &units)
+void MortarTower::ProcessAttack(std::vector<Unit *> &units)
 {
-    vector<Unit *> u;
+    std::vector<Unit *> u;
 
     for (auto i = units.end() - 1; i >= units.begin(); i--)
     {
@@ -173,20 +160,7 @@ void MortarTower::ProcessAttack(vector<Unit *> &units)
 
     for (auto i = u.begin(); i < u.end(); i++)
     {
-        switch (_type)
-        {
-        case Fire:
-            (*i)->ProcessAttack(_atk, UnitResistance::Fire);
-            break;
-
-        case Ice:
-            (*i)->ProcessAttack(_atk, UnitResistance::Ice);
-            break;
-
-        default:
-            (*i)->ProcessAttack(_atk, UnitResistance::Default);
-            break;
-        }
+        (*i)->ProcessAttack(_atk, _type);
     }
 }
 

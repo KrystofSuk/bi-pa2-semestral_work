@@ -63,7 +63,10 @@ public:
      */
     virtual ~GameUI();
 };
-
+/**
+ * @brief Main Menu UI
+ * 
+ */
 class GameMainMenuUI : public GameUI
 {
 private:
@@ -110,7 +113,10 @@ public:
      */
     ~GameMainMenuUI();
 };
-
+/**
+ * @brief Help UI
+ * 
+ */
 class GameHelpUI : public GameUI
 {
 private:
@@ -155,7 +161,10 @@ public:
      */
     virtual ~GameHelpUI();
 };
-
+/**
+ * @brief Level Select UI
+ * 
+ */
 class GameLevelSelectUI : public GameUI
 {
 private:

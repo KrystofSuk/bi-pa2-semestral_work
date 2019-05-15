@@ -3,6 +3,7 @@
 
 #include <string>
 #include <math.h>
+#include <iomanip>
 
 #include "../game/maps.h"
 #include "../game/enums.h"
@@ -161,7 +162,10 @@ public:
      */
     virtual ~BasicTower();
 };
-
+/**
+ * @brief Fire tower which is like basic but with fire attack
+ * 
+ */
 class FireTower : public BasicTower
 {
 public:
@@ -186,7 +190,10 @@ public:
      */
     virtual ~FireTower();
 };
-
+/**
+ * @brief Ice tower which is like basic but with ice attack
+ * 
+ */
 class IceTower : public BasicTower
 {
 public:
@@ -211,7 +218,10 @@ public:
      */
     virtual ~IceTower();
 };
-
+/**
+ * @brief Mortar tower which attacks all enemies in radius
+ * 
+ */
 class MortarTower : public BasicTower{
 public:
     /**
