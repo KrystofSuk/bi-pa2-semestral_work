@@ -7,6 +7,10 @@
 #include <fstream>
 #include <dirent.h>
 
+/**
+ * @brief Namespace for fileloading classes and consts
+ * 
+ */
 namespace Extra
 {
 /**

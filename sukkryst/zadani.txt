@@ -45,9 +45,9 @@
  - [x] tower.h
  - [x] unit.h
  - [x] units.h
- - [ ] gamenamespace
- - [ ] extrasnamespace
- - [ ] diagrams
+ - [x] gamenamespace
+ - [x] extrasnamespace
+ - [x] diagrams
 
 
 
