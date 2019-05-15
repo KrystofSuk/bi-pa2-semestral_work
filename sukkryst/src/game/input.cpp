@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "input.h"
 
 namespace GameLogic

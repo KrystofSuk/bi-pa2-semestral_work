@@ -1,15 +1,19 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <math.h>
+
 #include "ui.h"
 #include "input.h"
 #include "maps.h"
+#include "enums.h"
 
 #include "../objects/unit.h"
 #include "../objects/units.h"
 #include "../objects/tower.h"
 
 #include "../extras/const.h"
+#include "../extras/file.h"
 
 /**
  * @brief Namespace for key game logic components.
@@ -17,18 +21,6 @@
  */
 namespace GameLogic
 {
-/**
- * @brief Possible states of game
- * 
- */
-enum GameState
-{
-    Exit,
-    MainMenu,
-    MapSelect,
-    Help,
-    InGame
-};
 /**
  * @brief Class for storing info about current game and global operations with other components.
  * This class is like "root" component. It contains current state of game, drawing canvas, references to defined consts and methods for managing the game.

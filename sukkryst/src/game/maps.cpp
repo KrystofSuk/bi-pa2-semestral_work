@@ -1,59 +1,10 @@
-
-#include <vector>
-#include <queue>
-#include <deque>
-#include <set>
-#include <iostream>
-#include <map>
-#include <stack>
-#include <utility>
-
-#include "maps.h"
 #include "game.h"
 
 namespace GameLogic
 {
-
-Tile::Tile()
-{
-    _char = ' ';
-}
-
-Tile::Tile(char t, int x, int y, Color c = White, bool p = true)
-{
-    _char = t;
-    _color = c;
-    _passable = p;
-}
-
-void Tile::SetPass(bool t)
-{
-    _passable = t;
-}
-
-void Tile::SetChar(char n)
-{
-    _char = n;
-}
-
-char Tile::GetChar() const
-{
-    return _char;
-}
-
-Color Tile::GetColor() const
-{
-    return _color;
-}
-
-bool Tile::GetPassable() const
-{
-    return _passable;
-}
-
 Map::Map() {}
 
-Map::Map(string name)
+Map::Map(const std::string & name)
 {
     //Loading map files
     vector<char> c = Extra::File<char>::LoadFromFileClean("./examples/maps/" + name);
@@ -78,19 +29,19 @@ Map::Map(string name)
         {
             char tmp = c.at(t + (i)*_w);
             if (tmp == 'n')
-                _tiles[i][t] = Tile(' ', t, i);
+                _tiles[i][t] = Tile(' ', White, true);
             if (tmp == 'e')
             {
-                _tiles[i][t] = Tile(tmp, t, i, Yellow, true);
+                _tiles[i][t] = Tile(tmp, Yellow, true);
                 _e = make_pair(i, t);
             }
             if (tmp == 's')
             {
-                _tiles[i][t] = Tile(tmp, t, i, Yellow, true);
+                _tiles[i][t] = Tile(tmp, Yellow, true);
                 _s = make_pair(i, t);
             }
             if (tmp == '#')
-                _tiles[i][t] = Tile(tmp, t, i, White, false);
+                _tiles[i][t] = Tile(tmp, White, false);
         }
     }
 }
@@ -131,17 +82,17 @@ Map &Map::operator=(const Map &other)
     return *this;
 }
 
-int Map::GetH() const
+const int &Map::GetH() const
 {
     return _h;
 }
 
-int Map::GetW() const
+const int &Map::GetW() const
 {
     return _w;
 }
 
-pair<int, int> Map::GetS() const
+const pair<int, int> &Map::GetS() const
 {
     return _s;
 }
@@ -168,23 +119,23 @@ void Map::GetColors(Color **c) const
     }
 }
 
-bool Map::IsReachable() const
+const bool Map::IsReachable() const
 {
     auto t = BFS(_s);
     return t.size() == 1 ? false : true;
 }
 
-bool Map::IsValid() const
+const bool &Map::IsValid() const
 {
     return _valid;
 }
 
-bool Map::ReachedEnd(const pair<int, int> &pos) const
+const bool Map::ReachedEnd(const pair<int, int> &pos) const
 {
     return pos == _e ? true : false;
 }
 
-bool Map::PlaceTower(const pair<int, int> &pos)
+const bool Map::PlaceTower(const pair<int, int> &pos)
 {
     if (_tiles[pos.first][pos.second].GetPassable() && pos != _e)
     {
@@ -199,7 +150,7 @@ bool Map::PlaceTower(const pair<int, int> &pos)
     return false;
 }
 
-vector<pair<int, int>> Map::BFS(const pair<int, int> &pos) const
+const vector<pair<int, int>> Map::BFS(const pair<int, int> &pos) const
 {
     system("stty sane");
 
@@ -266,7 +217,7 @@ vector<pair<int, int>> Map::BFS(const pair<int, int> &pos) const
     return path;
 }
 
-vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
+const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
 {
     system("stty sane");
 
@@ -477,7 +428,7 @@ vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
     return path;
 }
 
-void Map::DFSL(int x, int y, stack<pair<int, int>> &q, set<pair<int, int>> &v, map<pair<int, int>, pair<int, int>> &par) const
+void Map::DFSL(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const
 {
 
     if (v.find(make_pair(y, x - 1)) == v.end() && x - 1 >= 0)
@@ -487,7 +438,7 @@ void Map::DFSL(int x, int y, stack<pair<int, int>> &q, set<pair<int, int>> &v, m
     }
 }
 
-void Map::DFSR(int x, int y, stack<pair<int, int>> &q, set<pair<int, int>> &v, map<pair<int, int>, pair<int, int>> &par) const
+void Map::DFSR(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const
 {
 
     if (v.find(make_pair(y, x + 1)) == v.end() && x + 1 < _w)
@@ -497,7 +448,7 @@ void Map::DFSR(int x, int y, stack<pair<int, int>> &q, set<pair<int, int>> &v, m
     }
 }
 
-void Map::DFST(int x, int y, stack<pair<int, int>> &q, set<pair<int, int>> &v, map<pair<int, int>, pair<int, int>> &par) const
+void Map::DFST(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const
 {
 
     if (v.find(make_pair(y - 1, x)) == v.end() && y - 1 >= 0)
@@ -507,7 +458,7 @@ void Map::DFST(int x, int y, stack<pair<int, int>> &q, set<pair<int, int>> &v, m
     }
 }
 
-void Map::DFSB(int x, int y, stack<pair<int, int>> &q, set<pair<int, int>> &v, map<pair<int, int>, pair<int, int>> &par) const
+void Map::DFSB(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const
 {
 
     if (v.find(make_pair(y + 1, x)) == v.end() && y + 1 < _h)

@@ -1,6 +1,8 @@
 #ifndef CONSTS_H
 #define CONSTS_H
 
+#include "file.h"
+
 namespace Extra
 {
 /**
@@ -76,5 +78,5 @@ private:
     int _changeKey;
 };
 
-}
+} // namespace Extra
 #endif

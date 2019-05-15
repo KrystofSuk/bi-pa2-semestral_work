@@ -2,9 +2,10 @@
 #define UNITS_H
 
 #include <string>
+
 #include "unit.h"
-#include "units.h"
 #include "../game/maps.h"
+#include "../extras/file.h"
 
 using namespace std;
 

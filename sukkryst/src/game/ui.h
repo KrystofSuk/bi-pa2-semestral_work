@@ -1,10 +1,14 @@
 #ifndef UI_H
 #define UI_H
 
-#include <string>
 #include <vector>
-#include "ui.h"
-#include "game.h"
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <dirent.h>
+
+#include "maps.h"
+#include "../extras/file.h"
 
 using namespace std;
 

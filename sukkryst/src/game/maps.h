@@ -2,8 +2,6 @@
 #define MAP_H
 
 #include <string>
-#include "maps.h"
-#include "../extras/file.h"
 #include <vector>
 #include <queue>
 #include <deque>
@@ -13,86 +11,14 @@
 #include <stack>
 #include <utility>
 
+#include "enums.h"
+#include "tile.h"
+#include "../extras/file.h"
+
 namespace GameLogic
 {
 /**
- * @brief UI colors 
- * 
- */
-enum Color
-{
-    White,
-    Black,
-    Blue,
-    Red,
-    Green,
-    Yellow,
-    Magenta,
-    Cyan
-};
-/**
- * @brief Tile class which represents one tile in map
- * 
- */
-class Tile
-{
-public:
-    /**
-     * @brief Construct a new Tile
-     * 
-     */
-    Tile();
-    /**
-     * @brief Construct a new Tile object
-     * 
-     * @param t 
-     * @param x 
-     * @param y 
-     * @param c 
-     * @param p 
-     */
-    Tile(char t, int x, int y, Color c, bool p);
-
-    /**
-     * @brief Set the Char object
-     * 
-     * @param n 
-     */
-    void SetChar(char n);
-    /**
-     * @brief Set the Pass object
-     * 
-     * @param t 
-     */
-    void SetPass(bool t);
-
-    /**
-     * @brief Get the Char object
-     * 
-     * @return char 
-     */
-    char GetChar() const;
-    /**
-     * @brief Get the Color object
-     * 
-     * @return Color 
-     */
-    Color GetColor() const;
-    /**
-     * @brief Get the Passable object
-     * 
-     * @return true 
-     * @return false 
-     */
-    bool GetPassable() const;
-
-private:
-    Color _color = White;
-    bool _passable = true;
-    char _char = ' ';
-};
-/**
- * @brief 
+ * @brief Map class which is responsible for pathfinding and holding map information
  * 
  */
 class Map
@@ -108,32 +34,149 @@ private:
 
     bool _valid = true;
 
-    void DFSL(int x, int y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const;
-    void DFSR(int x, int y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const;
-    void DFST(int x, int y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const;
-    void DFSB(int x, int y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const;
+    /**
+     * @brief DFS calculation to left side
+     * 
+     * @param x pos
+     * @param y pos
+     * @param q queue of positions
+     * @param v visited positions
+     * @param par parent map to backtrack path
+     */
+    void DFSL(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const;
+    /**
+     * @brief DFS calculation to right side
+     * 
+     * @param x pos
+     * @param y pos
+     * @param q queue of positions
+     * @param v visited positions
+     * @param par parent map to backtrack path
+     */
+    void DFSR(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const;
+    /**
+     * @brief DFS calculation to up side
+     * 
+     * @param x pos
+     * @param y pos
+     * @param q queue of positions
+     * @param v visited positions
+     * @param par parent map to backtrack path
+     */
+    void DFST(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const;
+    /**
+     * @brief DFS calculation to down side
+     * 
+     * @param x pos
+     * @param y pos
+     * @param q queue of positions
+     * @param v visited positions
+     * @param par parent map to backtrack path
+     */
+    void DFSB(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const;
 
 public:
+    /**
+     * @brief Construct a new empty Map
+     * 
+     */
     Map();
-    Map(std::string name);
-    int GetH() const;
-    int GetW() const;
+    /**
+     * @brief Construct a new Map and loads level information
+     * 
+     * @param name Level name in examples directory
+     */
+    Map(const std::string &name);
+    /**
+     * @brief Getter for height of map
+     * 
+     * @return int height
+     */
+    const int &GetH() const;
+    /**
+     * @brief Getter for width of map
+     * 
+     * @return int width
+     */
+    const int &GetW() const;
 
-    bool IsReachable() const;
-    bool ReachedEnd(const std::pair<int, int> &pos) const;
-    bool IsValid() const;
-    bool PlaceTower(const std::pair<int, int> &pos);
-    bool IsValidPlace(const std::pair<int, int> &pos) const;
+    /**
+     * @brief Check if end is reachable from start
+     * 
+     * @return true end is reachable
+     * @return false end is not reachable
+     */
+    const bool IsReachable() const;
+    /**
+     * @brief Checks if pos is at the end
+     * 
+     * @param pos position to check
+     * @return true position is at the end
+     * @return false position is not at the end
+     */
+    const bool ReachedEnd(const std::pair<int, int> &pos) const;
+    /**
+     * @brief Checks if map is valid
+     * 
+     * @return true map is valid
+     * @return false map is not valid
+     */
+    const bool &IsValid() const;
+    /**
+     * @brief Tries to place the tower and if it is possible it saves it
+     * 
+     * @param pos wanted position of tower
+     * @return true tower was placed
+     * @return false tower cannot be placed
+     */
+    const bool PlaceTower(const std::pair<int, int> &pos);
 
-    std::vector<std::pair<int, int>> BFS(const std::pair<int, int> &pos) const;
-    std::vector<std::pair<int, int>> DFS(const std::pair<int, int> &pos) const;
+    /**
+     * @brief BFS pathfinding
+     * 
+     * @param pos starting position
+     * @return const std::vector<std::pair<int, int>> path to end 
+     */
+    const std::vector<std::pair<int, int>> BFS(const std::pair<int, int> &pos) const;
+    /**
+     * @brief DFS pathfinding
+     * 
+     * @param pos starting position
+     * @return const std::vector<std::pair<int, int>> path to end 
+     */
+    const std::vector<std::pair<int, int>> DFS(const std::pair<int, int> &pos) const;
 
+    /**
+     * @brief Overloaded operator for =
+     * 
+     * @param other other map object
+     * @return Map& new copied map
+     */
     Map &operator=(const Map &other);
 
+    /**
+     * @brief Sets the char array which will be drawn
+     * 
+     * @param c drawing array
+     */
     void GetChars(char **c) const;
+    /**
+     * @brief Sets the color array which will be drawn
+     * 
+     * @param c coloring array
+     */
     void GetColors(Color **c) const;
 
-    std::pair<int, int> GetS() const;
+    /**
+     * @brief Getter for start position
+     * 
+     * @return const std::pair<int, int>& start position
+     */
+    const std::pair<int, int> &GetS() const;
+    /**
+     * @brief Destroy the Map
+     * 
+     */
     ~Map();
 };
 

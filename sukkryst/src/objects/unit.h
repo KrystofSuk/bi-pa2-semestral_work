@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-#include "unit.h"
 #include "../game/maps.h"
 
 using namespace std;

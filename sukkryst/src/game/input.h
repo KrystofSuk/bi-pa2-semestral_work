@@ -1,27 +1,12 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "input.h"
+#include <iostream>
+
+#include "enums.h"
 
 namespace GameLogic
 {
-/**
- * @brief Specific key
- * 
- */
-enum Key
-{
-    Left,
-    Right,
-    Up,
-    Down,
-    Confirm,
-    Cancel,
-    Unknown,
-    End,
-    Next,
-    Change
-};
 /**
  * @brief It processes information from keyboard and manages it.
  * 

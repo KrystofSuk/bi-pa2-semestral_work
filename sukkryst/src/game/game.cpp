@@ -1,19 +1,8 @@
-#include <math.h>
-
 #include "game.h"
-#include "input.h"
-#include "maps.h"
-
-#include "../objects/unit.h"
-#include "../objects/units.h"
-#include "../objects/tower.h"
-
-#include "../extras/const.h"
-#include "../extras/file.h"
 
 namespace GameLogic
 {
-    
+
 GameManager::GameManager()
 {
     _state = MainMenu;
@@ -438,7 +427,6 @@ void GameManager::GameLoop()
 
     default:
         break;
-
     }
 
     ProcessInput();
@@ -548,7 +536,7 @@ void GameManager::DrawInGame() const
             {
                 int tY = round(_cY + r * sin(ang));
                 int tX = round(_cX + r * cos(ang));
-                
+
                 if (tY < 0 || tX < 0 || tX >= _w || tY >= _h)
                     continue;
 
@@ -604,7 +592,6 @@ void GameManager::DrawInGame() const
             default:
                 col = "\033[0;37m";
                 break;
-
             }
 
             cout << col << _display[i][t];

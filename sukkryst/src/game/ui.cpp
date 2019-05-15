@@ -1,11 +1,4 @@
-#include <iostream>
-#include <string>
-#include <iomanip>
-#include <dirent.h>
-
-#include "game.h"
 #include "ui.h"
-#include "../extras/file.h"
 
 using namespace std;
 
