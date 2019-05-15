@@ -15,9 +15,9 @@ Tile::Tile(const char & c, const Color & col, const bool & p)
     _passable = p;
 }
 
-void Tile::SetPass(const bool & t)
+void Tile::SetPass(const bool & p)
 {
-    _passable = t;
+    _passable = p;
 }
 
 void Tile::SetChar(const char & n)

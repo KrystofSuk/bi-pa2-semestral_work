@@ -18,46 +18,44 @@ public:
      */
     Tile();
     /**
-     * @brief Construct a new Tile object
+     * @brief Construct a new Tile
      * 
-     * @param c
-     * @param x 
-     * @param y 
-     * @param c 
-     * @param p 
+     * @param c displayed char
+     * @param col color of tile
+     * @param p if tile is passable
      */
     Tile(const char & c, const Color & col, const bool & p);
 
     /**
-     * @brief Set the Char object
+     * @brief Set the char of tile
      * 
-     * @param n 
+     * @param n new char
      */
     void SetChar(const char & n);
     /**
-     * @brief Set the Pass object
+     * @brief Set the pass of tile
      * 
-     * @param t 
+     * @param p new passable state
      */
-    void SetPass(const bool & t);
+    void SetPass(const bool & p);
 
     /**
-     * @brief Get the Char object
+     * @brief Get the char of tile
      * 
      * @return char 
      */
     const char & GetChar() const;
     /**
-     * @brief Get the Color object
+     * @brief Get the color of tile
      * 
      * @return Color 
      */
     const Color & GetColor() const;
     /**
-     * @brief Get the Passable object
+     * @brief Get the passable state
      * 
-     * @return true 
-     * @return false 
+     * @return true tile is passable
+     * @return false tile is not passable
      */
     const bool & GetPassable() const;
 

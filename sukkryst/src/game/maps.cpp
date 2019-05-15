@@ -4,7 +4,7 @@ namespace GameLogic
 {
 Map::Map() {}
 
-Map::Map(const std::string & name)
+Map::Map(const std::string &name)
 {
     //Loading map files
     vector<char> c = Extra::File<char>::LoadFromFileClean("./examples/maps/" + name);
@@ -22,6 +22,7 @@ Map::Map(const std::string & name)
     }
 
     _tiles = new Tile *[_h];
+
     for (int i = 0; i < _h; i++)
     {
         _tiles[i] = new Tile[_w];
@@ -30,16 +31,19 @@ Map::Map(const std::string & name)
             char tmp = c.at(t + (i)*_w);
             if (tmp == 'n')
                 _tiles[i][t] = Tile(' ', White, true);
+
             if (tmp == 'e')
             {
                 _tiles[i][t] = Tile(tmp, Yellow, true);
                 _e = make_pair(i, t);
             }
+
             if (tmp == 's')
             {
                 _tiles[i][t] = Tile(tmp, Yellow, true);
                 _s = make_pair(i, t);
             }
+
             if (tmp == '#')
                 _tiles[i][t] = Tile(tmp, White, false);
         }
@@ -51,10 +55,12 @@ Map &Map::operator=(const Map &other)
     if (this != &other)
     {
         _valid = other._valid;
+
         if (_valid)
         {
             _s = other._s;
             _e = other._e;
+
             if (_w != other._w || _h != other._h)
             {
                 for (int i = 0; i < _h; i++)
@@ -62,12 +68,14 @@ Map &Map::operator=(const Map &other)
                     if (_tiles[i] != nullptr)
                         delete[] _tiles[i];
                 }
+
                 if (_tiles != nullptr)
                     delete[] _tiles;
+
                 _w = other._w;
                 _h = other._h;
-
                 _tiles = new Tile *[_h];
+
                 for (int i = 0; i < _h; i++)
                 {
                     _tiles[i] = new Tile[_w];
@@ -140,11 +148,13 @@ const bool Map::PlaceTower(const pair<int, int> &pos)
     if (_tiles[pos.first][pos.second].GetPassable() && pos != _e)
     {
         _tiles[pos.first][pos.second].SetPass(false);
+
         if (!IsReachable())
         {
             _tiles[pos.first][pos.second].SetPass(true);
             return false;
         }
+
         return true;
     }
     return false;
@@ -174,36 +184,42 @@ const vector<pair<int, int>> Map::BFS(const pair<int, int> &pos) const
             //cout << "Found" << endl;
             c = q.front();
             path.push_back(c);
+
             while (par.at(c) != pos)
             {
                 c = par.at(c);
                 path.push_back(c);
             }
+
             return path;
         }
+
         y = q.front().first;
         x = q.front().second;
+
         if (_tiles[y][x].GetPassable())
         {
-            //cout << x << "," << y <<endl;
             if (v.find(make_pair(y, x - 1)) == v.end() && x - 1 >= 0)
             {
                 q.push(make_pair(y, x - 1));
                 v.insert(make_pair(y, x - 1));
                 par[make_pair(y, x - 1)] = make_pair(y, x);
             }
+
             if (v.find(make_pair(y, x + 1)) == v.end() && x + 1 < _w)
             {
                 q.push(make_pair(y, x + 1));
                 v.insert(make_pair(y, x + 1));
                 par[make_pair(y, x + 1)] = make_pair(y, x);
             }
+
             if (v.find(make_pair(y - 1, x)) == v.end() && y - 1 >= 0)
             {
                 q.push(make_pair(y - 1, x));
                 v.insert(make_pair(y - 1, x));
                 par[make_pair(y - 1, x)] = make_pair(y, x);
             }
+
             if (v.find(make_pair(y + 1, x)) == v.end() && y + 1 < _h)
             {
                 q.push(make_pair(y + 1, x));
@@ -211,8 +227,10 @@ const vector<pair<int, int>> Map::BFS(const pair<int, int> &pos) const
                 par[make_pair(y + 1, x)] = make_pair(y, x);
             }
         }
+
         q.pop();
     }
+
     path.push_back(pos);
     return path;
 }
@@ -240,20 +258,25 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
         {
             c = q.top();
             path.push_back(c);
+
             while (par.at(c) != pos)
             {
                 c = par.at(c);
                 path.push_back(c);
             }
+
             return path;
         }
+
         y = q.top().first;
         x = q.top().second;
         q.pop();
         v.insert(make_pair(y, x));
+
         if (_tiles[y][x].GetPassable())
         {
             int r = rand() % 24;
+
             if (r == 0)
             {
                 DFSL(x, y, q, v, par);
@@ -261,6 +284,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFST(x, y, q, v, par);
                 DFSB(x, y, q, v, par);
             }
+
             if (r == 1)
             {
                 DFSR(x, y, q, v, par);
@@ -268,6 +292,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFST(x, y, q, v, par);
                 DFSB(x, y, q, v, par);
             }
+
             if (r == 2)
             {
                 DFST(x, y, q, v, par);
@@ -275,6 +300,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSR(x, y, q, v, par);
                 DFSB(x, y, q, v, par);
             }
+
             if (r == 3)
             {
                 DFSL(x, y, q, v, par);
@@ -282,6 +308,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSR(x, y, q, v, par);
                 DFSB(x, y, q, v, par);
             }
+
             if (r == 4)
             {
                 DFSR(x, y, q, v, par);
@@ -289,6 +316,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSL(x, y, q, v, par);
                 DFSB(x, y, q, v, par);
             }
+
             if (r == 5)
             {
                 DFST(x, y, q, v, par);
@@ -296,6 +324,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSL(x, y, q, v, par);
                 DFSB(x, y, q, v, par);
             }
+
             if (r == 6)
             {
                 DFSB(x, y, q, v, par);
@@ -303,6 +332,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSL(x, y, q, v, par);
                 DFST(x, y, q, v, par);
             }
+
             if (r == 7)
             {
                 DFSR(x, y, q, v, par);
@@ -310,6 +340,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSL(x, y, q, v, par);
                 DFST(x, y, q, v, par);
             }
+
             if (r == 8)
             {
                 DFSL(x, y, q, v, par);
@@ -317,6 +348,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSR(x, y, q, v, par);
                 DFST(x, y, q, v, par);
             }
+
             if (r == 9)
             {
                 DFSB(x, y, q, v, par);
@@ -324,6 +356,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSR(x, y, q, v, par);
                 DFST(x, y, q, v, par);
             }
+
             if (r == 10)
             {
                 DFSR(x, y, q, v, par);
@@ -331,6 +364,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSB(x, y, q, v, par);
                 DFST(x, y, q, v, par);
             }
+
             if (r == 11)
             {
                 DFSL(x, y, q, v, par);
@@ -338,6 +372,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSB(x, y, q, v, par);
                 DFST(x, y, q, v, par);
             }
+
             if (r == 12)
             {
                 DFSL(x, y, q, v, par);
@@ -345,6 +380,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSB(x, y, q, v, par);
                 DFSR(x, y, q, v, par);
             }
+
             if (r == 13)
             {
                 DFST(x, y, q, v, par);
@@ -352,6 +388,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSB(x, y, q, v, par);
                 DFSR(x, y, q, v, par);
             }
+
             if (r == 14)
             {
                 DFSB(x, y, q, v, par);
@@ -359,6 +396,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFST(x, y, q, v, par);
                 DFSR(x, y, q, v, par);
             }
+
             if (r == 15)
             {
                 DFSL(x, y, q, v, par);
@@ -366,6 +404,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFST(x, y, q, v, par);
                 DFSR(x, y, q, v, par);
             }
+
             if (r == 16)
             {
                 DFST(x, y, q, v, par);
@@ -373,6 +412,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSL(x, y, q, v, par);
                 DFSR(x, y, q, v, par);
             }
+
             if (r == 17)
             {
                 DFSB(x, y, q, v, par);
@@ -380,6 +420,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSL(x, y, q, v, par);
                 DFSR(x, y, q, v, par);
             }
+
             if (r == 18)
             {
                 DFSB(x, y, q, v, par);
@@ -387,6 +428,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSR(x, y, q, v, par);
                 DFSL(x, y, q, v, par);
             }
+
             if (r == 19)
             {
                 DFST(x, y, q, v, par);
@@ -394,6 +436,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSR(x, y, q, v, par);
                 DFSL(x, y, q, v, par);
             }
+
             if (r == 20)
             {
                 DFSR(x, y, q, v, par);
@@ -401,6 +444,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSB(x, y, q, v, par);
                 DFSL(x, y, q, v, par);
             }
+
             if (r == 21)
             {
                 DFSB(x, y, q, v, par);
@@ -408,6 +452,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFST(x, y, q, v, par);
                 DFSL(x, y, q, v, par);
             }
+
             if (r == 22)
             {
                 DFST(x, y, q, v, par);
@@ -415,6 +460,7 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
                 DFSB(x, y, q, v, par);
                 DFSL(x, y, q, v, par);
             }
+
             if (r == 23)
             {
                 DFSR(x, y, q, v, par);
@@ -424,13 +470,13 @@ const vector<pair<int, int>> Map::DFS(const pair<int, int> &pos) const
             }
         }
     }
+
     path.push_back(pos);
     return path;
 }
 
 void Map::DFSL(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const
 {
-
     if (v.find(make_pair(y, x - 1)) == v.end() && x - 1 >= 0)
     {
         q.push(make_pair(y, x - 1));
@@ -440,7 +486,6 @@ void Map::DFSL(const int &x, const int &y, std::stack<std::pair<int, int>> &q, s
 
 void Map::DFSR(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const
 {
-
     if (v.find(make_pair(y, x + 1)) == v.end() && x + 1 < _w)
     {
         q.push(make_pair(y, x + 1));
@@ -450,7 +495,6 @@ void Map::DFSR(const int &x, const int &y, std::stack<std::pair<int, int>> &q, s
 
 void Map::DFST(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const
 {
-
     if (v.find(make_pair(y - 1, x)) == v.end() && y - 1 >= 0)
     {
         q.push(make_pair(y - 1, x));
@@ -460,7 +504,6 @@ void Map::DFST(const int &x, const int &y, std::stack<std::pair<int, int>> &q, s
 
 void Map::DFSB(const int &x, const int &y, std::stack<std::pair<int, int>> &q, std::set<std::pair<int, int>> &v, std::map<std::pair<int, int>, std::pair<int, int>> &par) const
 {
-
     if (v.find(make_pair(y + 1, x)) == v.end() && y + 1 < _h)
     {
         q.push(make_pair(y + 1, x));

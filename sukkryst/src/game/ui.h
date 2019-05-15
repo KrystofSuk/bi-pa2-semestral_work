@@ -10,25 +10,57 @@
 #include "maps.h"
 #include "../extras/file.h"
 
-using namespace std;
-
 /**
  * @brief Namespace for key game logic components.
  * 
  */
 namespace GameLogic
 {
-
-
+/**
+ * @brief Abstract class for UI
+ * 
+ */
 struct GameUI
 {
 public:
+    /**
+     * @brief Construct a new Game UI
+     * 
+     */
     GameUI();
+    /**
+     * @brief Draws to cout wanted UI
+     * 
+     */
     virtual void Draw() const = 0;
-    virtual void Move(int x, int y) = 0;
+    /**
+     * @brief Method for cursor move reaction
+     * 
+     * @param x movement
+     * @param y movement
+     */
+    virtual void Move(const int &x, const int &y) = 0;
+    /**
+     * @brief Reaction for continue button
+     * 
+     */
     virtual void Continue() = 0;
-    virtual int GetState() const = 0;
-    virtual string GetMsg() const = 0;
+    /**
+     * @brief Get the int of current state
+     * 
+     * @return const int state
+     */
+    virtual const int GetState() const = 0;
+    /**
+     * @brief Get the msg from UI
+     * 
+     * @return const std::string message
+     */
+    virtual const std::string GetMsg() const = 0;
+    /**
+     * @brief Destroy the UI object
+     * 
+     */
     virtual ~GameUI();
 };
 
@@ -36,46 +68,142 @@ class GameMainMenuUI : public GameUI
 {
 private:
     int current = 0;
+
 public:
+    /**
+     * @brief Construct a new Main Menu UI
+     * 
+     */
     GameMainMenuUI();
+    /**
+     * @brief Draws to cout wanted UI
+     * 
+     */
     void Draw() const;
-    void Move(int x, int y);
+    /**
+     * @brief Method for cursor move reaction
+     * 
+     * @param x movement
+     * @param y movement
+     */
+    void Move(const int &x, const int &y);
+    /**
+     * @brief Reaction for continue button
+     * 
+     */
     void Continue();
-    int GetState() const;
-    string GetMsg() const;
-    virtual ~GameMainMenuUI();
+    /**
+     * @brief Get the int of current state
+     * 
+     * @return const int state
+     */
+    const int GetState() const;
+    /**
+     * @brief Get the msg from UI
+     * 
+     * @return const std::string message
+     */
+    const std::string GetMsg() const;
+    /**
+     * @brief Destroy the UI object
+     * 
+     */
+    ~GameMainMenuUI();
 };
 
 class GameHelpUI : public GameUI
 {
 private:
 public:
+    /**
+     * @brief Construct a new Help UI 
+     * 
+     */
     GameHelpUI();
+    /**
+     * @brief Draws to cout wanted UI
+     * 
+     */
     void Draw() const;
-    void Move(int x, int y);
+    /**
+     * @brief Method for cursor move reaction
+     * 
+     * @param x movement
+     * @param y movement
+     */
+    void Move(const int &x, const int &y);
+    /**
+     * @brief Reaction for continue button
+     * 
+     */
     void Continue();
-    int GetState() const;
-    string GetMsg() const;
+    /**
+     * @brief Get the int of current state
+     * 
+     * @return const int state
+     */
+    const int GetState() const;
+    /**
+     * @brief Get the msg from UI
+     * 
+     * @return const std::string message
+     */
+    const std::string GetMsg() const;
+    /**
+     * @brief Destroy the UI object
+     * 
+     */
     virtual ~GameHelpUI();
 };
 
 class GameLevelSelectUI : public GameUI
 {
 private:
-    vector<string> _lvls;
-    vector<bool> _valid;
+    std::vector<std::string> _lvls;
+    std::vector<bool> _valid;
     int current = 0;
+
 public:
+    /**
+     * @brief Construct a new Level Select UI
+     * 
+     */
     GameLevelSelectUI();
+    /**
+     * @brief Draws to cout wanted UI
+     * 
+     */
     void Draw() const;
-    void Move(int x, int y);
+    /**
+     * @brief Method for cursor move reaction
+     * 
+     * @param x movement
+     * @param y movement
+     */
+    void Move(const int &x, const int &y);
+    /**
+     * @brief Reaction for continue button
+     * 
+     */
     void Continue();
-    int GetState() const;
-    string GetMsg() const;
+    /**
+     * @brief Get the int of current state
+     * 
+     * @return const int state
+     */
+    const int GetState() const;
+    /**
+     * @brief Get the msg from UI
+     * 
+     * @return const std::string message
+     */
+    const std::string GetMsg() const;
+    /**
+     * @brief Destroy the UI object
+     * 
+     */
     virtual ~GameLevelSelectUI();
 };
-
-
 
 } // namespace GameLogic
 #endif

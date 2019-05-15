@@ -47,6 +47,15 @@ enum Key
     Next,
     Change
 };
-
+/**
+ * @brief AttackType
+ * 
+ */
+enum AttackType
+{
+    Fire,
+    Ice,
+    Default
+};
 } // namespace GameLogic
 #endif

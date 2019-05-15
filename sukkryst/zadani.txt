@@ -39,10 +39,10 @@
  - [x] file.h
  - [x] game.h
  - [x] input.h
- - [ ] maps.h
- - [ ] tile.h
- - [ ] ui.h
- - [ ] tower.h
+ - [x] maps.h
+ - [x] tile.h
+ - [x] ui.h
+ - [x] tower.h
  - [ ] unit.h
  - [ ] units.h
  - [ ] gamenamespace
