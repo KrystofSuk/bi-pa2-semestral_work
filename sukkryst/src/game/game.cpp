@@ -731,7 +731,7 @@ void GameManager::GameStep()
     else
     {
         if (_enemies.size() == 0)
-            SwitchState(Help);
+            SwitchState(MainMenu);
     }
 
     _currentMoney += _income;
